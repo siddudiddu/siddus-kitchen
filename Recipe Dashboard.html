@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siddu's Kitchen — Recipe Dashboard</title>
+<style>
+  :root {
+    --cream: #faf3e7;
+    --cream-2: #f1e6d2;
+    --ink: #2e241b;
+    --ink-soft: #5c4d3c;
+    --green: #4a6b4d;
+    --green-dark: #34502f;
+    --rust: #c1622d;
+    --rust-dark: #9c4a1e;
+    --gold: #d99e3b;
+    --line: #e3d4ba;
+    --card: #fffdf8;
+    --have: #4a6b4d;
+    --sub: #c1822d;
+    --missing: #b3a48c;
+    --shadow: 0 4px 14px rgba(70, 50, 20, 0.10);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  header.top {
+    background: linear-gradient(135deg, var(--green-dark), var(--green));
+    color: #fff8ec;
+    padding: 36px 24px 30px;
+    text-align: center;
+    position: relative;
+  }
+  header.top h1 {
+    margin: 0 0 6px;
+    font-size: 1.9rem;
+    letter-spacing: 0.2px;
+  }
+  header.top p {
+    margin: 0;
+    opacity: 0.88;
+    font-size: 0.98rem;
+  }
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 28px 20px 80px;
+  }
+  .assistant-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 30px;
+  }
+  @media (max-width: 760px) {
+    .assistant-grid { grid-template-columns: 1fr; }
+  }
+  .ask-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 20px 18px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+  }
+  .ask-card h2 {
+    margin: 0 0 4px;
+    font-size: 1.08rem;
+    color: var(--green-dark);
+  }
+  .ask-card .sub {
+    margin: 0 0 12px;
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+  }
+  .ask-card textarea {
+    resize: vertical;
+    min-height: 56px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: #fffdf9;
+    color: var(--ink);
+  }
+  .ask-card textarea:focus { outline: 2px solid var(--gold); }
+  .ask-card .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .chip-btn {
+    border: 1px solid var(--line);
+    background: var(--cream-2);
+    color: var(--ink-soft);
+    border-radius: 999px;
+    padding: 4px 11px;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+  .chip-btn:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+  .ask-card .actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  button.primary {
+    background: var(--rust);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.primary:hover { background: var(--rust-dark); }
+  button.ghost {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+  button.ghost:hover { background: var(--cream-2); }
+
+  .toolbar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 26px;
+  }
+
+  #results-section { margin-bottom: 36px; }
+  #results-section h2 {
+    font-size: 1.1rem;
+    color: var(--green-dark);
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 8px;
+  }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .recipe-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 15px 16px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+  .recipe-card:hover { transform: translateY(-2px); border-color: var(--gold); }
+  .recipe-card .cat {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--rust);
+    font-weight: 700;
+  }
+  .recipe-card h3 {
+    margin: 4px 0 6px;
+    font-size: 1.04rem;
+    color: var(--ink);
+  }
+  .recipe-card .meta {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .recipe-card .matchline {
+    font-size: 0.8rem;
+    margin-top: 6px;
+    color: var(--ink-soft);
+  }
+  .score-bar {
+    height: 5px;
+    border-radius: 3px;
+    background: var(--cream-2);
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .score-bar > div { height: 100%; background: var(--green); }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 7px; align-items: center; }
+  .badge-row .badge { font-size: 1.02rem; line-height: 1; cursor: default; }
+  .modal-badges { margin-bottom: 4px; }
+  .modal-badges .badge {
+    background: var(--cream-2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 11px;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .tag {
+    font-size: 0.7rem;
+    background: var(--cream-2);
+    color: var(--ink-soft);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .empty-note {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    background: var(--card);
+    border: 1px dashed var(--line);
+    padding: 14px 16px;
+    border-radius: 10px;
+    margin-top: 12px;
+  }
+
+  nav.cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  nav.cats button {
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink-soft);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  nav.cats button.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+  section.browse h2 {
+    font-size: 1.2rem;
+    color: var(--green-dark);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  section.browse > p.sub {
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  .category-block { margin-bottom: 22px; }
+  .category-block h3 {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--rust-dark);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 6px;
+  }
+
+  /* modal */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 22, 12, 0.5);
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 36px 16px;
+    overflow-y: auto;
+    z-index: 50;
+  }
+  .overlay.open { display: flex; }
+  .modal {
+    background: var(--cream);
+    border-radius: 14px;
+    max-width: 720px;
+    width: 100%;
+    padding: 28px 28px 32px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal .close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--ink-soft);
+  }
+  .modal .cat {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--rust);
+    font-weight: 700;
+  }
+  .modal h2 { margin: 4px 0 4px; color: var(--ink); font-size: 1.5rem; }
+  .modal .meta-line { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 6px; }
+  .modal .source-line { font-size: 0.82rem; margin-bottom: 14px; }
+  .modal .source-line a { color: var(--green-dark); text-decoration: none; border-bottom: 1px dotted var(--green-dark); }
+  .note-box {
+    background: #fdf1de;
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 10px 13px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+  .modal h4 {
+    margin: 18px 0 8px;
+    font-size: 0.95rem;
+    color: var(--green-dark);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 4px;
+  }
+  .ing-list { list-style: none; margin: 0; padding: 0; }
+  .ing-list li {
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 0.93rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .ing-list li .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    margin-top: 5px; flex-shrink: 0;
+    background: var(--missing);
+  }
+  .ing-list li.have .dot { background: var(--have); }
+  .ing-list li.sub .dot { background: var(--sub); }
+  .ing-list li .subnote { display: block; font-size: 0.78rem; color: var(--sub); margin-top: 2px; }
+  .method-list { margin: 0; padding-left: 20px; }
+  .method-list li { margin-bottom: 9px; font-size: 0.94rem; }
+  .legend { display: flex; gap: 14px; font-size: 0.78rem; color: var(--ink-soft); margin-top: 6px; flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .legend .dot { width: 9px; height: 9px; border-radius: 50%; }
+
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    padding: 20px 0 40px;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>🍲 Siddu's Kitchen</h1>
+  <p>Your personal recipe book — tell it what you're craving, or what's sitting in the fridge.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="assistant-grid">
+    <div class="ask-card">
+      <h2>What do you feel like eating?</h2>
+      <p class="sub">Describe a mood, cuisine, or craving — "something spicy and quick" or "comforting Italian".</p>
+      <textarea id="moodInput" placeholder="e.g. something creamy and spicy for a weeknight"></textarea>
+      <div class="chips">
+        <button class="chip-btn" data-mood="spicy and quick">spicy &amp; quick</button>
+        <button class="chip-btn" data-mood="comfort food slow cooked">comfort food</button>
+        <button class="chip-btn" data-mood="indian curry">indian curry</button>
+        <button class="chip-btn" data-mood="seafood light">light seafood</button>
+        <button class="chip-btn" data-mood="cheesy pasta bake">cheesy pasta</button>
+        <button class="chip-btn" data-mood="sunday roast">sunday roast</button>
+      </div>
+      <div class="actions">
+        <button class="primary" onclick="runMoodSearch()">Suggest recipes</button>
+        <button class="ghost" onclick="randomRecipe()">🎲 Surprise me</button>
+      </div>
+    </div>
+
+    <div class="ask-card">
+      <h2>What's in your kitchen?</h2>
+      <p class="sub">List ingredients you have (comma-separated) — I'll find the best matches and flag swaps for anything you're missing.</p>
+      <textarea id="pantryInput" placeholder="e.g. chicken thighs, leek, yoghurt, coconut milk"></textarea>
+      <div class="chips">
+        <button class="chip-btn" data-pantry="leek, beef mince, red wine">leftover leek + mince</button>
+        <button class="chip-btn" data-pantry="cod, gochujang">cod fillets</button>
+        <button class="chip-btn" data-pantry="chicken thighs, yoghurt, coriander">chicken &amp; yoghurt</button>
+        <button class="chip-btn" data-pantry="bell peppers, coconut milk, parmesan">peppers &amp; coconut milk</button>
+      </div>
+      <div class="actions">
+        <button class="primary" onclick="runPantrySearch()">Find recipes to use it up</button>
+        <button class="ghost" onclick="clearResults()">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="results-section" style="display:none;">
+    <h2 id="resultsTitle">Suggestions</h2>
+    <div class="results-grid" id="resultsGrid"></div>
+  </div>
+
+  <section class="browse">
+    <h2>Browse the full book</h2>
+    <p class="sub">All 20 recipes, by category. Badges: 🌍 cuisine · ⚡/⏳/🐢 quick–medium–slow · 🐔🐄🐖🐑🐟🌱 protein/veg · 🟢/🟡/🔴 easy–moderate–project</p>
+    <nav class="cats" id="catNav"></nav>
+    <div id="browseArea"></div>
+  </section>
+
+  <footer>Compiled June 2026 · click any recipe for full ingredients, method, and source link.</footer>
+</div>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+// ---------------------------------------------------------------------
+// RECIPE DATA
+// ---------------------------------------------------------------------
+const RECIPES = [
+{
+  id: "jerk-marinade",
+  title: "Jerk Marinade",
+  category: "Marinades & Sauces",
+  cuisine: "Caribbean / Jamaican",
+  blurb: "A fiery, fragrant Caribbean blend for chicken, pork, or fish.",
+  servings: "2-3",
+  time: "Prep 10 min",
+  sourceUrl: "https://www.africanbites.com/jerk-marinade/",
+  sourceLabel: "africanbites.com",
+  tags: ["spicy","marinade","caribbean","jerk","sauce","make-ahead"],
+  cuisineEmoji: "🇯🇲", cuisineLabel: "Jamaican / Caribbean",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🧂", meatLabel: "Base / sauce",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "½ medium onion, coarsely chopped",
+    "4 medium scallions, chopped",
+    "2-3 Tbsp fresh thyme",
+    "1½ Tbsp fresh ginger, chopped",
+    "8 garlic cloves, chopped",
+    "1 Tbsp cinnamon powder",
+    "1 Tbsp allspice, coarsely ground",
+    "1 Tbsp white pepper, coarsely ground",
+    "½ Tbsp freshly grated nutmeg",
+    "2 Tbsp dark brown sugar",
+    "2 Tbsp honey",
+    "2 Tbsp Maggi sauce (or soy sauce)",
+    "1 Tbsp bouillon powder (e.g. Knorr)",
+    "1 cup fresh mango or pineapple (optional)",
+    "1+ Scotch Bonnet pepper, to taste"
+  ],
+  method: [
+    "Combine all ingredients in a food processor and blend until smooth.",
+    "Adjust for taste and heat — add more Scotch Bonnet for more heat.",
+    "Refrigerate and use when ready."
+  ],
+  notes: "Wear gloves when handling hot peppers. For a more intense jerk flavor, leave out the fruit and use less onion. Habanero can substitute for Scotch Bonnet. Can be made paleo by omitting the sugar and using only honey or coconut sugar."
+},
+{
+  id: "curry-gravy",
+  title: "Indian Hotel Curry Gravy",
+  category: "Marinades & Sauces",
+  cuisine: "Indian",
+  blurb: "The restaurant-style base gravy behind countless Indian curries — including the Chicken Changezi below.",
+  servings: "about 8 cups",
+  time: "Cook ~1 hr",
+  sourceUrl: "https://glebekitchen.com/wprm_print/11221",
+  sourceLabel: "glebekitchen.com",
+  tags: ["base","curry","sauce","make-ahead","freezer-friendly","indian"],
+  cuisineEmoji: "🇮🇳", cuisineLabel: "Indian",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🧂", meatLabel: "Base / sauce",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "1 cup neutral oil",
+    "3 lbs onions, chopped",
+    "2 lbs fresh tomatoes, chopped (or canned)",
+    "5 green cardamom pods",
+    "10 black peppercorns",
+    "3 cloves",
+    "1 tej patta (Indian bay leaf, optional)",
+    "2-inch cinnamon stick or cassia",
+    "¼ cup garlic ginger paste",
+    "2 tsp turmeric",
+    "1 Tbsp Kashmiri chili powder",
+    "1 Tbsp cumin powder",
+    "2 Tbsp coriander powder",
+    "1 Tbsp kosher salt",
+    "4 green chilies, seeded",
+    "Handful cilantro",
+    "1 cup water"
+  ],
+  method: [
+    "Chop the onions (a food processor works well) and chop the tomatoes.",
+    "Heat the oil and add the whole spices (cardamom, peppercorns, cloves, cinnamon, bay leaf) until bubbling, about 20 seconds.",
+    "Add the onions and cook 30-40 minutes, stirring, until deeply browned.",
+    "Make a slurry of the turmeric, cumin, coriander and chili powder with about ½ cup water.",
+    "Add the garlic-ginger paste to the browned onions, cook 2 minutes.",
+    "Add the spice slurry and salt, cook 3 minutes.",
+    "Add the tomatoes, green chilies and cilantro, simmer about 10 minutes until the tomatoes break down. Don't worry if oil separates out.",
+    "Add 1 cup water, let cool slightly, then puree everything (whole spices included) in a blender — vent the lid to release steam.",
+    "Yields about 8 cups. Freeze in 1-cup portions for later use."
+  ],
+  notes: ""
+},
+{
+  id: "mcchicken",
+  title: "Fakeaway McChicken Sando",
+  category: "Chicken",
+  cuisine: "American (fakeaway)",
+  blurb: "A crunchy, fast-food-style fried chicken sandwich — better than the drive-through.",
+  servings: "4 sandwiches",
+  time: "Prep 1 hr · Cook 30 min",
+  sourceUrl: "https://moribyan.com/mcchicken-mcdonalds-copycat/",
+  sourceLabel: "moribyan.com",
+  tags: ["fried chicken","sandwich","comfort food","crispy","weekend project","fast food copycat"],
+  cuisineEmoji: "🇺🇸", cuisineLabel: "American (fakeaway)",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🐔", meatLabel: "Chicken",
+  effortEmoji: "🔴", effortLabel: "Project",
+  ingredients: [
+    "½ lb chicken breast",
+    "½ lb chicken thighs, boneless and skinless",
+    "1 tsp salt",
+    "½ tsp white pepper",
+    "½ tsp onion powder",
+    "½ tsp garlic powder",
+    "½ tsp sage",
+    "¾ cup all-purpose flour",
+    "¾ cup cornstarch",
+    "2 tsp baking powder",
+    "2 tsp salt",
+    "½ tsp black pepper",
+    "1 tsp paprika",
+    "1 tsp chili powder",
+    "1 tsp garlic powder",
+    "¼ tsp baking soda",
+    "1½ cups cold iced water",
+    "4 brioche buns",
+    "Butter, for toasting",
+    "Shredded iceberg lettuce",
+    "½ cup mayonnaise",
+    "1 Tbsp yellow mustard (more to taste)"
+  ],
+  method: [
+    "Chop the chicken and process with the seasonings into a paste.",
+    "Shape into 3-4oz thin patties and freeze for 30+ minutes.",
+    "Whisk together the dry batter ingredients.",
+    "Coat the patties in the dry batter.",
+    "Whisk the cold water and baking soda into the remaining dry batter to make a wet batter.",
+    "Dip the patties in the wet batter and fry in ~325°F oil until golden. Drain on a wire rack.",
+    "Mix mayo and mustard for the special sauce.",
+    "Butter and toast the buns, then assemble with sauce, lettuce, and patty."
+  ],
+  notes: ""
+},
+{
+  id: "haryali-tikka",
+  title: "Haryali (Hariyali) Chicken Tikka",
+  category: "Chicken",
+  cuisine: "Indian",
+  blurb: "Char-grilled chicken in a vivid green herb marinade — a classic North Indian starter.",
+  servings: "4",
+  time: "Prep ~80 min (incl. marinating) · Cook ~30 min",
+  sourceUrl: "https://www.archanaskitchen.com/recipe/hariyali-chicken-tikka-recipe",
+  sourceLabel: "archanaskitchen.com",
+  tags: ["grilled","chicken","tikka","starter","green herbs","spicy","bbq"],
+  cuisineEmoji: "🇮🇳", cuisineLabel: "Indian",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🐔", meatLabel: "Chicken",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "2 chicken breasts, cut into cubes",
+    "1 tsp red chilli powder",
+    "½ tsp turmeric powder",
+    "2 tsp garam masala powder",
+    "1 tsp amchur (dry mango powder)",
+    "1 tsp cumin powder",
+    "¼ cup curd (yogurt)",
+    "Salt, to taste",
+    "1 cup coriander leaves (to grind)",
+    "1 cup mint leaves (to grind)",
+    "1 green chilli (to grind)"
+  ],
+  method: [
+    "Wash and clean the chicken, cut into 1-inch cubes, and set aside.",
+    "In a blender, combine the coriander leaves, mint leaves, and green chilli, and grind to a smooth paste with very little water.",
+    "Transfer the green masala to a mixing bowl, add the yoghurt and the remaining spices (chilli powder, turmeric, garam masala, amchur, cumin, salt). Mix well.",
+    "Add the chicken to the marinade and set aside for about 1 hour.",
+    "Heat a grill pan, drizzle with oil, and grill the chicken evenly on all sides until nicely charred — about 10 minutes.",
+    "Serve hot with sliced onions and lemon wedges."
+  ],
+  notes: ""
+},
+{
+  id: "changezi",
+  title: "Chicken Changezi",
+  category: "Chicken",
+  cuisine: "Indian",
+  blurb: "Rich, creamy restaurant-style chicken curry built on the hotel curry gravy.",
+  servings: "2",
+  time: "Prep 15 min · Cook 20 min",
+  sourceUrl: "https://glebekitchen.com/wprm_print/15254",
+  sourceLabel: "glebekitchen.com",
+  tags: ["curry","chicken","creamy","restaurant-style","rich","spicy","indian"],
+  cuisineEmoji: "🇮🇳", cuisineLabel: "Indian",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐔", meatLabel: "Chicken",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "4 chicken thighs, boned and skinned, cut into 3 pieces each",
+    "1 tsp Kashmiri chili powder (marinade)",
+    "1 tsp coriander powder (marinade)",
+    "½ tsp coarse black pepper",
+    "½ tsp garam masala (marinade)",
+    "¼ tsp tandoori masala",
+    "⅓ tsp kosher salt (marinade)",
+    "2 Tbsp plain yoghurt (marinade)",
+    "2 tsp Kashmiri chili powder (spice mix)",
+    "1½ tsp coriander powder (spice mix)",
+    "½ tsp chaat masala",
+    "½ tsp garam masala (spice mix)",
+    "⅓ tsp kosher salt (spice mix)",
+    "3 Tbsp canola oil",
+    "1 black cardamom",
+    "1 Tbsp garlic ginger paste",
+    "1 green finger chili, chopped",
+    "½ cup pureed tomatoes (or makhani gravy)",
+    "1 Tbsp plain (full-fat Greek) yoghurt",
+    "1 cup Indian Hotel Curry Gravy (see Marinades & Sauces)",
+    "¼ cup heavy cream",
+    "1 tsp kasoori methi",
+    "Fried shallots, to garnish"
+  ],
+  method: [
+    "Prep all ingredients ahead of time.",
+    "Mix the marinade spices with yoghurt and coat the chicken.",
+    "Fry the chicken in oil in a nonstick skillet, 3-4 minutes per side, until lightly coloured but not cooked through. Remove.",
+    "In the same (now spiced) oil, add the black cardamom for 20-30 seconds.",
+    "Add the garlic-ginger paste and cook until the sputtering stops, then reduce heat.",
+    "Add the spice mix, cook 30 seconds.",
+    "Add the yoghurt, fry 30 seconds.",
+    "Add the tomato puree and green chilies, fry 2-3 minutes (add water/stock if too thick).",
+    "Add the Indian Hotel Curry Gravy, simmer, then stir in the cream and kasoori methi.",
+    "Add the chicken, nestle into the sauce, cover for 5 minutes, flip, and continue simmering until the chicken reaches 170°F internally.",
+    "Adjust consistency with water or stock to slightly thicker than heavy cream.",
+    "Garnish with fried shallots."
+  ],
+  notes: ""
+},
+{
+  id: "rogan-josh-pie",
+  title: "Rogan Josh Shepherd's Pie",
+  category: "Lamb",
+  cuisine: "Indian / British fusion",
+  blurb: "A spiced lamb rogan josh under a turmeric mash — comfort food with a curry twist.",
+  servings: "6",
+  time: "Cook ~1 hr",
+  sourceUrl: "https://www.viveksingh.co.uk/january-roganjosh-shepherds-pie/",
+  sourceLabel: "viveksingh.co.uk",
+  tags: ["lamb","curry","pie","comfort food","mashed potato","baked","hearty"],
+  cuisineEmoji: "🇮🇳", cuisineLabel: "Indian / British fusion",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🐑", meatLabel: "Lamb",
+  effortEmoji: "🔴", effortLabel: "Project",
+  ingredients: [
+    "2 Tbsp vegetable oil",
+    "4 cloves",
+    "2 bay leaves",
+    "2 green cardamom pods",
+    "2 dried red chillies",
+    "1 black cardamom pod",
+    "1 tsp cumin seeds",
+    "2 garlic cloves, chopped",
+    "3 onions (2 finely chopped, 1 sliced)",
+    "1 tsp salt",
+    "500g boned leg of lamb, diced",
+    "1½ Tbsp ginger garlic paste",
+    "2 tsp red chilli powder",
+    "2 tsp ground coriander",
+    "2 tsp ground cumin",
+    "700g lean lamb mince",
+    "2 Tbsp tomato puree",
+    "25g plain yoghurt",
+    "½ sweet potato, finely diced",
+    "100g celeriac, finely diced",
+    "100g turnip, finely diced",
+    "2 tsp chopped fresh coriander",
+    "3 green cardamoms (spice mix)",
+    "2 star anise (spice mix)",
+    "2.5cm cinnamon stick (spice mix)",
+    "1 tsp fennel seeds (spice mix)",
+    "½ tsp ground turmeric (topping)",
+    "Pinch of salt (topping)",
+    "200g floury potatoes (Maris Piper)",
+    "25g butter",
+    "15g grated cheddar"
+  ],
+  method: [
+    "Boil the potatoes with turmeric and salt, then mash with butter and cheddar. Pass through a sieve and set aside.",
+    "Heat the oil and fry the whole spices (cloves, bay, cardamom, chillies, cumin seeds) until crackling.",
+    "Add the garlic, then the chopped onion and salt, and cook 4-6 minutes.",
+    "Add the diced lamb and ginger-garlic paste, cook 5 minutes, then simmer uncovered for 30 minutes.",
+    "Meanwhile, toast the spice-mix whole spices with the fennel seeds and grind to a powder.",
+    "Add the chilli powder, coriander and cumin to the lamb, stir 5 minutes.",
+    "Add the lamb mince and tomato puree, stir in the yoghurt gradually, cook 20 minutes.",
+    "Stir in the sweet potato, celeriac, turnip, sliced onion, and ground spice mix; cook 5-8 minutes.",
+    "Season and stir in the fresh coriander.",
+    "Transfer to a pie dish, top with the mash, and bake at 200°C for 10-12 minutes until golden.",
+    "Serve with a green salad."
+  ],
+  notes: ""
+},
+{
+  id: "beef-stout-stew",
+  title: "Beef & Stout Stew with Carrots",
+  category: "Beef",
+  cuisine: "British",
+  blurb: "Slow-braised beef and sweet carrots in a rich Guinness gravy — classic winter comfort.",
+  servings: "4",
+  time: "Prep 30 min · Cook 3 hrs",
+  sourceUrl: "https://www.bbcgoodfood.com/recipes/beef-stout-stew-carrots",
+  sourceLabel: "bbcgoodfood.com",
+  sourceNote: "BBC Good Food's main site blocks automated fetching — this was recovered via their Middle East site (bbcgoodfoodme.com).",
+  tags: ["beef","stew","slow-cooked","comfort food","winter","hearty","one-pot"],
+  cuisineEmoji: "🇬🇧", cuisineLabel: "British",
+  speedEmoji: "🐢", speedLabel: "Slow cook",
+  meatEmoji: "🐄", meatLabel: "Beef",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "2 Tbsp vegetable oil",
+    "1kg stewing beef, cut into large chunks",
+    "1 onion, roughly chopped",
+    "10 carrots, cut into large chunks",
+    "2 Tbsp plain flour",
+    "500ml can Guinness (stout)",
+    "1 beef stock cube",
+    "Pinch of sugar",
+    "3 bay leaves",
+    "Big sprig of thyme",
+    "900g potatoes (for parsnip mash)",
+    "3 parsnips, peeled and chopped (for mash)",
+    "Large knob of butter (for mash)",
+    "4 Tbsp crème fraîche or double cream (for mash)"
+  ],
+  method: [
+    "Heat the oven to 160°C / 140°C fan / gas 3.",
+    "Heat the oil in a large lidded casserole dish and brown the meat well in batches; set aside.",
+    "Add the onion and carrots to the dish and brown well, then scatter over the flour and stir.",
+    "Tip the meat and juices back in and stir well.",
+    "Pour in the Guinness and crumble in the stock cube. Season with salt, pepper, and a pinch of sugar.",
+    "Tuck in the bay leaves and thyme, and bring to a simmer.",
+    "Cover and place in the oven for about 2½ hours, until the meat is really tender.",
+    "For the mash: boil the potatoes and parsnips together for 15 minutes until tender. Drain, mash with butter and crème fraîche, and season.",
+    "Serve the stew with the parsnip mash."
+  ],
+  notes: "Can be chilled and frozen for up to 3 months — defrost completely before reheating."
+},
+{
+  id: "crispy-chilli-beef",
+  title: "Crispy Chilli Beef",
+  category: "Beef",
+  cuisine: "Chinese takeaway-style",
+  blurb: "Crunchy fried beef strips in a sticky-sweet chilli sauce — better than a takeaway.",
+  servings: "4",
+  time: "Prep 10 min · Cook 20 min",
+  sourceUrl: "https://www.kitchensanctuary.com/crispy-chilli-beef/",
+  sourceLabel: "kitchensanctuary.com",
+  tags: ["beef","spicy","crispy","stir-fry","quick","sweet and sour","weeknight"],
+  cuisineEmoji: "🇨🇳", cuisineLabel: "Chinese takeaway-style",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐄", meatLabel: "Beef",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "360g (¾ lb) thin-cut sirloin steaks, cut into thin strips",
+    "1 small egg",
+    "4 Tbsp cornflour (cornstarch)",
+    "¼ tsp salt",
+    "¼ tsp black pepper",
+    "⅛ tsp white pepper",
+    "4½ Tbsp sunflower oil, divided",
+    "1 medium onion, sliced into thin strips",
+    "1 red chilli, finely sliced (discard seeds for less heat)",
+    "1 tsp minced ginger",
+    "3 garlic cloves, minced",
+    "2 Tbsp rice vinegar",
+    "3 Tbsp dark soy sauce",
+    "2 Tbsp tomato puree",
+    "6 Tbsp caster sugar",
+    "2 Tbsp tomato ketchup",
+    "2 Tbsp sweet chilli sauce"
+  ],
+  method: [
+    "Coat the steak strips in egg, then in the cornflour, salt and pepper mixture for a sticky coating.",
+    "Fry in 2 batches in hot oil (3 Tbsp for the first batch) for 5-6 minutes until dark brown and crispy, stirring minimally. Drain on kitchen paper, then repeat with the remaining oil for the second batch.",
+    "In the same pan with the remaining ½ Tbsp oil, cook the sliced onion over medium heat for 2 minutes.",
+    "Add the chilli, ginger and garlic, cook 30 seconds.",
+    "Add the rice vinegar, soy sauce, tomato puree, sugar, ketchup and sweet chilli sauce; bubble for 2 minutes to reduce.",
+    "Add the beef back in, toss, and heat through for 1-2 minutes.",
+    "Serve with rice or noodles."
+  ],
+  notes: "Can substitute flank, skirt or rump steak — slice thin, against the grain. Freeze the steak for 30 minutes before slicing for ease. For gluten-free, use tamari instead of soy sauce."
+},
+{
+  id: "reverse-seared-steak",
+  title: "Reverse-Seared Steak",
+  category: "Beef",
+  cuisine: "American",
+  blurb: "Low-and-slow in the oven, then a hard sear in a screaming-hot pan — edge-to-edge perfect doneness.",
+  servings: "2",
+  time: "Prep 10 min · Cook 30 min",
+  sourceUrl: "https://www.jessicagavin.com/how-to-reverse-sear-a-steak/",
+  sourceLabel: "jessicagavin.com",
+  sourceNote: "The link you sent (seriouseats.com) blocks automated fetching, so this is sourced from Jessica Gavin's reverse-sear method instead — same technique, well-tested.",
+  tags: ["steak","beef","reverse sear","oven","pan-seared","weeknight","showstopper"],
+  cuisineEmoji: "🇺🇸", cuisineLabel: "American",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐄", meatLabel: "Beef",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "2 steaks, 1½-2 inches thick (ribeye, New York strip, filet mignon, porterhouse, T-bone, or top sirloin)",
+    "Kosher salt, for seasoning",
+    "Black pepper, for seasoning",
+    "1 Tbsp vegetable oil (or another high smoke-point oil)",
+    "1 Tbsp unsalted butter (optional)"
+  ],
+  method: [
+    "Set the oven rack to the center position and heat to 275°F (135°C). Line a rimmed baking sheet with foil and place a wire rack on top.",
+    "Pat the steaks dry with paper towel, set on the wire rack, and season generously on both sides with salt and pepper.",
+    "Transfer to the oven and cook until the internal temperature is about 30°F below your target serving temperature — roughly 90-95°F (32-35°C) for medium-rare. Takes 15-25 minutes depending on thickness; start checking at 15 minutes and every few minutes after.",
+    "Remove from the oven. Heat a cast iron or stainless steel skillet over high heat until just starting to smoke, then add the oil.",
+    "Sear the first side 1-2 minutes until a deep brown crust forms, then flip and sear the other side 1-2 minutes. Stand the steaks on their edges for 30-60 seconds per side to render the fat.",
+    "Reduce heat to medium-low, add the butter, and baste the tops for about 1 minute as it melts.",
+    "Rest on a plate or board for 5-10 minutes before serving."
+  ],
+  notes: "Doneness guide (internal temp when pulled from the pan): rare 115-120°F, medium-rare 120-125°F, medium 130-135°F, medium-well 145-150°F, well done 155°F — each rises a few more degrees while resting. Best for cuts 1½ inches or thicker; for 1-inch steaks, check the oven stage starting at 10 minutes. Add sliced garlic, shallots, or rosemary/thyme sprigs to the pan when basting for extra flavour."
+},
+{
+  id: "leftover-steak-broccoli-bowl",
+  title: "Leftover Steak & Broccoli Stir-Fry Bowl",
+  category: "Beef",
+  cuisine: "Asian fusion (Korean-Chinese)",
+  blurb: "Turns yesterday's grilled steak into a fast, bold-flavoured beef-and-broccoli rice bowl.",
+  servings: "2",
+  time: "Quick (uses already-cooked steak)",
+  sourceUrl: "https://www.youtube.com/watch?v=WAyfgpvC_IE",
+  sourceLabel: "SJ COOKS (YouTube)",
+  sourceNote: "Video gives ingredients and the sauce but not exact quantities or step timing, so the method below is a reasonable reconstruction of the process described — adjust amounts to taste.",
+  tags: ["leftover steak","beef","broccoli","stir-fry","weeknight","rice bowl","hoisin","gochujang","fusion"],
+  cuisineEmoji: "🌏", cuisineLabel: "Asian fusion (Korean-Chinese)",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐄", meatLabel: "Beef",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "Leftover cooked steak, sliced (ribeye cap preferred)",
+    "Broccoli florets",
+    "Cooked rice, for serving",
+    "Avocado oil (or other high-heat oil)",
+    "Water, for steaming and deglazing",
+    "Optional: splash of white wine, lemon juice, chili flakes",
+    "¼ cup (60 ml) hoisin sauce",
+    "1-2 tsp gochujang",
+    "1 tsp rice vinegar",
+    "½ tsp soy sauce (optional, skip if hoisin is already very salty)",
+    "1 tsp fresh grated garlic + ginger (or ¼ tsp each garlic powder and ginger powder)",
+    "½ tsp sesame oil (optional, skip if hoisin is already sesame-forward)",
+    "1-2 tsp warm water, to loosen the sauce"
+  ],
+  method: [
+    "Whisk the sauce ingredients together in a small bowl, adding the warm water a little at a time until pourable and glossy. Taste and adjust with chili flakes or lemon juice if needed.",
+    "Steam the broccoli florets in a splash of water in a hot pan or wok until just tender-crisp, then remove and set aside.",
+    "Add a little avocado oil to the same pan over high heat. Add the sliced leftover steak and toss just until warmed through and lightly crisped at the edges — it only needs reheating, not a full re-cook.",
+    "Deglaze the pan with a splash of water (or white wine, if using) to pick up the browned bits, then return the broccoli to the pan.",
+    "Pour in the sauce and toss everything together until evenly coated and glossy, 1-2 minutes.",
+    "Serve over cooked rice."
+  ],
+  notes: "Pairs well with the Grilled Ribeye Cap Steak recipe from the same channel (youtube.com/watch?v=4-XCb-BmXBs) — grill an extra steak specifically to have leftovers for this."
+},
+{
+  id: "cuban-pork",
+  title: "Cuban-Style Roast Pork Shoulder with Mojo",
+  category: "Pork",
+  cuisine: "Cuban",
+  blurb: "Citrusy, garlicky slow-roasted pork shoulder — a Sunday showstopper.",
+  servings: "10",
+  time: "Marinate 4-24 hrs · Cook ~4-5 hrs",
+  sourceUrl: "https://www.seriouseats.com/cuban-roast-pork-shoulder-mojo-recipe",
+  sourceLabel: "seriouseats.com",
+  sourceNote: "Serious Eats blocks automated fetching. The ingredient list below is verbatim from the original; the method is reconstructed from standard Cuban mojo pork technique, so double-check timing against the source before cooking.",
+  tags: ["pork","roast","slow-roasted","citrus","garlicky","showstopper","sunday lunch"],
+  cuisineEmoji: "🇨🇺", cuisineLabel: "Cuban",
+  speedEmoji: "🐢", speedLabel: "Slow cook",
+  meatEmoji: "🐖", meatLabel: "Pork",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "1 boneless pork shoulder roast (6-8 lb / 3-3.5kg), rind removed",
+    "¼ cup chopped fresh mint leaves",
+    "½ cup fresh orange juice (1-2 oranges)",
+    "¼ cup fresh lime juice (3-4 limes)",
+    "¼ cup extra-virgin olive oil",
+    "2 tsp ground cumin",
+    "¼ cup minced fresh oregano leaves",
+    "8 medium garlic cloves, minced",
+    "2 tsp black pepper",
+    "Kosher salt",
+    "Lime wedges, steamed rice, black beans and maduros, to serve"
+  ],
+  method: [
+    "Blend the mint, orange juice, lime juice, olive oil, cumin, oregano, garlic, pepper and a generous pinch of salt into a marinade (mojo).",
+    "Pierce the pork shoulder all over with a knife to help the marinade penetrate. Rub the mojo all over the meat, place in a bag or covered container, and refrigerate at least 4 hours — ideally overnight (12-24 hours) for deeper flavour.",
+    "Bring the pork to room temperature before cooking. Preheat the oven to 350°F (175°C).",
+    "Remove the pork from the marinade, pat dry, and reserve the marinade. Roast for about 1 hour, turning halfway, to brown all sides.",
+    "Lower the oven to 325°F (160°C). Pour the reserved marinade over the pork, cover loosely with foil, and continue roasting for 3-4 hours, basting occasionally, until the internal temperature reaches about 180°F.",
+    "Remove the foil for the last 30 minutes to let the exterior brown. If it isn't crisping up, finish under the broiler for a minute or two, watching closely.",
+    "Rest, covered, for 15 minutes before slicing or shredding.",
+    "Serve with lime wedges, rice, black beans and maduros."
+  ],
+  notes: ""
+},
+{
+  id: "roast-pork-cider",
+  title: "Roast Pork with Cider Gravy",
+  category: "Pork",
+  cuisine: "British",
+  blurb: "Herb-studded roast pork loin with crisp crackling and an apple-cider gravy.",
+  servings: "6",
+  time: "Takes 2 hrs 30 min",
+  sourceUrl: "https://www.bbcgoodfood.com/recipes/herb-studded-roast-loin-pork-apple-cider-gravy",
+  sourceLabel: "bbcgoodfood.com",
+  sourceNote: "BBC Good Food's main site blocks automated fetching — this was recovered via their Middle East site (bbcgoodfoodme.com).",
+  tags: ["pork","roast","crackling","sunday lunch","gravy","showstopper"],
+  cuisineEmoji: "🇬🇧", cuisineLabel: "British",
+  speedEmoji: "🐢", speedLabel: "Slow cook",
+  meatEmoji: "🐖", meatLabel: "Pork",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "1.8kg piece of rolled and tied pork loin, skin scored",
+    "2 garlic cloves, sliced into thin slivers",
+    "Small bunch rosemary, broken into small sprigs",
+    "3 bay leaves, torn",
+    "1 onion, roughly chopped",
+    "1 large carrot, chopped",
+    "1 Bramley apple, peeled, quartered, cored and roughly sliced",
+    "1 Tbsp sunflower oil",
+    "2 Tbsp plain flour",
+    "100ml good quality cider",
+    "500ml vegetable or chicken stock"
+  ],
+  method: [
+    "If you have time, rub salt into the pork skin 2 hours before cooking and leave uncovered in the fridge.",
+    "Heat the oven to 230°C / 210°C fan / gas 8. Turn the pork rind-side down and make about 6 deep incisions along the meat. Poke a sliver of garlic, a piece of rosemary and bay into each incision, then turn the pork right-side up. Salt the skin now if you haven't already.",
+    "Scatter the onion, carrot and apple in the middle of a shallow roasting tray as a bed for the pork. Sit the pork on top and rub the skin with oil.",
+    "Roast for 15 minutes, then turn the heat down to 180°C / 160°C fan / gas 4 and continue roasting for 1 hour 30 minutes. If the crackling isn't there yet, turn the heat back up and check every 5 minutes until it crackles.",
+    "Remove the pork to a board to rest. Pour off all but about 2 Tbsp of fat from the tray.",
+    "Place the tray (or scrape contents into a saucepan) on the heat. Stir the flour into the vegetables and cook until you have a mushy, dark amber paste.",
+    "Splash in the cider and bubble down to a thick paste again, then pour in the stock and simmer for 8-10 minutes until thickened.",
+    "Strain the gravy into another pan, pushing as much puréed apple through the sieve as you can. Simmer again and season to taste.",
+    "Carve the pork (with crackling attached) into slices using a serrated knife. Serve with the apple and cider gravy."
+  ],
+  notes: ""
+},
+{
+  id: "pork-chops-peaches",
+  title: "Pork Chops and Peaches",
+  category: "Pork",
+  cuisine: "American",
+  blurb: "Seared pork chops with caramelized balsamic peaches and a buttery pan sauce.",
+  servings: "4",
+  time: "Prep 10 min · Cook 20 min",
+  sourceUrl: "https://cookingformysoul.com/pork-chops-peaches/",
+  sourceLabel: "cookingformysoul.com",
+  sourceNote: "",
+  tags: ["pork chops","peaches","balsamic","skillet","summer","pan sauce","weeknight"],
+  cuisineEmoji: "🇺🇸", cuisineLabel: "American",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐖", meatLabel: "Pork",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "4 fresh peaches, skin-on, ripe but slightly firm",
+    "2 Tbsp light brown sugar",
+    "2 Tbsp balsamic vinegar",
+    "4 boneless pork chops, about ¾ inch thick",
+    "Olive oil",
+    "1 tsp garlic powder",
+    "1 tsp Italian seasoning",
+    "Salt and pepper, to taste",
+    "3 Tbsp unsalted butter, divided",
+    "⅓ cup chicken broth, plus more as needed",
+    "3 sprigs fresh thyme and rosemary",
+    "Balsamic glaze, for serving"
+  ],
+  method: [
+    "Slice the peaches and remove the pits. Toss with the brown sugar and balsamic vinegar; set aside.",
+    "Season the pork chops with olive oil, garlic powder, Italian seasoning, salt and pepper.",
+    "Sear the pork chops in an oiled skillet over medium heat, about 5 minutes per side, then transfer to a plate.",
+    "Wipe out the skillet and melt 2 Tbsp of the butter. Sauté the peaches until caramelized, then add the chicken broth and thyme/rosemary sprigs. Simmer until the sauce thickens slightly, then season to taste.",
+    "Turn off the heat and immediately stir in the remaining 1 Tbsp butter to thicken and gloss the sauce — this must be done off the heat.",
+    "Return the pork chops to the pan, spoon the peaches and sauce over the top, and serve with balsamic glaze drizzled on top."
+  ],
+  notes: "Cook pork chops to a safe internal temperature: 145°F + 10 min rest for medium-rare, 150-155°F for medium, 155-160°F for medium-well. Use ripe-but-firm peaches; boneless or bone-in chops both work (bone-in needs longer, can finish in a 400°F oven for 5-8 min). Keeps 3 days in the fridge, reheat in the microwave or skillet. Substitutions: dried herbs (¼ tsp rosemary, ½ tsp thyme, or ¾ tsp Italian seasoning) for fresh; vegetable broth for chicken broth; canned peaches work too (omit the brown sugar); nectarines can stand in for peaches."
+},
+{
+  id: "rasta-pasta",
+  title: "Rasta Pasta",
+  category: "Pasta",
+  cuisine: "Jamaican / Italian fusion",
+  blurb: "Penne in a creamy, coconut-jerk sauce with colourful peppers and jerk chicken.",
+  servings: "4",
+  time: "Prep 10 min · Cook 30 min",
+  sourceUrl: "https://www.chilipeppermadness.com/recipes/rasta-pasta/",
+  sourceLabel: "chilipeppermadness.com",
+  sourceNote: "No URL was given for this one — selected as the recipe for the book.",
+  tags: ["pasta","creamy","spicy","jerk","quick","weeknight","colorful"],
+  cuisineEmoji: "🇯🇲", cuisineLabel: "Jamaican / Italian fusion",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐔", meatLabel: "Chicken",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "1 Tbsp olive oil",
+    "1 lb chicken breast, cut into bite-sized pieces",
+    "2 Tbsp Jamaican jerk seasoning (for chicken)",
+    "1 tsp paprika",
+    "Salt and black pepper, to taste",
+    "2 Tbsp olive oil or vegetable oil (for pasta)",
+    "1 small onion, chopped",
+    "1 green bell pepper, sliced",
+    "1 red bell pepper, sliced",
+    "1 orange bell pepper, sliced",
+    "1-2 Scotch bonnet peppers, chopped (to taste)",
+    "3 garlic cloves, chopped",
+    "2 Tbsp Jamaican jerk seasoning (for sauce)",
+    "1 cup chicken stock",
+    "1 cup coconut milk (heavy cream works too, but loses the coconut flavour)",
+    "1 cup grated fresh Parmesan, or more to taste",
+    "1 lb penne pasta"
+  ],
+  method: [
+    "Heat the olive oil in a large pan over medium heat. Season the chicken with jerk seasoning, paprika, salt and pepper.",
+    "Cook the chicken 6-7 minutes, until cooked through. Remove and set aside.",
+    "Heat 2 Tbsp olive oil in the same pan, add the onion and peppers, and cook about 5 minutes to soften.",
+    "Add the garlic and jerk seasoning with salt and pepper, cook 1 minute.",
+    "Add the chicken stock, coconut milk, and the cooked chicken. Simmer 5 minutes to thicken — loosen with a splash of water or stock if it gets too thick.",
+    "Stir in the Parmesan and remove from heat.",
+    "Meanwhile, cook the penne according to package directions, drain, and toss with the sauce."
+  ],
+  notes: "For more heat, add Scotch Bonnet when cooking the onions and peppers, or stir in hot sauce at the end."
+},
+{
+  id: "lasagna",
+  title: "Lasagna (Siddu's Version)",
+  category: "Pasta",
+  cuisine: "Italian",
+  blurb: "A slow-braised, half-pork-half-beef ragu lasagna — Siddu's modified take on RecipeTin Eats' classic.",
+  servings: "10",
+  time: "Prep 20 min · Cook 5+ hrs",
+  sourceUrl: "https://www.recipetineats.com/lasagna/",
+  sourceLabel: "recipetineats.com",
+  sourceNote: "Modified from the original: leek instead of celery, half pork / half beef, more wine, and a 5-hour slow braise at 120°C instead of a stovetop simmer.",
+  tags: ["pasta","baked","cheesy","slow-cooked","comfort food","showstopper","make-ahead"],
+  cuisineEmoji: "🇮🇹", cuisineLabel: "Italian",
+  speedEmoji: "🐢", speedLabel: "Slow cook",
+  meatEmoji: "🥩", meatLabel: "Beef & pork (mixed)",
+  effortEmoji: "🔴", effortLabel: "Project",
+  ingredients: [
+    "1 Tbsp olive oil",
+    "1 onion, finely chopped",
+    "1 medium carrot, finely diced",
+    "1 leek, finely diced (swap in for celery)",
+    "2 garlic cloves, minced",
+    "500g beef mince",
+    "500g pork mince",
+    "800g canned crushed tomato",
+    "¼ cup tomato paste",
+    "1½-2 cups pinot noir red wine (more than the original 1 cup)",
+    "3 beef bouillon cubes",
+    "2 bay leaves",
+    "½ tsp dried thyme",
+    "½ tsp dried oregano",
+    "2 tsp Worcestershire sauce",
+    "1-2 tsp sugar, if needed",
+    "Salt and pepper",
+    "60g / 4 Tbsp butter (cheese sauce)",
+    "½ cup flour (cheese sauce)",
+    "4 cups milk (cheese sauce)",
+    "2 cups gruyère or Colby cheese (cheese sauce)",
+    "Pinch of nutmeg (cheese sauce)",
+    "350g fresh lasagna sheets (or 250g dried)",
+    "1½ cups mozzarella",
+    "Basil or parsley, to garnish (optional)"
+  ],
+  method: [
+    "Sauté the onion, carrot, leek and garlic in olive oil for about 10 minutes, until softened but not browned.",
+    "Add the beef and pork mince and brown well.",
+    "Add the crushed tomato, tomato paste, wine, bouillon cubes, bay leaves, thyme, oregano and Worcestershire sauce. Stir to combine.",
+    "Transfer to an oven-safe covered pot (or cover the pan tightly with foil) and slow cook in the oven at 120°C for 5 hours, stirring occasionally and topping up with a splash of water or stock if it looks dry.",
+    "Taste and adjust with sugar, salt and pepper — the long cook concentrates flavour, so go easy on extra salt until you've tasted it.",
+    "For the cheese sauce: warm the milk. In a separate pan, melt the butter, add the flour and stir for 1 minute, then gradually whisk in the warm milk. Cook until thickened, 5-8 minutes. Off the heat, stir in the cheese, nutmeg, salt and pepper.",
+    "Preheat the oven to 180°C / 350°F. In a 33x22x7cm dish, spread a thin layer of ragu on the base.",
+    "Layer: pasta sheets, ragu, cheese sauce — repeat for 3 layers total.",
+    "Top with a final sheet of pasta, the remaining cheese sauce, and the mozzarella.",
+    "Bake for 25 minutes until golden and bubbling. Rest 5-10 minutes before serving."
+  ],
+  notes: ""
+},
+{
+  id: "gochujang-cod",
+  title: "Gochujang Baked Cod",
+  category: "Seafood",
+  cuisine: "Korean-inspired",
+  blurb: "A 20-minute, Nobu-inspired broiled cod with a sweet-spicy gochujang glaze.",
+  servings: "2",
+  time: "Prep 10 min · Cook 10 min",
+  sourceUrl: "https://www.alicecsun.com/recipes/gochujang-baked-cod-recipe",
+  sourceLabel: "alicecsun.com",
+  tags: ["fish","seafood","quick","spicy","sweet","light","weeknight"],
+  cuisineEmoji: "🇰🇷", cuisineLabel: "Korean-inspired",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐟", meatLabel: "Fish",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "2 fillets black cod (or similar firm white fish)",
+    "1½ Tbsp gochujang",
+    "1 Tbsp honey",
+    "1 Tbsp sake",
+    "Sesame seeds, for garnish",
+    "Scallions, for garnish"
+  ],
+  method: [
+    "Wash and dry the fillets, then season both sides with salt and pepper.",
+    "Mix the gochujang, honey and sake into a lightly spreadable sauce — add a touch more sake if it's too thick.",
+    "Set the oven to broil.",
+    "Place the fillets on a foil-lined baking sheet.",
+    "Cover the fillets in sauce on all sides except the skin.",
+    "Broil for 7-8 minutes, or until the internal temperature reaches 145°F.",
+    "Garnish with sesame seeds and scallions."
+  ],
+  notes: ""
+},
+{
+  id: "saltfish-fritters",
+  title: "Jamaican Saltfish Fritters",
+  category: "Seafood",
+  cuisine: "Jamaican",
+  blurb: "Crispy, curry-spiced salt cod fritters studded with peppers — a great starter or snack.",
+  servings: "makes about 12",
+  time: "Cook ~25 min (plus soaking)",
+  sourceUrl: "https://www.bbcgoodfood.com/recipes/jamaican-saltfish-fritters",
+  sourceLabel: "bbcgoodfood.com",
+  tags: ["fish","seafood","fried","starter","snack","spicy"],
+  cuisineEmoji: "🇯🇲", cuisineLabel: "Jamaican",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🐟", meatLabel: "Fish",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "160g dry salted cod",
+    "300g self-raising flour",
+    "1 Tbsp medium curry powder",
+    "2 spring onions, chopped",
+    "½ large Scotch bonnet pepper, finely chopped (deseed for less heat)",
+    "½ each red, yellow and green pepper, finely diced",
+    "Sunflower oil, for frying"
+  ],
+  method: [
+    "Soak the salted cod (per packet instructions, typically several hours to overnight, changing the water) to remove excess salt, then poach gently until tender. Drain and flake into pieces, discarding skin and bones.",
+    "Mix the self-raising flour and curry powder with enough cold water to make a thick batter.",
+    "Stir in the spring onions, Scotch bonnet and diced peppers.",
+    "Fold the flaked saltfish through the batter.",
+    "Heat sunflower oil in a frying pan. Fry spoonfuls of the mixture for about 2 minutes per side, until golden and cooked through.",
+    "Drain on kitchen paper and serve hot."
+  ],
+  notes: ""
+},
+{
+  id: "gambas-pil-pil",
+  title: "Gambas Pil Pil (Garlic & Chilli Prawns)",
+  category: "Seafood",
+  cuisine: "Spanish",
+  blurb: "Sizzling garlic-chilli prawns in butter and olive oil — a classic tapas dish, ready in under 15 minutes.",
+  servings: "2",
+  time: "Prep 5 min · Cook 8 min",
+  sourceUrl: "https://www.effortlessfoodie.com/gambas-pil-pil/",
+  sourceLabel: "effortlessfoodie.com",
+  sourceNote: "The link you sent (bbc.co.uk) blocks automated fetching, so this is sourced from Effortless Foodie's gambas pil pil instead — same Spanish tapas dish, well-tested.",
+  tags: ["prawns","shrimp","seafood","tapas","spanish","quick","starter","garlic","chilli"],
+  cuisineEmoji: "🇪🇸", cuisineLabel: "Spanish",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐟", meatLabel: "Seafood (prawns)",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "2 Tbsp butter",
+    "2 Tbsp extra-virgin olive oil",
+    "3 garlic cloves, peeled and finely chopped",
+    "½ red chilli, finely chopped (seeds in or out, to taste)",
+    "300g fresh king prawns",
+    "½ lemon, juice only",
+    "2 Tbsp parsley, chopped",
+    "¼ tsp smoked paprika (or hot paprika)",
+    "Salt & pepper, to season"
+  ],
+  method: [
+    "Heat the butter and olive oil in a frying pan over medium-high heat until the butter has melted.",
+    "Add the garlic and chilli and cook for 1 minute, stirring with a wooden spoon.",
+    "Add the prawns and cook until they turn pink — this only takes a few minutes.",
+    "Squeeze over the lemon juice, then sprinkle over the parsley and smoked paprika. Season to taste and serve."
+  ],
+  notes: "Traditionally served in a clay dish with crusty bread for dipping. Variations: swap smoked paprika for sweet paprika, cayenne, or red pepper flakes; add diced chorizo before the prawns for a heartier dish; stir in a splash of double cream after cooking for a creamier sauce; or add a splash of white wine to the pan before the prawns go in. Leave out the chilli entirely for gambas al ajillo (prawns with garlic)."
+},
+{
+  id: "chana-dal",
+  title: "Chana Dal (Split Chickpea Soup)",
+  category: "Vegetarian & Sides",
+  cuisine: "Indian",
+  blurb: "A light, gently spiced lentil soup, tempered with cumin and garam masala.",
+  servings: "2",
+  time: "Prep 1 hr · Cook 45 min",
+  sourceUrl: "https://www.veganricha.com/easy-chana-dal-recipe-split-chickpea-soup/",
+  sourceLabel: "veganricha.com",
+  tags: ["vegetarian","vegan","soup","lentils","comfort food","light","weeknight"],
+  cuisineEmoji: "🇮🇳", cuisineLabel: "Indian",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🌱", meatLabel: "Vegetarian / vegan",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "½ cup chana dal (split chickpeas, or split peas)",
+    "2 cups water",
+    "1 large tomato",
+    "3 garlic cloves",
+    "½ inch ginger",
+    "1 tsp ground coriander",
+    "¼ tsp turmeric",
+    "¼ tsp paprika",
+    "¼-½ tsp cayenne",
+    "⅓-½ tsp salt",
+    "½ tsp oil (tempering)",
+    "½ tsp cumin seeds (tempering)",
+    "Pinch of asafetida (hing) (tempering)",
+    "½ tsp garam masala (tempering)",
+    "¼ tsp cayenne (tempering)",
+    "¼ cup chopped cilantro"
+  ],
+  method: [
+    "Soak the dal for 1 hour to overnight, then drain.",
+    "Combine with 2 cups water, cover, and cook 20-25 minutes (crack the lid if it threatens to boil over).",
+    "Blend the tomato, garlic, ginger, coriander, turmeric, paprika and cayenne with ½ cup water until smooth.",
+    "Add the tomato mixture and salt to the dal, cover, and cook 15 more minutes until tender. Mash some of the dal and simmer to your preferred consistency.",
+    "For the tempering: heat the oil, add the cumin seeds until they change colour, then add the asafetida.",
+    "Stir half the tempering plus the garam masala and cayenne into the dal. Mix and adjust salt/spice.",
+    "Stir in the cilantro, and garnish with the remaining tempering."
+  ],
+  notes: "Instant Pot variant: soak 15+ minutes, then cook on Manual for 8 minutes. Oil-free variant: dry-roast the cumin seeds instead of frying them."
+},
+{
+  id: "raspberry-lemonade",
+  title: "Raspberry Lemonade",
+  category: "Drinks",
+  cuisine: "British",
+  blurb: "A sweet-sour raspberry-lemon concentrate, topped up with water and ice — restaurant-style flat lemonade at home.",
+  servings: "Makes ~2 litres (from ~500ml concentrate)",
+  time: "Prep 5 min · Cook 15 min",
+  sourceUrl: "https://www.janespatisserie.com/2018/07/18/raspberry-lemonade/",
+  sourceLabel: "janespatisserie.com",
+  sourceNote: "",
+  tags: ["drink","lemonade","raspberry","summer","non-alcoholic","make-ahead","refreshing"],
+  cuisineEmoji: "🇬🇧", cuisineLabel: "British",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🌱", meatLabel: "Vegetarian / vegan",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "Zest of 4 lemons",
+    "Juice of 4 lemons",
+    "200 g raspberries",
+    "125 g caster sugar",
+    "350 ml water",
+    "Lemon slices, to serve",
+    "Raspberries, to serve",
+    "Ice, to serve",
+    "Still or sparkling water, to serve"
+  ],
+  method: [
+    "Zest the lemons, then juice them into a pan.",
+    "Add the raspberries, sugar, and water.",
+    "Heat in the pan for about 10 minutes — you want it just under boiling.",
+    "Once heated, blitz with a hand blender (or in a blender).",
+    "Pass the mixture through a sieve and discard the lumpy mush.",
+    "Let the mixture cool completely.",
+    "To serve: pour the concentrate into a jug or glass and top up with more water, roughly 1/3 concentrate to 2/3 water (use less water for stronger, more for weaker). Still or sparkling water both work; skip adding actual lemonade as it mutes the flavour.",
+    "Add fresh raspberries, lemon slices, and ice to each glass or the jug, and serve."
+  ],
+  notes: "Concentrate keeps covered in the fridge for 4-5 days, though it's best the day it's made — give it a stir if it's settled. Frozen raspberries should work fine in place of fresh. Add more sugar to the concentrate if you prefer it sweeter."
+}
+];
+
+// ---------------------------------------------------------------------
+// SUBSTITUTION RULES — groups of interchangeable ingredients.
+// If a recipe needs something from a group and the pantry text contains
+// a different member of that same group, it's flagged as a possible swap.
+// ---------------------------------------------------------------------
+const SUB_GROUPS = [
+  { group: ["celery","leek","fennel"], note: "celery, leek and fennel can generally sub for each other" },
+  { group: ["beef mince","pork mince","turkey mince","beef","pork"], note: "ground meats are mostly interchangeable here" },
+  { group: ["chicken breast","chicken thigh","chicken thighs","chicken"], note: "breast and thigh are interchangeable, thigh stays juicier" },
+  { group: ["cod","haddock","halibut","tilapia","white fish","fish fillet"], note: "any firm white fish works" },
+  { group: ["parmesan","pecorino","grana padano"], note: "hard Italian cheeses sub for each other" },
+  { group: ["mozzarella","provolone","cheddar"], note: "melty cheeses are largely interchangeable" },
+  { group: ["gruyere","cheddar","colby","monterey jack"], note: "swap any good melting cheese" },
+  { group: ["coconut milk","heavy cream","double cream"], note: "cream works in place of coconut milk (you'll lose the coconut flavour)" },
+  { group: ["yoghurt","yogurt","sour cream","creme fraiche","crème fraîche"], note: "cultured dairy subs are close enough here" },
+  { group: ["dark soy sauce","soy sauce","tamari"], note: "tamari is a good gluten-free swap for soy sauce" },
+  { group: ["rice vinegar","white wine vinegar","apple cider vinegar"], note: "any light vinegar works in a pinch" },
+  { group: ["gochujang","sriracha","chili garlic sauce"], note: "sriracha + a little miso gets close to gochujang's funk" },
+  { group: ["sake","dry sherry","mirin"], note: "dry sherry or mirin can stand in for sake" },
+  { group: ["pinot noir","red wine","dry red wine"], note: "any dry red wine works" },
+  { group: ["guinness","stout","dark ale","beef stock"], note: "dark ale subs for stout; beef stock for a non-alcoholic version" },
+  { group: ["scotch bonnet","habanero","jalapeno","jalapeño","serrano"], note: "habanero matches the heat; jalapeño/serrano are milder" },
+  { group: ["self-raising flour","self raising flour","plain flour","all-purpose flour"], note: "plain flour + 1.5 tsp baking powder per cup = self-raising" },
+  { group: ["cornflour","cornstarch","arrowroot"], note: "cornstarch, cornflour and arrowroot all thicken the same way" },
+  { group: ["fresh ginger","ground ginger"], note: "use about 1/4 the amount if using ground ginger" },
+  { group: ["fresh garlic","garlic cloves","garlic powder"], note: "garlic powder works at about 1/3 the quantity" },
+  { group: ["onion","shallot","shallots"], note: "shallots are a milder swap for onion" },
+  { group: ["scallions","spring onion","spring onions","chives"], note: "scallions, spring onions and chives are close enough" },
+  { group: ["lime","lime juice","lemon","lemon juice"], note: "lemon and lime juice are interchangeable in most savoury dishes" },
+  { group: ["brioche buns","burger buns","potato buns"], note: "any soft bun works" },
+  { group: ["amchur","dry mango powder","lemon juice"], note: "a squeeze of lemon juice can stand in for amchur's tang" },
+  { group: ["asafetida","hing","garlic","onion"], note: "extra garlic and onion can fill in for asafetida, or just omit it" },
+  { group: ["tomato puree","tomato paste"], note: "tomato paste is more concentrated — thin with a splash of water" },
+  { group: ["bell pepper","red pepper","green pepper","yellow pepper","orange pepper"], note: "bell pepper colours are interchangeable" },
+  { group: ["mint","basil"], note: "basil can stand in for mint in a pinch, though the flavour shifts" },
+  { group: ["white pepper","black pepper"], note: "black pepper works fine in place of white pepper" },
+  { group: ["dried thyme","fresh thyme","dried oregano","fresh oregano"], note: "use about 3x the amount if going fresh instead of dried" },
+  { group: ["salted cod","dry salted cod","fresh cod"], note: "fresh cod + an extra pinch of salt skips the soaking step" },
+  { group: ["maggi sauce","soy sauce"], note: "soy sauce is the direct swap for Maggi sauce" }
+];
+
+const STOPWORDS = new Set(["the","a","an","and","or","with","for","of","to","in","on","i","im","feel","like","want","something","some","my","me","is","are","it","that","this","have","has","got","need","make","cook","cooking","eat","eating","please","can","could","would","today","tonight","dinner","lunch"]);
+
+// Multi-word ingredient names that must be treated as a single unit — so a
+// pantry item like "butter" does NOT match "butter beans" (a legume, not
+// dairy butter), "pepper" does NOT match "bell pepper", etc. Matching below
+// is exact-token based (no substring/approximate matching), and this list
+// is what keeps compound ingredient names from being torn apart.
+const COMPOUND_TERMS = new Set([
+  "butter beans","peanut butter","sour cream","double cream","heavy cream","whipping cream",
+  "coconut cream","cream cheese","icing sugar","brown sugar","caster sugar","soy sauce",
+  "tomato sauce","chilli sauce","chili sauce","hot sauce","fish sauce","oyster sauce",
+  "sweet chilli sauce","worcestershire sauce","bay leaf","bay leaves","spring onion","spring onions",
+  "bell pepper","black pepper","white pepper","red pepper","green pepper","orange pepper",
+  "yellow pepper","tomato paste","tomato puree","olive oil","vegetable oil","sunflower oil",
+  "sesame oil","coconut oil","rice vinegar","wine vinegar","apple cider vinegar","balsamic vinegar",
+  "curry powder","chilli powder","chili powder","garam masala","mango powder","onion powder",
+  "garlic powder","baking powder","baking soda","self raising flour","all purpose flour",
+  "plain flour","corn flour","rice flour","beef stock","chicken stock","vegetable stock",
+  "stock cube","bouillon cube","kosher salt","sea salt","black beans","kidney beans",
+  "chana dal","split peas","coconut milk","greek yoghurt","plain yoghurt"
+]);
+
+// ---------------------------------------------------------------------
+// HELPERS
+// ---------------------------------------------------------------------
+function norm(s) {
+  return (s || "").toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "");
+}
+function stripParens(s) {
+  return s.replace(/\([^)]*\)/g, " ");
+}
+function tokenize(s) {
+  return norm(s).split(/[^a-z0-9]+/).filter(Boolean);
+}
+
+// Exact, whole-word/whole-phrase matching only — no substring "approximate"
+// matches. phraseTokens must appear as a contiguous run inside tokens, and
+// that run can't be a partial slice of a different known compound term
+// (e.g. matching "butter" must not silently count inside "butter beans").
+function phraseFoundInTokens(phraseTokens, tokens) {
+  if (!phraseTokens.length || !tokens.length) return false;
+  for (let i = 0; i <= tokens.length - phraseTokens.length; i++) {
+    let match = true;
+    for (let j = 0; j < phraseTokens.length; j++) {
+      if (tokens[i + j] !== phraseTokens[j]) { match = false; break; }
+    }
+    if (!match) continue;
+    const phraseStr = phraseTokens.join(" ");
+    const before = tokens[i - 1];
+    const after = tokens[i + phraseTokens.length];
+    const extRight = after ? phraseStr + " " + after : null;
+    const extLeft = before ? before + " " + phraseStr : null;
+    const blockedRight = extRight && COMPOUND_TERMS.has(extRight) && extRight !== phraseStr;
+    const blockedLeft = extLeft && COMPOUND_TERMS.has(extLeft) && extLeft !== phraseStr;
+    if (!blockedRight && !blockedLeft) return true;
+  }
+  return false;
+}
+
+function scoreByMood(recipe, query) {
+  const words = tokenize(query).filter(w => w.length >= 3 && !STOPWORDS.has(w));
+  if (words.length === 0) return 0;
+  const textTokens = tokenize([recipe.title, recipe.category, recipe.cuisine, recipe.blurb, (recipe.tags||[]).join(" "), recipe.ingredients.join(" "), recipe.method.join(" ")].join(" "));
+  const tagTokens = tokenize((recipe.tags || []).join(" "));
+  const titleTokens = tokenize(recipe.title);
+  const catCuisineTokens = tokenize(recipe.category + " " + recipe.cuisine);
+  let score = 0;
+  words.forEach(w => {
+    if (textTokens.includes(w)) score += 1;
+    if (tagTokens.includes(w)) score += 1.5;
+    if (titleTokens.includes(w)) score += 2;
+    if (catCuisineTokens.includes(w)) score += 1.5;
+  });
+  return score;
+}
+
+function parsePantry(input) {
+  return norm(input)
+    .split(/[,\n]|(?:\band\b)/)
+    .map(s => s.trim())
+    .filter(s => s.length >= 2);
+}
+
+function matchIngredientAgainstPantry(ingredientRaw, pantryItems, pantryTokens) {
+  const ingTokens = tokenize(stripParens(ingredientRaw));
+  // direct match — exact phrase match only, never a raw substring check
+  for (const p of pantryItems) {
+    const pTokens = tokenize(p);
+    if (pTokens.length === 0) continue;
+    if (phraseFoundInTokens(pTokens, ingTokens)) {
+      return { status: "have" };
+    }
+  }
+  // substitution match via groups
+  for (const rule of SUB_GROUPS) {
+    const ingHasGroupTerm = rule.group.find(term => phraseFoundInTokens(tokenize(term), ingTokens));
+    if (!ingHasGroupTerm) continue;
+    for (const term of rule.group) {
+      if (term === ingHasGroupTerm) continue;
+      if (phraseFoundInTokens(tokenize(term), pantryTokens)) {
+        return { status: "sub", note: `You have ${term} — ${rule.note}.` };
+      }
+    }
+  }
+  return { status: "missing" };
+}
+
+function scoreByPantry(recipe, pantryItems, pantryTokens) {
+  let have = 0, sub = 0;
+  const breakdown = recipe.ingredients.map(ing => {
+    const m = matchIngredientAgainstPantry(ing, pantryItems, pantryTokens);
+    if (m.status === "have") have++;
+    if (m.status === "sub") sub++;
+    return { text: ing, ...m };
+  });
+  const total = recipe.ingredients.length || 1;
+  const score = (have + sub * 0.6) / total;
+  return { score, have, sub, total, breakdown };
+}
+
+// ---------------------------------------------------------------------
+// RENDERING
+// ---------------------------------------------------------------------
+function tagRow(tags) {
+  return `<div class="tag-row">${(tags||[]).slice(0,4).map(t => `<span class="tag">${t}</span>`).join("")}</div>`;
+}
+
+function recipeCard(recipe, matchHtml, scorePct) {
+  return `
+    <div class="recipe-card" onclick="openRecipeFromList('${recipe.id}')">
+      <div class="cat">${recipe.category}</div>
+      <h3>${recipe.title}</h3>
+      <div class="meta">${recipe.cuisine} · ${recipe.servings ? "serves " + recipe.servings : ""}</div>
+      <div class="badge-row">
+        <span class="badge" title="${recipe.cuisineLabel}">${recipe.cuisineEmoji}</span>
+        <span class="badge" title="${recipe.speedLabel}">${recipe.speedEmoji}</span>
+        <span class="badge" title="${recipe.meatLabel}">${recipe.meatEmoji}</span>
+        <span class="badge" title="${recipe.effortLabel}">${recipe.effortEmoji}</span>
+      </div>
+      ${matchHtml || ""}
+      ${typeof scorePct === "number" ? `<div class="score-bar"><div style="width:${scorePct}%"></div></div>` : ""}
+      ${tagRow(recipe.tags)}
+    </div>`;
+}
+
+function runMoodSearch() {
+  const q = document.getElementById("moodInput").value.trim();
+  const grid = document.getElementById("resultsGrid");
+  const section = document.getElementById("results-section");
+  document.getElementById("resultsTitle").textContent = q ? `Recipes that fit "${q}"` : "Suggestions";
+  section.style.display = "block";
+
+  if (!q) {
+    grid.innerHTML = `<div class="empty-note">Type a mood or craving above, or try one of the quick chips.</div>`;
+    return;
+  }
+  const scored = RECIPES.map(r => ({ r, s: scoreByMood(r, q) })).filter(x => x.s > 0).sort((a,b) => b.s - a.s);
+  if (scored.length === 0) {
+    grid.innerHTML = `<div class="empty-note">Nothing matched that exactly — here are a few from the book to consider instead.</div>` +
+      RECIPES.slice(0, 4).map(r => recipeCard(r)).join("");
+    return;
+  }
+  const max = scored[0].s;
+  grid.innerHTML = scored.slice(0, 8).map(x => recipeCard(x.r, "", Math.max(18, Math.round((x.s / max) * 100)))).join("");
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function runPantrySearch() {
+  const raw = document.getElementById("pantryInput").value.trim();
+  const grid = document.getElementById("resultsGrid");
+  const section = document.getElementById("results-section");
+  document.getElementById("resultsTitle").textContent = raw ? `Best matches for what you have` : "Suggestions";
+  section.style.display = "block";
+
+  if (!raw) {
+    grid.innerHTML = `<div class="empty-note">List a few ingredients above (comma-separated), or try one of the quick chips.</div>`;
+    return;
+  }
+  const pantryItems = parsePantry(raw);
+  const pantryTokens = tokenize(raw);
+  const scored = RECIPES.map(r => ({ r, m: scoreByPantry(r, pantryItems, pantryTokens) }))
+    .filter(x => x.m.have + x.m.sub > 0)
+    .sort((a,b) => b.m.score - a.m.score);
+
+  if (scored.length === 0) {
+    grid.innerHTML = `<div class="empty-note">Couldn't find a strong match for those ingredients — browse the full book below for ideas.</div>`;
+    return;
+  }
+  grid.innerHTML = scored.slice(0, 8).map(x => {
+    const matchHtml = `<div class="matchline">✅ ${x.m.have}/${x.m.total} ingredients on hand${x.m.sub ? ` · 🔁 ${x.m.sub} possible swap${x.m.sub>1?"s":""}` : ""}</div>`;
+    return recipeCard(x.r, matchHtml, Math.round(x.m.score * 100));
+  }).join("");
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function clearResults() {
+  document.getElementById("moodInput").value = "";
+  document.getElementById("pantryInput").value = "";
+  document.getElementById("results-section").style.display = "none";
+}
+
+function randomRecipe() {
+  const r = RECIPES[Math.floor(Math.random() * RECIPES.length)];
+  openModal(r);
+}
+
+let lastPantryContext = null;
+
+function openRecipeFromList(id) {
+  const r = RECIPES.find(x => x.id === id);
+  const raw = document.getElementById("pantryInput").value.trim();
+  if (raw) {
+    const pantryItems = parsePantry(raw);
+    const pantryTokens = tokenize(raw);
+    lastPantryContext = scoreByPantry(r, pantryItems, pantryTokens);
+  } else {
+    lastPantryContext = null;
+  }
+  openModal(r);
+}
+
+function openModal(r) {
+  const m = document.getElementById("modalContent");
+  let ingHtml;
+  if (lastPantryContext) {
+    ingHtml = lastPantryContext.breakdown.map(b => `
+      <li class="${b.status === 'have' ? 'have' : b.status === 'sub' ? 'sub' : ''}">
+        <span class="dot"></span>
+        <span>${b.text}${b.note ? `<span class="subnote">🔁 ${b.note}</span>` : ""}</span>
+      </li>`).join("");
+  } else {
+    ingHtml = r.ingredients.map(i => `<li><span class="dot" style="background:var(--ink-soft);opacity:.3"></span><span>${i}</span></li>`).join("");
+  }
+
+  m.innerHTML = `
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <div class="cat">${r.category}</div>
+    <h2>${r.title}</h2>
+    <div class="meta-line">${r.cuisine} ${r.servings ? "· serves " + r.servings : ""} ${r.time ? "· " + r.time : ""}</div>
+    <div class="badge-row modal-badges">
+      <span class="badge" title="Cuisine">${r.cuisineEmoji} ${r.cuisineLabel}</span>
+      <span class="badge" title="Cook speed">${r.speedEmoji} ${r.speedLabel}</span>
+      <span class="badge" title="Main protein/veg">${r.meatEmoji} ${r.meatLabel}</span>
+      <span class="badge" title="Effort">${r.effortEmoji} ${r.effortLabel}</span>
+    </div>
+    <div class="source-line">Source: <a href="${r.sourceUrl}" target="_blank" rel="noopener">${r.sourceLabel}</a></div>
+    ${r.sourceNote ? `<div class="note-box">ℹ️ ${r.sourceNote}</div>` : ""}
+    ${lastPantryContext ? `<div class="legend">
+        <span><span class="dot" style="background:var(--have)"></span> have it</span>
+        <span><span class="dot" style="background:var(--sub)"></span> possible swap</span>
+        <span><span class="dot" style="background:var(--missing)"></span> need to get</span>
+      </div>` : ""}
+    <h4>Ingredients</h4>
+    <ul class="ing-list">${ingHtml}</ul>
+    <h4>Method</h4>
+    <ol class="method-list">${r.method.map(s => `<li>${s}</li>`).join("")}</ol>
+    ${r.notes ? `<h4>Notes</h4><p style="font-size:0.9rem;color:var(--ink-soft)">${r.notes}</p>` : ""}
+  `;
+  document.getElementById("overlay").classList.add("open");
+}
+
+function closeModal() {
+  document.getElementById("overlay").classList.remove("open");
+  lastPantryContext = null;
+}
+
+// ---------------------------------------------------------------------
+// BROWSE SECTION
+// ---------------------------------------------------------------------
+const CATEGORY_ORDER = ["Marinades & Sauces","Chicken","Lamb","Beef","Pork","Pasta","Seafood","Vegetarian & Sides","Drinks"];
+
+function renderBrowse(filter) {
+  const area = document.getElementById("browseArea");
+  const cats = filter && filter !== "All" ? [filter] : CATEGORY_ORDER;
+  area.innerHTML = cats.map(cat => {
+    const items = RECIPES.filter(r => r.category === cat);
+    if (items.length === 0) return "";
+    return `
+      <div class="category-block">
+        <h3>${cat}</h3>
+        <div class="results-grid">
+          ${items.map(r => recipeCard(r)).join("")}
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function renderCatNav() {
+  const nav = document.getElementById("catNav");
+  const cats = ["All", ...CATEGORY_ORDER];
+  nav.innerHTML = cats.map(c => `<button data-cat="${c}" class="${c === 'All' ? 'active' : ''}">${c}</button>`).join("");
+  nav.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      nav.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderBrowse(btn.dataset.cat);
+    });
+  });
+}
+
+// ---------------------------------------------------------------------
+// INIT
+// ---------------------------------------------------------------------
+document.querySelectorAll(".chip-btn[data-mood]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.getElementById("moodInput").value = btn.dataset.mood;
+    runMoodSearch();
+  });
+});
+document.querySelectorAll(".chip-btn[data-pantry]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.getElementById("pantryInput").value = btn.dataset.pantry;
+    runPantrySearch();
+  });
+});
+document.getElementById("moodInput").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); runMoodSearch(); }
+});
+document.getElementById("pantryInput").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); runPantrySearch(); }
+});
+
+renderCatNav();
+renderBrowse("All");
+</script>
+</body>
+</html>
