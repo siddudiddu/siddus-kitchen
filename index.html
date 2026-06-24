@@ -227,6 +227,92 @@
     margin-top: 12px;
   }
 
+  /* ===================== FAMILY PLANNER ===================== */
+  section.planner { margin-bottom: 36px; }
+  section.planner h2 { font-size: 1.2rem; color: var(--green-dark); text-align: center; margin-bottom: 4px; }
+  section.planner > p.sub { text-align: center; color: var(--ink-soft); font-size: 0.88rem; margin-top: 0; margin-bottom: 16px; }
+
+  .week-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .week-nav button.nav-btn { background: var(--card); border: 1px solid var(--line); color: var(--green-dark); border-radius: 8px; padding: 8px 14px; font-size: 0.85rem; cursor: pointer; font-weight: 600; }
+  .week-nav button.nav-btn:hover { background: var(--cream-2); }
+  .week-nav .week-label { font-weight: 700; color: var(--ink); font-size: 0.92rem; min-width: 190px; text-align: center; }
+  .week-nav button.today-btn { background: var(--green); color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-size: 0.8rem; cursor: pointer; }
+  .week-nav button.today-btn:hover { background: var(--green-dark); }
+  .week-nav button.defaults-btn { background: transparent; border: 1px dashed var(--line); color: var(--ink-soft); border-radius: 8px; padding: 8px 14px; font-size: 0.8rem; cursor: pointer; }
+
+  #shoppingCta { text-align: center; margin-bottom: 18px; }
+  .shopping-cta-btn { background: var(--gold); color: var(--ink); border: none; border-radius: 10px; padding: 10px 18px; font-size: 0.88rem; font-weight: 700; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+  .shopping-cta-btn:hover { filter: brightness(1.05); }
+  .ing-list li.checked-off span:not(.dot) { text-decoration: line-through; opacity: 0.55; }
+
+  /* ===================== TABS ===================== */
+  .tab-bar { display: flex; justify-content: center; gap: 8px; margin-bottom: 30px; flex-wrap: wrap; }
+  .tab-btn { background: var(--card); border: 1px solid var(--line); color: var(--ink-soft); border-radius: 999px; padding: 10px 18px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+  .tab-btn:hover { background: var(--cream-2); }
+  .tab-btn.active { background: var(--green-dark); color: #fff; border-color: var(--green-dark); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  section.shopping > p.sub { text-align: center; color: var(--ink-soft); font-size: 0.88rem; margin-top: 0; margin-bottom: 16px; }
+  section.meallog > p.sub { text-align: center; color: var(--ink-soft); font-size: 0.85rem; margin-top: -6px; margin-bottom: 16px; }
+
+  .shopping-generate-box { text-align: center; padding: 36px 20px; border: 1px dashed var(--line); border-radius: 12px; background: var(--card); }
+  .shopping-generate-box p { color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 16px; }
+  .shopping-clear-link { display: block; text-align: center; margin-top: 16px; font-size: 0.78rem; color: var(--ink-soft); background: none; border: none; text-decoration: underline; cursor: pointer; }
+
+  .day-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; margin-bottom: 14px; box-shadow: var(--shadow); }
+  .day-card .day-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+  .day-card .day-title { font-size: 1.05rem; font-weight: 700; color: var(--green-dark); margin-right: 8px; }
+  .day-card .day-date { font-size: 0.78rem; color: var(--ink-soft); }
+
+  .early-toggle { border: 1px solid var(--line); background: var(--cream-2); color: var(--ink-soft); border-radius: 999px; padding: 6px 13px; font-size: 0.78rem; cursor: pointer; }
+  .early-toggle.on { background: var(--gold); color: #fff; border-color: var(--gold); }
+
+  .member-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .member-pill { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .member-pill .name { font-size: 0.74rem; color: var(--ink-soft); font-weight: 600; }
+  .status-btn { border: none; border-radius: 999px; padding: 6px 13px; font-size: 0.78rem; font-weight: 700; cursor: pointer; color: #fff; min-width: 78px; }
+  .status-btn.home { background: var(--have); }
+  .status-btn.out { background: #b0463a; }
+
+  .lunch-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .lunch-row label { font-size: 0.78rem; color: var(--ink-soft); font-weight: 600; white-space: nowrap; }
+  .lunch-row input { flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 0.85rem; background: #fffdf9; color: var(--ink); font-family: inherit; }
+
+  .dinner-slot { background: var(--cream-2); border-radius: 10px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .dinner-slot .dinner-info { flex: 1; min-width: 160px; }
+  .dinner-slot .dinner-title { font-size: 0.95rem; font-weight: 600; color: var(--ink); }
+  .dinner-slot .dinner-meta { font-size: 0.76rem; color: var(--ink-soft); margin-top: 2px; }
+  .dinner-slot button { background: var(--rust); color: #fff; border: none; border-radius: 8px; padding: 7px 13px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+  .dinner-slot button:hover { background: var(--rust-dark); }
+
+  .defaults-grid { display: grid; grid-template-columns: 76px repeat(7, 1fr); gap: 6px; align-items: center; margin-top: 14px; font-size: 0.76rem; }
+  .defaults-grid .day-h { text-align: center; font-weight: 700; color: var(--ink-soft); }
+  .defaults-grid .member-h { font-weight: 700; color: var(--ink); }
+  .defaults-grid .def-toggle { border: none; border-radius: 8px; padding: 7px 3px; font-size: 0.72rem; font-weight: 700; color: #fff; cursor: pointer; text-align: center; }
+  .defaults-grid .def-toggle.home { background: var(--have); }
+  .defaults-grid .def-toggle.out { background: #b0463a; }
+  .defaults-grid .def-toggle.eon { background: var(--gold); }
+  .defaults-grid .def-toggle.eoff { background: var(--missing); }
+
+  .picker-modal { background: var(--cream); border-radius: 14px; max-width: 600px; width: 100%; padding: 24px 24px 28px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-height: 84vh; overflow-y: auto; }
+  .picker-modal h3 { margin: 4px 0 4px; color: var(--ink); }
+  .picker-modal .picker-sub { font-size: 0.84rem; color: var(--ink-soft); margin-bottom: 14px; }
+  .freetext-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .freetext-row input { flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 8px 11px; font-size: 0.88rem; background: #fffdf9; color: var(--ink); font-family: inherit; }
+  .freetext-row button { background: var(--green); color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .freetext-row button:hover { background: var(--green-dark); }
+  .picker-list .recipe-card { margin-bottom: 10px; }
+  .boost-note { font-size: 0.74rem; color: var(--gold); font-weight: 700; margin-top: 6px; }
+
+  section.meallog { margin-bottom: 40px; }
+  section.meallog h2 { font-size: 1.1rem; color: var(--green-dark); border-bottom: 2px solid var(--line); padding-bottom: 8px; }
+  .log-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--line); flex-wrap: wrap; }
+  .log-row .log-text { font-size: 0.9rem; color: var(--ink); }
+  .log-row .log-meta { font-size: 0.74rem; color: var(--ink-soft); margin-top: 2px; }
+  .log-row button { border: 1px solid var(--line); background: var(--card); color: var(--ink-soft); border-radius: 8px; padding: 6px 11px; font-size: 0.78rem; cursor: pointer; white-space: nowrap; }
+  .log-row button.added { background: var(--green); color: #fff; border-color: var(--green); }
+
   nav.cats {
     display: flex;
     flex-wrap: wrap;
@@ -370,53 +456,101 @@
 
 <div class="wrap">
 
-  <div class="assistant-grid">
-    <div class="ask-card">
-      <h2>What do you feel like eating?</h2>
-      <p class="sub">Describe a mood, cuisine, or craving — "something spicy and quick" or "comforting Italian".</p>
-      <textarea id="moodInput" placeholder="e.g. something creamy and spicy for a weeknight"></textarea>
-      <div class="chips">
-        <button class="chip-btn" data-mood="spicy and quick">spicy &amp; quick</button>
-        <button class="chip-btn" data-mood="comfort food slow cooked">comfort food</button>
-        <button class="chip-btn" data-mood="indian curry">indian curry</button>
-        <button class="chip-btn" data-mood="seafood light">light seafood</button>
-        <button class="chip-btn" data-mood="cheesy pasta bake">cheesy pasta</button>
-        <button class="chip-btn" data-mood="sunday roast">sunday roast</button>
+  <nav class="tab-bar">
+    <button class="tab-btn active" id="tabBtn-planner" onclick="switchTab('planner')">📅 Family Meal Planner</button>
+    <button class="tab-btn" id="tabBtn-browse" onclick="switchTab('browse')">📖 Recipe Browser</button>
+    <button class="tab-btn" id="tabBtn-shopping" onclick="switchTab('shopping')">🛒 Shopping List</button>
+    <button class="tab-btn" id="tabBtn-history" onclick="switchTab('history')">🗒️ Meal History</button>
+  </nav>
+
+  <div id="tab-planner" class="tab-panel active">
+    <section class="planner">
+      <h2>📅 Family Dinner Planner</h2>
+      <p class="sub">Hat, Sid, Noah &amp; Mellow — who's home for dinner each day, plus what's on the menu.</p>
+      <div class="week-nav">
+        <button class="nav-btn" onclick="shiftWeek(-1)">‹ Prev week</button>
+        <span class="week-label" id="weekLabel"></span>
+        <button class="nav-btn" onclick="shiftWeek(1)">Next week ›</button>
+        <button class="today-btn" onclick="goToCurrentWeek()">This week</button>
+        <button class="defaults-btn" onclick="openDefaultsModal()">⚙️ Set default statuses</button>
       </div>
-      <div class="actions">
-        <button class="primary" onclick="runMoodSearch()">Suggest recipes</button>
-        <button class="ghost" onclick="randomRecipe()">🎲 Surprise me</button>
+      <div id="shoppingCta"></div>
+      <div id="plannerDays"></div>
+    </section>
+  </div>
+
+  <div id="tab-browse" class="tab-panel">
+    <div class="assistant-grid">
+      <div class="ask-card">
+        <h2>What do you feel like eating?</h2>
+        <p class="sub">Describe a mood, cuisine, or craving — "something spicy and quick" or "comforting Italian".</p>
+        <textarea id="moodInput" placeholder="e.g. something creamy and spicy for a weeknight"></textarea>
+        <div class="chips">
+          <button class="chip-btn" data-mood="spicy and quick">spicy &amp; quick</button>
+          <button class="chip-btn" data-mood="comfort food slow cooked">comfort food</button>
+          <button class="chip-btn" data-mood="indian curry">indian curry</button>
+          <button class="chip-btn" data-mood="seafood light">light seafood</button>
+          <button class="chip-btn" data-mood="cheesy pasta bake">cheesy pasta</button>
+          <button class="chip-btn" data-mood="sunday roast">sunday roast</button>
+        </div>
+        <div class="actions">
+          <button class="primary" onclick="runMoodSearch()">Suggest recipes</button>
+          <button class="ghost" onclick="randomRecipe()">🎲 Surprise me</button>
+        </div>
+      </div>
+
+      <div class="ask-card">
+        <h2>What's in your kitchen?</h2>
+        <p class="sub">List ingredients you have (comma-separated) — I'll find the best matches and flag swaps for anything you're missing.</p>
+        <textarea id="pantryInput" placeholder="e.g. chicken thighs, leek, yoghurt, coconut milk"></textarea>
+        <div class="chips">
+          <button class="chip-btn" data-pantry="leek, beef mince, red wine">leftover leek + mince</button>
+          <button class="chip-btn" data-pantry="cod, gochujang">cod fillets</button>
+          <button class="chip-btn" data-pantry="chicken thighs, yoghurt, coriander">chicken &amp; yoghurt</button>
+          <button class="chip-btn" data-pantry="bell peppers, coconut milk, parmesan">peppers &amp; coconut milk</button>
+        </div>
+        <div class="actions">
+          <button class="primary" onclick="runPantrySearch()">Find recipes to use it up</button>
+          <button class="ghost" onclick="clearResults()">Clear</button>
+        </div>
       </div>
     </div>
 
-    <div class="ask-card">
-      <h2>What's in your kitchen?</h2>
-      <p class="sub">List ingredients you have (comma-separated) — I'll find the best matches and flag swaps for anything you're missing.</p>
-      <textarea id="pantryInput" placeholder="e.g. chicken thighs, leek, yoghurt, coconut milk"></textarea>
-      <div class="chips">
-        <button class="chip-btn" data-pantry="leek, beef mince, red wine">leftover leek + mince</button>
-        <button class="chip-btn" data-pantry="cod, gochujang">cod fillets</button>
-        <button class="chip-btn" data-pantry="chicken thighs, yoghurt, coriander">chicken &amp; yoghurt</button>
-        <button class="chip-btn" data-pantry="bell peppers, coconut milk, parmesan">peppers &amp; coconut milk</button>
-      </div>
-      <div class="actions">
-        <button class="primary" onclick="runPantrySearch()">Find recipes to use it up</button>
-        <button class="ghost" onclick="clearResults()">Clear</button>
-      </div>
+    <div id="results-section" style="display:none;">
+      <h2 id="resultsTitle">Suggestions</h2>
+      <div class="results-grid" id="resultsGrid"></div>
     </div>
+
+    <section class="browse">
+      <h2>Browse the full book</h2>
+      <p class="sub">All 21 recipes, by category. Badges: 🌍 cuisine · ⚡/⏳/🐢 quick–medium–slow · 🐔🐄🐖🐑🐟🌱 protein/veg · 🟢/🟡/🔴 easy–moderate–project</p>
+      <nav class="cats" id="catNav"></nav>
+      <nav class="cats" id="occasionNav" style="margin-top:8px;"></nav>
+      <div id="browseArea"></div>
+    </section>
   </div>
 
-  <div id="results-section" style="display:none;">
-    <h2 id="resultsTitle">Suggestions</h2>
-    <div class="results-grid" id="resultsGrid"></div>
+  <div id="tab-shopping" class="tab-panel">
+    <section class="shopping">
+      <h2>🛒 Shopping list</h2>
+      <p class="sub">Pulled from this week's planned dinners, plus anything written in the lunch notes.</p>
+      <div class="week-nav">
+        <button class="nav-btn" onclick="shiftWeek(-1)">‹ Prev week</button>
+        <span class="week-label" id="shoppingWeekLabel"></span>
+        <button class="nav-btn" onclick="shiftWeek(1)">Next week ›</button>
+        <button class="today-btn" onclick="goToCurrentWeek()">This week</button>
+      </div>
+      <div id="shoppingTabArea"></div>
+    </section>
   </div>
 
-  <section class="browse">
-    <h2>Browse the full book</h2>
-    <p class="sub">All 20 recipes, by category. Badges: 🌍 cuisine · ⚡/⏳/🐢 quick–medium–slow · 🐔🐄🐖🐑🐟🌱 protein/veg · 🟢/🟡/🔴 easy–moderate–project</p>
-    <nav class="cats" id="catNav"></nav>
-    <div id="browseArea"></div>
-  </section>
+  <div id="tab-history" class="tab-panel">
+    <section class="meallog">
+      <h2>🗒️ Meal history <span style="font-size:0.7rem;color:var(--ink-soft);font-weight:400;">— everything planned, newest first</span></h2>
+      <p class="sub">Free-text meals can be flagged for adding to the recipe book.</p>
+      <div id="mealHistoryArea"></div>
+    </section>
+  </div>
 
   <footer>Compiled June 2026 · click any recipe for full ingredients, method, and source link.</footer>
 </div>
@@ -425,13 +559,35 @@
   <div class="modal" id="modalContent"></div>
 </div>
 
+<div class="overlay" id="defaultsOverlay" onclick="if(event.target===this) closeDefaultsModal()">
+  <div class="modal" id="defaultsModalContent" style="max-width:680px;"></div>
+</div>
+
+<div class="overlay" id="pickerOverlay" onclick="if(event.target===this) closePickerModal()">
+  <div class="picker-modal" id="pickerModalContent"></div>
+</div>
+
 <script>
+// ---------------------------------------------------------------------
+// TABS
+// ---------------------------------------------------------------------
+const TAB_NAMES = ["planner", "browse", "shopping", "history"];
+function switchTab(name) {
+  TAB_NAMES.forEach(t => {
+    document.getElementById("tab-" + t).classList.toggle("active", t === name);
+    document.getElementById("tabBtn-" + t).classList.toggle("active", t === name);
+  });
+  if (name === "shopping") renderShoppingTab();
+  if (name === "history") renderMealHistory();
+}
+
 // ---------------------------------------------------------------------
 // RECIPE DATA
 // ---------------------------------------------------------------------
 const RECIPES = [
 {
   id: "jerk-marinade",
+  occasionTags: [],
   title: "Jerk Marinade",
   category: "Marinades & Sauces",
   cuisine: "Caribbean / Jamaican",
@@ -471,6 +627,7 @@ const RECIPES = [
 },
 {
   id: "curry-gravy",
+  occasionTags: [],
   title: "Indian Hotel Curry Gravy",
   category: "Marinades & Sauces",
   cuisine: "Indian",
@@ -518,6 +675,7 @@ const RECIPES = [
 },
 {
   id: "mcchicken",
+  occasionTags: ["family-friendly"],
   title: "Fakeaway McChicken Sando",
   category: "Chicken",
   cuisine: "American (fakeaway)",
@@ -569,6 +727,7 @@ const RECIPES = [
 },
 {
   id: "haryali-tikka",
+  occasionTags: [],
   title: "Haryali (Hariyali) Chicken Tikka",
   category: "Chicken",
   cuisine: "Indian",
@@ -607,6 +766,7 @@ const RECIPES = [
 },
 {
   id: "changezi",
+  occasionTags: ["dinner-party"],
   title: "Chicken Changezi",
   category: "Chicken",
   cuisine: "Indian",
@@ -663,6 +823,7 @@ const RECIPES = [
 },
 {
   id: "rogan-josh-pie",
+  occasionTags: ["dinner-party", "winter-warmer"],
   title: "Rogan Josh Shepherd's Pie",
   category: "Lamb",
   cuisine: "Indian / British fusion",
@@ -726,6 +887,7 @@ const RECIPES = [
 },
 {
   id: "beef-stout-stew",
+  occasionTags: ["winter-warmer"],
   title: "Beef & Stout Stew with Carrots",
   category: "Beef",
   cuisine: "British",
@@ -771,6 +933,7 @@ const RECIPES = [
 },
 {
   id: "crispy-chilli-beef",
+  occasionTags: ["chefs-pick"],
   title: "Crispy Chilli Beef",
   category: "Beef",
   cuisine: "Chinese takeaway-style",
@@ -816,6 +979,7 @@ const RECIPES = [
 },
 {
   id: "reverse-seared-steak",
+  occasionTags: ["chefs-pick"],
   title: "Reverse-Seared Steak",
   category: "Beef",
   cuisine: "American",
@@ -850,6 +1014,7 @@ const RECIPES = [
 },
 {
   id: "leftover-steak-broccoli-bowl",
+  occasionTags: [],
   title: "Leftover Steak & Broccoli Stir-Fry Bowl",
   category: "Beef",
   cuisine: "Asian fusion (Korean-Chinese)",
@@ -891,6 +1056,7 @@ const RECIPES = [
 },
 {
   id: "cuban-pork",
+  occasionTags: [],
   title: "Cuban-Style Roast Pork Shoulder with Mojo",
   category: "Pork",
   cuisine: "Cuban",
@@ -932,6 +1098,7 @@ const RECIPES = [
 },
 {
   id: "roast-pork-cider",
+  occasionTags: [],
   title: "Roast Pork with Cider Gravy",
   category: "Pork",
   cuisine: "British",
@@ -974,6 +1141,7 @@ const RECIPES = [
 },
 {
   id: "pork-chops-peaches",
+  occasionTags: [],
   title: "Pork Chops and Peaches",
   category: "Pork",
   cuisine: "American",
@@ -1014,6 +1182,7 @@ const RECIPES = [
 },
 {
   id: "rasta-pasta",
+  occasionTags: ["chefs-pick"],
   title: "Rasta Pasta",
   category: "Pasta",
   cuisine: "Jamaican / Italian fusion",
@@ -1060,6 +1229,7 @@ const RECIPES = [
 },
 {
   id: "lasagna",
+  occasionTags: [],
   title: "Lasagna (Siddu's Version)",
   category: "Pasta",
   cuisine: "Italian",
@@ -1116,7 +1286,50 @@ const RECIPES = [
   notes: ""
 },
 {
+  id: "carbonara",
+  occasionTags: ["family-friendly"],
+  title: "Carbonara (Real)",
+  category: "Pasta",
+  cuisine: "Italian",
+  blurb: "Traditional no-cream carbonara — silky egg-and-cheese sauce clinging to spaghetti and crisp guanciale.",
+  servings: "4",
+  time: "Prep 5 min · Cook 15 min",
+  sourceUrl: "https://www.recipetineats.com/carbonara/",
+  sourceLabel: "recipetineats.com",
+  sourceNote: "",
+  tags: ["pasta","carbonara","italian","guanciale","quick","weeknight","no cream"],
+  cuisineEmoji: "🇮🇹", cuisineLabel: "Italian",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐖", meatLabel: "Pork (guanciale)",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "175g/6 oz guanciale (or pancetta/block bacon), weight after skin removed",
+    "2 large eggs",
+    "2 egg yolks",
+    "100g/3.5 oz parmigiano reggiano, finely shredded (or pecorino romano, sub parmesan)",
+    "¼ tsp black pepper",
+    "400g/14 oz spaghetti",
+    "1 Tbsp cooking/kosher salt (for cooking pasta)",
+    "½ cup pasta cooking water",
+    "1 garlic clove, finely minced (optional)",
+    "Parsley, finely chopped, to garnish (optional)",
+    "Extra parmigiano reggiano, to garnish (optional)"
+  ],
+  method: [
+    "Cut the guanciale into 0.5cm-thick slices, then into batons.",
+    "Place the whole eggs and egg yolks in a large bowl, whisk to combine, then stir in the parmesan and pepper.",
+    "Bring 4 litres of water to the boil with the salt. Add the pasta and cook per packet directions.",
+    "Just before draining, scoop out 1 cup of pasta cooking water, then drain the pasta.",
+    "While the pasta cooks, place the guanciale in a non-stick pan over medium-high heat and cook 4-5 minutes until golden - no oil needed, it fries in its own fat. Add the garlic in the last minute if using.",
+    "Tip the hot pasta into the pan with the guanciale and toss to coat.",
+    "Transfer the pasta and any residual fat into the bowl with the egg mixture. Add ½ cup (125ml) of the reserved pasta water. Stir vigorously with the handle of a wooden spoon for about 1 minute, until the sauce transforms from watery to creamy and clings to the pasta.",
+    "Serve immediately in warm bowls, garnished with extra parmigiano reggiano, black pepper and parsley if desired."
+  ],
+  notes: "No cream - the creaminess comes entirely from egg, cheese, guanciale fat and starchy pasta water. Substitute guanciale with pancetta or streaky block bacon (must have plenty of fat, or the sauce won't thicken) and parmesan for parmigiano reggiano if needed. Must grate cheese yourself - pre-grated won't melt properly into the sauce. Best eaten immediately; leftovers keep 3 days but the texture suffers."
+},
+{
   id: "gochujang-cod",
+  occasionTags: ["chefs-pick"],
   title: "Gochujang Baked Cod",
   category: "Seafood",
   cuisine: "Korean-inspired",
@@ -1151,6 +1364,7 @@ const RECIPES = [
 },
 {
   id: "saltfish-fritters",
+  occasionTags: ["dinner-party"],
   title: "Jamaican Saltfish Fritters",
   category: "Seafood",
   cuisine: "Jamaican",
@@ -1185,6 +1399,7 @@ const RECIPES = [
 },
 {
   id: "gambas-pil-pil",
+  occasionTags: [],
   title: "Gambas Pil Pil (Garlic & Chilli Prawns)",
   category: "Seafood",
   cuisine: "Spanish",
@@ -1220,6 +1435,7 @@ const RECIPES = [
 },
 {
   id: "chana-dal",
+  occasionTags: [],
   title: "Chana Dal (Split Chickpea Soup)",
   category: "Vegetarian & Sides",
   cuisine: "Indian",
@@ -1263,7 +1479,289 @@ const RECIPES = [
   notes: "Instant Pot variant: soak 15+ minutes, then cook on Manual for 8 minutes. Oil-free variant: dry-roast the cumin seeds instead of frying them."
 },
 {
+  id: "dal-makhani-flatbreads",
+  occasionTags: [],
+  title: "Dal Makhani, Five-Seed Flatbreads & Lime Pickled Red Onions",
+  category: "Vegetarian & Sides",
+  cuisine: "Indian",
+  blurb: "Creamy spiced lentil dal with warm flatbreads and a zingy lime pickled onion salad.",
+  servings: "2",
+  time: "Prep 15 min · Cook 20 min",
+  sourceUrl: "https://grubby.co.uk/vegan-recipes/recipe/dal-makhani-garlic-and-coriander-rotis",
+  sourceLabel: "grubby.co.uk (Recipe #281)",
+  tags: ["vegan","vegetarian","indian","curry","lentils","comfort food","weeknight"],
+  cuisineEmoji: "🇮🇳", cuisineLabel: "Indian",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🌱", meatLabel: "Vegetarian / vegan",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "1 knob ginger",
+    "3 cloves garlic",
+    "1 onion",
+    "1 sachet tomato paste",
+    "1 pod paprika",
+    "1 pod curry powder",
+    "1 pack lentils",
+    "1 pod veg stock",
+    "1 sachet creamed coconut",
+    "1 lime",
+    "Handful coriander",
+    "1 pack flatbreads (wheat)",
+    "1 pod garam masala",
+    "Vegetable oil, salt, vegan butter (already at home)"
+  ],
+  method: [
+    "Boil the kettle. Peel and finely chop the ginger, 2 cloves of garlic, and half the onion; place in a large frying pan with a drizzle of oil. Fry on medium heat for 2-3 minutes until softened. Add the tomato paste, paprika, a pinch of salt and the curry powder. Fry for a further 1-2 minutes.",
+    "Drain and rinse the lentils and add them to the pan. Add in the veg stock, creamed coconut and 500ml of boiling water. Bring to the boil, then reduce the heat to a low simmer and cook for 20-25 minutes until the lentils are soft.",
+    "Meanwhile, finely dice the remaining onion and add it to a small bowl. Mix in the juice and zest of half the lime. Set aside. Finely chop the remaining garlic and add to a bowl with half the coriander, chopped, and a tablespoon of vegan butter. Mix well, then spread evenly onto one half of each flatbread. Fold them over and set to one side.",
+    "In the final 5 minutes of cooking the lentils, stir through the garam masala and warm the flatbreads in a frying pan. Add the remaining chopped coriander to the bowl with the onion. Mix well.",
+    "Serve the lentil dal into bowls and top with the onion and coriander salad. Serve alongside the warm flatbreads."
+  ],
+  notes: "Grubby meal kit. Note: the user originally proposed calling this 'Coconut Lentil Dal with Flatbreads' — the official Grubby title (used here) is 'Dal Makhani, Five-Seed Flatbreads & Lime Pickled Red Onions'."
+},
+{
+  id: "aubergine-green-bean-thai-curry",
+  occasionTags: [],
+  title: "Aubergine & Green Bean Thai Green Curry",
+  category: "Vegetarian & Sides",
+  cuisine: "Thai",
+  blurb: "A coconutty Thai green curry with steam-fried aubergine, green beans and red pepper.",
+  servings: "2",
+  time: "Prep 10 min · Cook 20 min",
+  sourceUrl: "https://grubby.co.uk/vegan-recipes/recipe/aubergine-and-green-bean-thai-curry",
+  sourceLabel: "grubby.co.uk (Recipe #76)",
+  tags: ["vegan","vegetarian","thai","curry","coconut","light","weeknight"],
+  cuisineEmoji: "🇹🇭", cuisineLabel: "Thai",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🌱", meatLabel: "Vegetarian / vegan",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "1 pack basmati rice",
+    "1 pack green beans",
+    "1 red pepper",
+    "1 aubergine",
+    "1 shallot",
+    "1 sachet Thai green curry paste",
+    "1 sachet creamed coconut",
+    "1 pod veg stock",
+    "1 pod turmeric",
+    "Handful coriander",
+    "1 red chilli",
+    "1 lime",
+    "Vegetable oil, salt (already at home)"
+  ],
+  method: [
+    "Rinse the rice with cold water, place into a saucepan and cover with 250ml of boiling water. Bring to the boil on a high heat with the lid on, then turn down to a low simmer and cook for 8-10 minutes. Once all the water has evaporated, take off the heat and set aside.",
+    "Meanwhile, chop the ends off the green beans, cut in half and set aside. Remove the seeds from the red pepper, finely slice and add to the same bowl.",
+    "Cut the aubergine into wedges and place into a deep-sided frying pan with a drizzle of vegetable oil and a pinch of salt. Fry for 2-3 minutes on a high heat until golden, then pour in 100ml of boiling water and put a lid on. Steam-fry on a high heat for 3-4 minutes until all the water has evaporated, then remove from the pan and set aside.",
+    "Finely slice the shallot and fry for 2-3 minutes in the same pan, then add the Thai green curry paste and a little vegetable oil. Fry for a minute, then stir in the aubergine, red pepper and green beans. Add in the coconut cream, turmeric, veg stock and 200ml boiled water. Bring to a boil, then reduce to a low simmer and cook for 10 minutes until tender.",
+    "Finely chop the coriander and red chilli. Serve the curry and rice in bowls. Finish with a squeeze of lime and scatter over the coriander and chilli."
+  ],
+  notes: "Grubby meal kit."
+},
+{
+  id: "butternut-pinto-bean-quesadillas",
+  occasionTags: [],
+  title: "Butternut, Pepper & Pinto Bean Quesadillas, Avocado Salsa",
+  category: "Vegetarian & Sides",
+  cuisine: "Mexican",
+  blurb: "Roasted butternut squash and peppers folded into toasted wraps with avocado salsa and coconut sauce.",
+  servings: "2",
+  time: "Prep 15 min · Cook 25 min",
+  sourceUrl: "https://grubby.co.uk/vegan-recipes",
+  sourceLabel: "Grubby kit card — no longer listed on grubby.co.uk",
+  tags: ["vegan","vegetarian","mexican","roasted","colorful","weeknight"],
+  cuisineEmoji: "🇲🇽", cuisineLabel: "Mexican",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🌱", meatLabel: "Vegetarian / vegan",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "1 butternut squash",
+    "1 pod Mexican spice blend",
+    "1 onion",
+    "1 red pepper",
+    "1 pod agave syrup",
+    "1 punnet cherry tomatoes",
+    "Handful coriander",
+    "1 avocado",
+    "1 lime",
+    "1 tin pinto beans",
+    "1 pack flatbreads (gluten)",
+    "1 sachet creamed coconut",
+    "Salt & pepper, olive oil (already at home)"
+  ],
+  method: [
+    "Pre-heat the oven to 200°C / 180°C fan / gas mark 6. Peel, de-seed and chop the butternut squash into small 2cm cubes. Roast on a large tray with half the Mexican spice blend and a drizzle of olive oil for 20-25 minutes until tender.",
+    "Slice the red onion and red pepper into strips. Fry on a medium heat for 5-7 minutes until softening. Stir in the rest of the Mexican spice blend and the agave syrup. Turn down to a low heat, pour in 100ml of water, and let cook gently until ready to serve.",
+    "For the salsa, chop the tomatoes into quarters and roughly chop the coriander. Chop the avocado flesh into chunks. Mix together in a bowl and squeeze in half the lime's juice. Season with a pinch of salt and pepper.",
+    "For the coconut sauce, mix the creamed coconut with 1-2 tablespoons of boiling water and the remaining lime juice in a small bowl. Break down any lumps with a fork until thick and creamy, adding a little more water if needed.",
+    "Drain and rinse the pinto beans and scatter onto the butternut tray along with the fried red pepper and onions for the final 5 minutes. Wipe out the frying pan and toast the wraps for 15 seconds each side over a high heat. Remove the tray from the oven. Spoon the butternut mix onto each half of the wraps, finishing with the avocado salsa and the coconut sauce. Fold each wrap in half, press down and cut into triangles."
+  ],
+  notes: "⚠️ Grubby meal kit, Recipe #25. This recipe no longer has a live page on grubby.co.uk — transcribed directly from the physical kit card, which is the source of record."
+},
+{
+  id: "black-bean-enchiladas-guac",
+  occasionTags: [],
+  title: "Smoky Black Bean Enchiladas with Guacamole",
+  category: "Vegetarian & Sides",
+  cuisine: "Mexican",
+  blurb: "Smoky black bean enchiladas rolled in flatbreads, baked with melty cheese, topped with a fresh tomato guac.",
+  servings: "2",
+  time: "Prep 15 min · Cook 15 min",
+  sourceUrl: "https://grubby.co.uk/vegan-recipes/recipe/black-bean-enchiladas-with-guac",
+  sourceLabel: "grubby.co.uk (Recipe #211)",
+  tags: ["vegan","vegetarian","mexican","baked","comfort food","spicy"],
+  cuisineEmoji: "🇲🇽", cuisineLabel: "Mexican",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🌱", meatLabel: "Vegetarian / vegan",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "1 red onion",
+    "1 tin black beans",
+    "1 punnet cherry tomatoes",
+    "1 green chilli",
+    "1 lime",
+    "1 pod smoked paprika",
+    "1 pod ground cumin",
+    "1 pod veg stock",
+    "1 sachet tomato paste",
+    "1 pack flatbreads (gluten)",
+    "1 plant-based cheese (gluten)",
+    "1 avocado",
+    "Handful coriander",
+    "Salt & pepper, olive oil (already at home)"
+  ],
+  method: [
+    "Pre-heat the oven to 220°C / 200°C fan / gas mark 7. Peel and finely dice the red onion. Heat a frying pan with a drizzle of olive oil over medium heat. Add half the onion with a pinch of salt and cook for 4-5 minutes. Drain and rinse the black beans. Quarter the cherry tomatoes. Chop the green chilli finely. Add the remaining onion to a small bowl with half the tomatoes and half the chopped chilli. Add the juice of the lime, a drizzle of olive oil and a pinch of salt.",
+    "Add the remaining tomatoes and chilli to the pan with the black beans, smoked paprika and ground cumin. Cook for 1 minute, then add the veg stock, tomato paste and 250ml boiled water. Cook for 4-5 minutes until thickened.",
+    "Lightly grease an oven-proof dish with olive oil. Heat the flatbreads in the microwave for 30 seconds until warm. Fill the flatbreads with the black bean mixture, roll up and nestle into the dish. Grate the plant-based cheese over the top. Bake for 10-12 minutes until crisp.",
+    "Meanwhile, peel, de-stone and smash the avocado with a fork. Finely chop the coriander. Mix the tomato salsa with the smashed avocado and chopped coriander to make the guac.",
+    "Dollop some of the guac over the enchiladas, then serve the rest in a small bowl to the side for dipping."
+  ],
+  notes: "Grubby meal kit. Note: the user originally proposed calling this 'Smoky Black Bean Enchiladas' — the official Grubby title is 'Cheesy Black Bean Enchiladas With Chilli Guac topping'; the user's title is kept here with the official one noted for reference."
+},
+{
+  id: "mexican-roasted-sweet-potatoes",
+  occasionTags: [],
+  title: "Mexican Roasted Sweet Potatoes, Black Bean & Corn Salsa, Avocado",
+  category: "Vegetarian & Sides",
+  cuisine: "Mexican",
+  blurb: "Spiced roasted sweet potato halves with a charred corn and black bean salsa, avocado and dressed rocket.",
+  servings: "2",
+  time: "Prep 10 min · Cook 25 min",
+  sourceUrl: "https://grubby.co.uk/vegan-recipes",
+  sourceLabel: "Grubby kit card — no longer listed on grubby.co.uk",
+  tags: ["vegan","vegetarian","mexican"],
+  cuisineEmoji: "🇲🇽", cuisineLabel: "Mexican",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🌱", meatLabel: "Vegetarian / vegan",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "2 sweet potatoes",
+    "1 pod Mexican spice blend",
+    "1 punnet cherry tomatoes",
+    "1 red onion",
+    "1 red chilli",
+    "Handful coriander",
+    "1 lime",
+    "1 corn on the cob",
+    "1 tin black beans",
+    "1 avocado",
+    "2 spring onions",
+    "1 bag rocket",
+    "Salt & pepper, olive oil (already at home)"
+  ],
+  method: [
+    "Pre-heat the oven to 220°C / 200°C fan / gas mark 7. Cut the sweet potatoes in half lengthways and score the skin side a centimetre apart. Microwave for 4-5 minutes to speed up cooking. Mix a drizzle of olive oil, a pinch of salt and the Mexican spice blend, then rub over the part-cooked sweet potatoes. Place flat-side down on a roasting tray and bake for 20-25 minutes until soft and golden, turning halfway through.",
+    "For the salsa, slice the tomatoes into quarters. Finely dice the red onion, red chilli (seeds removed) and coriander. Add to a bowl with the tomatoes and the juice of half the lime.",
+    "Shave the corn off the cob with a sharp knife. Fry in a dry pan on high heat for 4 minutes until popping and charring, then add the drained and rinsed black beans and fry for 2-3 minutes more. Combine with the rest of the salsa and a pinch of salt, then set aside.",
+    "Cut the avocado flesh into small chunks with the juice of the remaining lime and a pinch of salt. Thinly slice the spring onions and add to the avocado.",
+    "Toss the rocket with a drizzle of olive oil, salt and pepper. Remove the sweet potatoes from the oven. To serve, plate the sweet potatoes alongside the corn salsa, dressed rocket and chopped avocado."
+  ],
+  notes: "⚠️ Grubby meal kit, Recipe #09. This recipe no longer has a live page on grubby.co.uk — transcribed directly from the physical kit card, which is the source of record."
+},
+{
+  id: "cauliflower-katsu",
+  occasionTags: [],
+  title: "Cauliflower Katsu, Rice and Sesame Salad",
+  category: "Vegetarian & Sides",
+  cuisine: "Japanese-inspired",
+  blurb: "Crispy panko-baked cauliflower with a creamy katsu curry sauce, rice and a sesame-dressed salad.",
+  servings: "2",
+  time: "Prep 15 min · Cook 20 min",
+  sourceUrl: "https://grubby.co.uk/vegan-recipes/recipe/cauliflower-katsu-asian-salad",
+  sourceLabel: "grubby.co.uk (Recipe #30)",
+  tags: ["vegan","vegetarian","japanese","crispy","comfort food"],
+  cuisineEmoji: "🇯🇵", cuisineLabel: "Japanese-inspired",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🌱", meatLabel: "Vegetarian / vegan",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "1 carton oat cream (gluten, oats)",
+    "1 bag cauliflower",
+    "1 bag panko breadcrumbs (gluten)",
+    "1 bag rice",
+    "1 onion",
+    "1 pod garam masala",
+    "1 pouch katsu curry sauce (soya, mustard)",
+    "1 pack little gem lettuce",
+    "1 carrot",
+    "1 red chilli",
+    "Handful coriander",
+    "1 pod sesame oil (sesame)",
+    "Salt & pepper, olive oil, plain flour (gluten) (already at home)"
+  ],
+  method: [
+    "Pre-heat the oven to 200°C / 180°C fan / gas mark 6. Empty two-thirds of the oat cream into a bowl with 50g plain flour and a pinch of salt and pepper. Whisk until smooth. Empty the panko breadcrumbs into a separate bowl. Dip the cauliflower florets into the batter, then into the breadcrumbs. Place on a lined oven tray and bake for 20-25 minutes until tender and golden brown.",
+    "Rinse the rice in a sieve, place into a saucepan and cover with 250ml of boiling water. Bring to the boil with the lid on, then turn down to a low simmer and cook for 8-10 minutes. Once the water has evaporated, take off the heat, leave the lid on and set aside.",
+    "To make the katsu sauce, thinly slice the onion and cook in a frying pan with a drizzle of olive oil for 3-4 minutes until soft. Add the garam masala and cook for a further minute. Stir in the katsu curry pouch, the remaining oat cream and 100ml of water to loosen. Leave on a low simmer until ready to serve.",
+    "To make the salad, remove the root from the little gem lettuce and roughly chop. Peel the carrot into ribbons (finely chop the last bit), then deseed and finely chop the red chilli and coriander. Place all the salad ingredients into a bowl and dress with the sesame oil.",
+    "Serve the rice alongside the crispy cauliflower and salad, and spoon the katsu sauce over the cauliflower."
+  ],
+  notes: "Grubby meal kit."
+},
+{
+  id: "vegetable-pasanda-curry",
+  occasionTags: [],
+  title: "Vegetable Pasanda Curry",
+  category: "Vegetarian & Sides",
+  cuisine: "Indian",
+  blurb: "A creamy almond-thickened pasanda curry with cauliflower and green beans, finished with crispy onions.",
+  servings: "2",
+  time: "Prep 15 min · Cook 20 min",
+  sourceUrl: "https://grubby.co.uk/vegan-recipes",
+  sourceLabel: "Grubby kit card — no longer listed on grubby.co.uk",
+  tags: ["vegan","vegetarian","indian","curry","weeknight","creamy"],
+  cuisineEmoji: "🇮🇳", cuisineLabel: "Indian",
+  speedEmoji: "⏳", speedLabel: "Medium",
+  meatEmoji: "🌱", meatLabel: "Vegetarian / vegan",
+  effortEmoji: "🟡", effortLabel: "Moderate",
+  ingredients: [
+    "1 onion",
+    "2 cloves garlic",
+    "1 pod pasanda seasoning",
+    "1 sachet tomato puree",
+    "1 pack rice",
+    "1 bag cauliflower",
+    "1 bag green beans",
+    "1 tin coconut milk",
+    "1 cube veg stock",
+    "1 pack ground almonds (nuts)",
+    "Handful coriander",
+    "1 pack crispy onions (gluten)",
+    "Vegetable oil, salt (already at home)"
+  ],
+  method: [
+    "Finely slice the onion and add to a deep-sided frying pan with a drizzle of vegetable oil and a pinch of salt. Fry for 4-5 minutes until soft and starting to brown. Peel and crush the garlic and add to the pan with the pasanda seasoning and tomato puree. Cook for 2-3 minutes until fragrant.",
+    "Meanwhile, rinse the rice with cold water, place into a saucepan and cover with 250ml of boiling water. Bring to the boil on a high heat with the lid on, then turn down to a low simmer and cook for 8-10 minutes. Once the water has evaporated and the rice is cooked, take off the heat and set aside.",
+    "Chop the cauliflower into small bite-size pieces and add to the pan along with the green beans, chopped in half. Stir well so the veg is covered in the spices and cook for 1-2 minutes. Add in the coconut milk, veg stock cube and 100ml of boiling water. Simmer for 10-12 minutes, then add the ground almonds. Cook a further couple of minutes until the veg is tender and the sauce has thickened.",
+    "Once the rice is cooked, stir through half the coriander, finely chopped, and half the crispy onions. Serve the curry next to the rice, topped with the remaining coriander and crispy onions."
+  ],
+  notes: "⚠️ Grubby meal kit, Recipe #105. This recipe no longer has a live page on grubby.co.uk — transcribed directly from the physical kit card, which is the source of record."
+},
+{
   id: "raspberry-lemonade",
+  occasionTags: ["family-friendly", "chefs-pick", "summertime"],
   title: "Raspberry Lemonade",
   category: "Drinks",
   cuisine: "British",
@@ -1471,6 +1969,14 @@ function tagRow(tags) {
   return `<div class="tag-row">${(tags||[]).slice(0,4).map(t => `<span class="tag">${t}</span>`).join("")}</div>`;
 }
 
+function occasionBadges(recipe) {
+  const tags = recipe.occasionTags || [];
+  let html = "";
+  if (tags.includes("family-friendly")) html += `<span class="badge" title="Family-friendly">👨‍👧</span>`;
+  if (tags.includes("chefs-pick")) html += `<span class="badge" title="Chef's pick">👨‍🍳</span>`;
+  return html;
+}
+
 function recipeCard(recipe, matchHtml, scorePct) {
   return `
     <div class="recipe-card" onclick="openRecipeFromList('${recipe.id}')">
@@ -1482,6 +1988,7 @@ function recipeCard(recipe, matchHtml, scorePct) {
         <span class="badge" title="${recipe.speedLabel}">${recipe.speedEmoji}</span>
         <span class="badge" title="${recipe.meatLabel}">${recipe.meatEmoji}</span>
         <span class="badge" title="${recipe.effortLabel}">${recipe.effortEmoji}</span>
+        ${occasionBadges(recipe)}
       </div>
       ${matchHtml || ""}
       ${typeof scorePct === "number" ? `<div class="score-bar"><div style="width:${scorePct}%"></div></div>` : ""}
@@ -1588,6 +2095,8 @@ function openModal(r) {
       <span class="badge" title="Cook speed">${r.speedEmoji} ${r.speedLabel}</span>
       <span class="badge" title="Main protein/veg">${r.meatEmoji} ${r.meatLabel}</span>
       <span class="badge" title="Effort">${r.effortEmoji} ${r.effortLabel}</span>
+      ${r.occasionTags && r.occasionTags.includes("family-friendly") ? `<span class="badge" title="Family-friendly">👨‍👧 Family-friendly</span>` : ""}
+      ${r.occasionTags && r.occasionTags.includes("chefs-pick") ? `<span class="badge" title="Chef's pick">👨‍🍳 Chef's pick</span>` : ""}
     </div>
     <div class="source-line">Source: <a href="${r.sourceUrl}" target="_blank" rel="noopener">${r.sourceLabel}</a></div>
     ${r.sourceNote ? `<div class="note-box">ℹ️ ${r.sourceNote}</div>` : ""}
@@ -1614,12 +2123,24 @@ function closeModal() {
 // BROWSE SECTION
 // ---------------------------------------------------------------------
 const CATEGORY_ORDER = ["Marinades & Sauces","Chicken","Lamb","Beef","Pork","Pasta","Seafood","Vegetarian & Sides","Drinks"];
+const OCCASION_OPTIONS = [
+  { key: "All", label: "All" },
+  { key: "family-friendly", label: "👨‍👧 Family-friendly" },
+  { key: "chefs-pick", label: "👨‍🍳 Chef's pick" },
+  { key: "bbq", label: "🔥 BBQ" },
+  { key: "dinner-party", label: "🍽️ Dinner party" },
+  { key: "winter-warmer", label: "🧣 Winter warmer" },
+  { key: "summertime", label: "☀️ Summertime" }
+];
+let currentCat = "All";
+let currentOccasion = "All";
 
-function renderBrowse(filter) {
+function renderBrowse() {
   const area = document.getElementById("browseArea");
-  const cats = filter && filter !== "All" ? [filter] : CATEGORY_ORDER;
+  const cats = currentCat !== "All" ? [currentCat] : CATEGORY_ORDER;
   area.innerHTML = cats.map(cat => {
-    const items = RECIPES.filter(r => r.category === cat);
+    const items = RECIPES.filter(r => r.category === cat &&
+      (currentOccasion === "All" || (r.occasionTags || []).includes(currentOccasion)));
     if (items.length === 0) return "";
     return `
       <div class="category-block">
@@ -1629,6 +2150,9 @@ function renderBrowse(filter) {
         </div>
       </div>`;
   }).join("");
+  if (area.innerHTML.trim() === "") {
+    area.innerHTML = `<div class="empty-note">No recipes match that combination yet.</div>`;
+  }
 }
 
 function renderCatNav() {
@@ -1639,9 +2163,640 @@ function renderCatNav() {
     btn.addEventListener("click", () => {
       nav.querySelectorAll("button").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      renderBrowse(btn.dataset.cat);
+      currentCat = btn.dataset.cat;
+      renderBrowse();
     });
   });
+}
+
+function renderOccasionNav() {
+  const nav = document.getElementById("occasionNav");
+  nav.innerHTML = OCCASION_OPTIONS.map(o => `<button data-occ="${o.key}" class="${o.key === 'All' ? 'active' : ''}">${o.label}</button>`).join("");
+  nav.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      nav.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentOccasion = btn.dataset.occ;
+      renderBrowse();
+    });
+  });
+}
+
+// ---------------------------------------------------------------------
+// FAMILY DINNER PLANNER
+// ---------------------------------------------------------------------
+const FAMILY_MEMBERS = [
+  { key: "hat", name: "Hat", role: "Mum", isKid: false },
+  { key: "sid", name: "Sid", role: "Dad", isKid: false },
+  { key: "kids", name: "Kids", role: "Noah & Mellow", isKid: true }
+];
+const PLANNER_DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+const STATUS_OPTIONS = [
+  { key: "home", label: "Home", emoji: "🏠" },
+  { key: "out", label: "Out", emoji: "🚪" }
+];
+function statusMeta(key) {
+  return STATUS_OPTIONS.find(s => s.key === key) || STATUS_OPTIONS[0];
+}
+function nextStatus(cur) {
+  const idx = STATUS_OPTIONS.findIndex(s => s.key === cur);
+  return STATUS_OPTIONS[(idx + 1) % STATUS_OPTIONS.length].key;
+}
+
+const SK_KEYS = {
+  DEFAULTS: "sk_defaults_v4",
+  WEEKS: "sk_weeks_v4",
+  MEALLOG: "sk_meallog_v1",
+  EARLY_DEFAULTS: "sk_early_defaults_v1",
+  SHOPPING: "sk_shopping_v1",
+  SHOPPING_GENERATED: "sk_shopping_generated_v1"
+};
+
+function loadJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+function saveJSON(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+}
+
+function defaultDefaults() {
+  const d = {};
+  FAMILY_MEMBERS.forEach(m => {
+    d[m.key] = {};
+    PLANNER_DAYS.forEach(day => { d[m.key][day] = "home"; });
+  });
+  return d;
+}
+
+function defaultEarlyDefaults() {
+  const d = {};
+  PLANNER_DAYS.forEach(day => { d[day] = false; });
+  return d;
+}
+
+let plannerDefaults = loadJSON(SK_KEYS.DEFAULTS, defaultDefaults());
+let plannerWeeks = loadJSON(SK_KEYS.WEEKS, {});
+let mealLog = loadJSON(SK_KEYS.MEALLOG, []);
+let earlyDinnerDefaults = loadJSON(SK_KEYS.EARLY_DEFAULTS, defaultEarlyDefaults());
+let shoppingChecks = loadJSON(SK_KEYS.SHOPPING, {});
+let shoppingGenerated = loadJSON(SK_KEYS.SHOPPING_GENERATED, {});
+
+function saveDefaults() { saveJSON(SK_KEYS.DEFAULTS, plannerDefaults); }
+function saveWeeks() { saveJSON(SK_KEYS.WEEKS, plannerWeeks); }
+function saveMealLog() { saveJSON(SK_KEYS.MEALLOG, mealLog); }
+function saveEarlyDefaults() { saveJSON(SK_KEYS.EARLY_DEFAULTS, earlyDinnerDefaults); }
+function saveShoppingChecks() { saveJSON(SK_KEYS.SHOPPING, shoppingChecks); }
+function saveShoppingGenerated() { saveJSON(SK_KEYS.SHOPPING_GENERATED, shoppingGenerated); }
+
+// --- date helpers ---
+function startOfWeek(date) {
+  const d = new Date(date);
+  const day = d.getDay(); // 0 = Sunday
+  const diff = (day === 0 ? -6 : 1) - day; // shift to Monday
+  d.setDate(d.getDate() + diff);
+  d.setHours(0,0,0,0);
+  return d;
+}
+function addDays(date, n) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + n);
+  return d;
+}
+function isoDate(date) {
+  return date.toISOString().slice(0,10);
+}
+function formatDayLabel(date) {
+  return date.toLocaleDateString(undefined, { day: "numeric", month: "short" });
+}
+function formatWeekLabel(monday) {
+  const sunday = addDays(monday, 6);
+  const sameMonth = monday.getMonth() === sunday.getMonth();
+  const opts1 = sameMonth ? { day: "numeric" } : { day: "numeric", month: "short" };
+  const opts2 = { day: "numeric", month: "short", year: "numeric" };
+  return `${monday.toLocaleDateString(undefined, opts1)} – ${sunday.toLocaleDateString(undefined, opts2)}`;
+}
+
+let currentWeekOffset = 0;
+function currentMonday() {
+  return addDays(startOfWeek(new Date()), currentWeekOffset * 7);
+}
+
+function ensureWeek(weekKey) {
+  if (!plannerWeeks[weekKey]) {
+    const week = {};
+    PLANNER_DAYS.forEach(day => {
+      const members = {};
+      FAMILY_MEMBERS.forEach(m => { members[m.key] = plannerDefaults[m.key][day] || "home"; });
+      week[day] = { members, earlyDinner: !!earlyDinnerDefaults[day], lunchNote: "", dinner: null };
+    });
+    plannerWeeks[weekKey] = week;
+    saveWeeks();
+  }
+  return plannerWeeks[weekKey];
+}
+
+function shiftWeek(n) {
+  currentWeekOffset += n;
+  renderPlanner();
+  renderShoppingTab();
+}
+function goToCurrentWeek() {
+  currentWeekOffset = 0;
+  renderPlanner();
+  renderShoppingTab();
+}
+
+function toggleMemberStatus(weekKey, day, memberKey) {
+  const week = ensureWeek(weekKey);
+  week[day].members[memberKey] = nextStatus(week[day].members[memberKey]);
+  saveWeeks();
+  renderPlanner();
+}
+
+function toggleEarlyDinner(weekKey, day) {
+  const week = ensureWeek(weekKey);
+  week[day].earlyDinner = !week[day].earlyDinner;
+  saveWeeks();
+  renderPlanner();
+}
+
+function setLunchNote(weekKey, day, text) {
+  const week = ensureWeek(weekKey);
+  week[day].lunchNote = text;
+  saveWeeks();
+}
+
+function clearDinner(weekKey, day) {
+  const week = ensureWeek(weekKey);
+  week[day].dinner = null;
+  saveWeeks();
+  renderPlanner();
+}
+
+function renderPlanner() {
+  const monday = currentMonday();
+  const weekKey = isoDate(monday);
+  ensureWeek(weekKey);
+  document.getElementById("weekLabel").textContent = formatWeekLabel(monday);
+
+  const plannedCount = PLANNER_DAYS.filter(d => !!plannerWeeks[weekKey][d].dinner).length;
+  const ctaEl = document.getElementById("shoppingCta");
+  if (plannedCount >= 5 && !shoppingGenerated[weekKey]) {
+    ctaEl.innerHTML = `<button class="shopping-cta-btn" onclick="generateShoppingListForWeek('${weekKey}')">🛒 ${plannedCount}/7 dinners planned — generate this week's shopping list</button>`;
+  } else if (shoppingGenerated[weekKey]) {
+    ctaEl.innerHTML = `<button class="shopping-cta-btn" onclick="switchTab('shopping')">🛒 Shopping list ready — view it</button>`;
+  } else {
+    ctaEl.innerHTML = "";
+  }
+
+  const area = document.getElementById("plannerDays");
+  area.innerHTML = PLANNER_DAYS.map((day, i) => {
+    const date = addDays(monday, i);
+    const entry = plannerWeeks[weekKey][day];
+    const dinner = entry.dinner;
+    let dinnerTitleHtml, dinnerMetaHtml;
+    const allOut = FAMILY_MEMBERS.every(m => entry.members[m.key] === "out");
+    if (!dinner) {
+      dinnerTitleHtml = allOut ? "No one eating at home!" : "No dinner picked yet";
+      dinnerMetaHtml = "";
+    } else if (dinner.type === "recipe") {
+      const r = RECIPES.find(x => x.id === dinner.recipeId);
+      dinnerTitleHtml = r ? r.title : "(recipe not found)";
+      dinnerMetaHtml = r ? `${r.category} · ${r.effortEmoji} ${r.effortLabel}` : "";
+    } else {
+      dinnerTitleHtml = `✏️ ${dinner.text}`;
+      dinnerMetaHtml = "Custom meal · logged below";
+    }
+
+    return `
+      <div class="day-card">
+        <div class="day-head">
+          <div>
+            <span class="day-title">${day}</span>
+            <span class="day-date">${formatDayLabel(date)}</span>
+          </div>
+          <button class="early-toggle ${entry.earlyDinner ? "on" : ""}" onclick="toggleEarlyDinner('${weekKey}','${day}')">
+            🌙 ${entry.earlyDinner ? "Early dinner — on" : "Early dinner"}
+          </button>
+        </div>
+        <div class="member-grid">
+          ${FAMILY_MEMBERS.map(m => {
+            const status = entry.members[m.key];
+            const meta = statusMeta(status);
+            return `
+              <div class="member-pill">
+                <span class="name">${m.name}</span>
+                <button class="status-btn ${status}" onclick="toggleMemberStatus('${weekKey}','${day}','${m.key}')">
+                  ${meta.emoji} ${meta.label}
+                </button>
+              </div>`;
+          }).join("")}
+        </div>
+        <div class="lunch-row">
+          <label>Lunch:</label>
+          <input type="text" value="${(entry.lunchNote || "").replace(/"/g,'&quot;')}" placeholder="Leftovers / simple"
+            onchange="setLunchNote('${weekKey}','${day}', this.value)">
+        </div>
+        <div class="dinner-slot">
+          <div class="dinner-info">
+            <div class="dinner-title">${dinnerTitleHtml}</div>
+            <div class="dinner-meta">${dinnerMetaHtml}</div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button onclick="openPickerModal('${weekKey}','${day}')">${dinner ? "Change" : "Pick dinner"}</button>
+            ${dinner ? `<button style="background:transparent;border:1px solid var(--line);color:var(--ink-soft);" onclick="clearDinner('${weekKey}','${day}')">Clear</button>` : ""}
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function openDefaultsModal() {
+  const m = document.getElementById("defaultsModalContent");
+  m.innerHTML = `
+    <button class="close-btn" onclick="closeDefaultsModal()">✕</button>
+    <h2>Default statuses</h2>
+    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:-4px;">
+      These pre-fill any week you haven't customised yet — they won't change weeks you've already edited.
+    </p>
+    <div class="defaults-grid">
+      <div class="corner"></div>
+      ${PLANNER_DAYS.map(d => `<div class="day-h">${d.slice(0,3)}</div>`).join("")}
+      ${FAMILY_MEMBERS.map(mem => `
+        <div class="member-h">${mem.name}</div>
+        ${PLANNER_DAYS.map(day => {
+          const status = plannerDefaults[mem.key][day];
+          const meta = statusMeta(status);
+          return `<button class="def-toggle ${status}" onclick="toggleDefault('${mem.key}','${day}')">${meta.label}</button>`;
+        }).join("")}
+      `).join("")}
+      <div class="member-h">🌙 Early dinner</div>
+      ${PLANNER_DAYS.map(day => {
+        const on = !!earlyDinnerDefaults[day];
+        return `<button class="def-toggle ${on ? "eon" : "eoff"}" onclick="toggleEarlyDefault('${day}')">${on ? "On" : "Off"}</button>`;
+      }).join("")}
+    </div>
+  `;
+  document.getElementById("defaultsOverlay").classList.add("open");
+}
+function closeDefaultsModal() {
+  document.getElementById("defaultsOverlay").classList.remove("open");
+}
+function toggleDefault(memberKey, day) {
+  plannerDefaults[memberKey][day] = nextStatus(plannerDefaults[memberKey][day]);
+  saveDefaults();
+  openDefaultsModal();
+}
+function toggleEarlyDefault(day) {
+  earlyDinnerDefaults[day] = !earlyDinnerDefaults[day];
+  saveEarlyDefaults();
+  openDefaultsModal();
+}
+
+let pickerContext = null; // { weekKey, day }
+
+// Day-of-week "vibe": weekends afford more time to cook, Fridays call for
+// something a bit naughtier, and the rest of the week leans light/healthy.
+const NAUGHTY_TAGS = ["comfort food","crispy","cheesy","creamy","fried chicken","indulgent","decadent","showstopper"];
+const LIGHT_MEAT_LABELS = ["Fish","Seafood (prawns)","Vegetarian / vegan"];
+
+function dayVibe(day) {
+  if (day === "Saturday" || day === "Sunday") return "weekend";
+  if (day === "Friday") return "friday";
+  return "weekday";
+}
+
+function scoreForPlannerDay(recipe, weekKey, day) {
+  const entry = plannerWeeks[weekKey][day];
+  let score = 0;
+  const kidHome = FAMILY_MEMBERS.some(m => m.isKid && entry.members[m.key] === "home");
+  if (kidHome && (recipe.occasionTags || []).includes("family-friendly")) score += 2;
+  if (entry.earlyDinner) {
+    if (recipe.speedLabel === "Quick") score += 1.5;
+    if ((recipe.tags || []).includes("light")) score += 1;
+  }
+  const vibe = dayVibe(day);
+  if (vibe === "weekend") {
+    if (recipe.effortLabel === "Project") score += 1.5;
+    if (recipe.speedLabel === "Slow cook") score += 1.5;
+  } else if (vibe === "friday") {
+    if ((recipe.tags || []).some(t => NAUGHTY_TAGS.includes(t))) score += 2;
+  } else {
+    if ((recipe.tags || []).includes("light") || LIGHT_MEAT_LABELS.includes(recipe.meatLabel)) score += 1.5;
+  }
+  return score;
+}
+
+function openPickerModal(weekKey, day) {
+  pickerContext = { weekKey, day };
+  renderPickerModal();
+  document.getElementById("pickerOverlay").classList.add("open");
+}
+function closePickerModal() {
+  document.getElementById("pickerOverlay").classList.remove("open");
+  pickerContext = null;
+}
+
+function renderPickerModal(searchQuery) {
+  const { weekKey, day } = pickerContext;
+  const entry = plannerWeeks[weekKey][day];
+  const kidHome = FAMILY_MEMBERS.some(m => m.isKid && entry.members[m.key] === "home");
+
+  const q = (searchQuery || "").trim().toLowerCase();
+  let list = RECIPES.slice();
+  if (q) {
+    list = list.filter(r => (r.title + " " + r.category + " " + (r.tags||[]).join(" ")).toLowerCase().includes(q));
+  }
+  const scored = list.map(r => ({ r, s: scoreForPlannerDay(r, weekKey, day) })).sort((a,b) => b.s - a.s);
+
+  const vibe = dayVibe(day);
+  const pickerNotes = [];
+  if (kidHome) pickerNotes.push("👨‍👧 A kid's home — family-friendly recipes are boosted.");
+  if (entry.earlyDinner) pickerNotes.push("🌙 Early dinner — quick &amp; light recipes are boosted.");
+  if (vibe === "weekend") pickerNotes.push("🎉 Weekend — recipes worth the extra time &amp; effort are boosted.");
+  else if (vibe === "friday") pickerNotes.push("🍕 Friday treat — something a bit naughtier is boosted.");
+  else pickerNotes.push("🥗 Weeknight — light, low-carb &amp; healthy recipes are boosted.");
+
+  const m = document.getElementById("pickerModalContent");
+  m.innerHTML = `
+    <button class="close-btn" onclick="closePickerModal()">✕</button>
+    <h3>Pick dinner — ${day}</h3>
+    <p class="picker-sub">${pickerNotes.join(" ")}</p>
+    <div class="freetext-row">
+      <input type="text" id="pickerSearch" placeholder="Search the book…" value="${q ? q.replace(/"/g,'&quot;') : ""}"
+        oninput="renderPickerModal(this.value)">
+    </div>
+    <div class="freetext-row">
+      <input type="text" id="freeTextInput" placeholder="Or type a meal that's not in the book yet…">
+      <button onclick="useFreeTextMeal()">Use this</button>
+    </div>
+    <div class="picker-list">
+      ${scored.map(({r, s}) => `
+        <div class="recipe-card" onclick="choosePlannerRecipe('${r.id}')">
+          <div class="cat">${r.category}</div>
+          <h3 style="margin:4px 0 6px;font-size:1rem;">${r.title}</h3>
+          <div class="meta">${r.cuisine}${r.servings ? " · serves " + r.servings : ""}</div>
+          <div class="badge-row">
+            <span class="badge">${r.cuisineEmoji}</span>
+            <span class="badge">${r.speedEmoji}</span>
+            <span class="badge">${r.meatEmoji}</span>
+            <span class="badge">${r.effortEmoji}</span>
+            ${(r.occasionTags||[]).includes("family-friendly") ? `<span class="badge" title="Family-friendly">👨‍👧</span>` : ""}
+          </div>
+          ${s > 0 ? `<div class="boost-note">⭐ recommended for tonight</div>` : ""}
+        </div>
+      `).join("") || `<div class="empty-note">No matches — try a different search, or use the free-text option above.</div>`}
+    </div>
+  `;
+}
+
+function choosePlannerRecipe(recipeId) {
+  const { weekKey, day } = pickerContext;
+  const week = ensureWeek(weekKey);
+  week[day].dinner = { type: "recipe", recipeId };
+  saveWeeks();
+  closePickerModal();
+  renderPlanner();
+}
+
+function useFreeTextMeal() {
+  const input = document.getElementById("freeTextInput");
+  const text = input.value.trim();
+  if (!text) return;
+  const { weekKey, day } = pickerContext;
+  const week = ensureWeek(weekKey);
+
+  const logId = "log-" + Date.now();
+  week[day].dinner = { type: "freetext", text, logId };
+  saveWeeks();
+
+  mealLog.push({
+    id: logId,
+    text,
+    weekKey,
+    day,
+    dateLogged: new Date().toISOString(),
+    status: "pending"
+  });
+  saveMealLog();
+
+  closePickerModal();
+  renderPlanner();
+  renderMealHistory();
+}
+
+// Builds a chronological (newest-first) history of every dinner that's been
+// planned across all weeks — recipe-based entries are already "in the book",
+// free-text entries get a flag toggle for adding them to the book.
+function getMealHistoryEntries() {
+  const entries = [];
+  Object.keys(plannerWeeks).forEach(weekKey => {
+    const monday = new Date(weekKey);
+    const week = plannerWeeks[weekKey];
+    PLANNER_DAYS.forEach((day, i) => {
+      const entry = week[day];
+      if (!entry || !entry.dinner) return;
+      const date = addDays(monday, i);
+      entries.push({ weekKey, day, date, dinner: entry.dinner });
+    });
+  });
+  entries.sort((a, b) => b.date - a.date);
+  return entries;
+}
+
+function renderMealHistory() {
+  const area = document.getElementById("mealHistoryArea");
+  const entries = getMealHistoryEntries();
+  if (entries.length === 0) {
+    area.innerHTML = `<div class="empty-note">No dinners planned yet — once you pick meals in the Family Meal Planner, they'll show up here.</div>`;
+    return;
+  }
+  area.innerHTML = entries.map(({ weekKey, day, date, dinner }) => {
+    const dateLabel = formatDayLabel(date);
+    if (dinner.type === "recipe") {
+      const r = RECIPES.find(x => x.id === dinner.recipeId);
+      return `
+        <div class="log-row">
+          <div>
+            <div class="log-text">${r ? r.title : "(recipe not found)"}</div>
+            <div class="log-meta">${day}, ${dateLabel} · 📖 already in the book</div>
+          </div>
+        </div>`;
+    }
+    const logEntry = mealLog.find(e => e.id === dinner.logId)
+      || mealLog.find(e => e.weekKey === weekKey && e.day === day && e.text === dinner.text);
+    const status = logEntry ? logEntry.status : "pending";
+    return `
+      <div class="log-row">
+        <div>
+          <div class="log-text">✏️ ${dinner.text}</div>
+          <div class="log-meta">${day}, ${dateLabel} · ${status === "added" ? "added to the book" : "not yet in the book"}</div>
+        </div>
+        ${logEntry ? `
+          <button class="${status === "added" ? "added" : ""}" onclick="toggleMealFlag('${logEntry.id}')">
+            ${status === "added" ? "✓ Added to book" : "🚩 Flag for recipe book"}
+          </button>` : ""}
+      </div>`;
+  }).join("");
+}
+
+function toggleMealFlag(id) {
+  const entry = mealLog.find(e => e.id === id);
+  if (!entry) return;
+  entry.status = entry.status === "added" ? "pending" : "added";
+  saveMealLog();
+  renderMealHistory();
+}
+
+// ---------------------------------------------------------------------
+// SHOPPING LIST — pulls ingredients from every recipe dinner planned this
+// week, plus whatever's written in each day's lunch note, then combines
+// them into one list by ingredient (not by exact phrasing), showing which
+// recipe(s) each combined item is made up from.
+// ---------------------------------------------------------------------
+
+const ING_UNIT_WORDS = new Set([
+  "tbsp","tbsps","tablespoon","tablespoons","tsp","tsps","teaspoon","teaspoons",
+  "cup","cups","g","gram","grams","kg","kgs","ml","mls","l","litre","litres",
+  "oz","ounce","ounces","lb","lbs","pound","pounds","pinch","pinches",
+  "handful","handfuls","clove","cloves","slice","slices","piece","pieces",
+  "can","cans","tin","tins","packet","packets","bunch","bunches","sprig","sprigs",
+  "stick","sticks","knob","knobs","large","small","medium","whole","of","a","an"
+]);
+
+// Strips a leading quantity ("2", "1/2", "½") and unit words, and drops any
+// trailing prep clause after the first comma, to get a cleaner ingredient
+// name for grouping — e.g. "200g chicken thighs, diced" -> "chicken thighs".
+function extractIngredientCore(raw) {
+  let s = stripParens(raw).split(",")[0].trim();
+  s = s.replace(/^[\d¼½¾⅓⅔⅛⅜⅝⅞.\-–\/\s]+/, "").trim();
+  let words = s.split(/\s+/).filter(Boolean);
+  while (words.length > 1 && ING_UNIT_WORDS.has(words[0].toLowerCase())) words.shift();
+  s = words.join(" ").trim();
+  if (!s) s = stripParens(raw).split(",")[0].trim();
+  return s;
+}
+
+// Loose singular/plural normalisation purely for the dedupe key — display
+// text always keeps the original phrasing.
+function ingredientGroupKey(core) {
+  let k = norm(core).replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, " ").trim();
+  if (k.endsWith("oes")) k = k.slice(0, -2);
+  else if (k.endsWith("ies")) k = k.slice(0, -3) + "y";
+  else if (k.endsWith("ves")) k = k.slice(0, -3) + "f";
+  else if (k.length > 3 && k.endsWith("s") && !k.endsWith("ss") && !k.endsWith("us")) k = k.slice(0, -1);
+  return k || core.toLowerCase();
+}
+
+function collectWeekShoppingItems(weekKey) {
+  const week = plannerWeeks[weekKey];
+  const items = [];
+  PLANNER_DAYS.forEach(day => {
+    const entry = week[day];
+    if (!entry) return;
+    if (entry.dinner && entry.dinner.type === "recipe") {
+      const r = RECIPES.find(x => x.id === entry.dinner.recipeId);
+      if (r) r.ingredients.forEach(ing => items.push({ text: ing, source: r.title }));
+    } else if (entry.dinner && entry.dinner.type === "freetext") {
+      items.push({ text: entry.dinner.text, source: `${day} dinner (custom meal)` });
+    }
+    if (entry.lunchNote && entry.lunchNote.trim()) {
+      parsePantry(entry.lunchNote).forEach(li => items.push({ text: li, source: `${day} lunch` }));
+    }
+  });
+  return items;
+}
+
+function buildShoppingList(weekKey) {
+  const raw = collectWeekShoppingItems(weekKey);
+  const map = new Map();
+  raw.forEach(({ text, source }) => {
+    const core = extractIngredientCore(text);
+    const key = ingredientGroupKey(core);
+    if (!map.has(key)) {
+      map.set(key, { key, label: core.charAt(0).toUpperCase() + core.slice(1), contributions: [] });
+    }
+    map.get(key).contributions.push({ text, source });
+  });
+  return Array.from(map.values());
+}
+
+// The Shopping List tab always tracks whichever week is currently selected
+// in the Family Meal Planner (shared currentWeekOffset). A list only shows
+// once it's been explicitly generated for that week; until then we show a
+// prompt (so the tab matches "if generated" rather than always auto-showing).
+
+function generateShoppingListForWeek(weekKey) {
+  shoppingGenerated[weekKey] = true;
+  saveShoppingGenerated();
+  switchTab("shopping");
+  renderPlanner();
+}
+
+function clearShoppingListForWeek(weekKey) {
+  shoppingGenerated[weekKey] = false;
+  delete shoppingChecks[weekKey];
+  saveShoppingGenerated();
+  saveShoppingChecks();
+  renderShoppingTab();
+  renderPlanner();
+}
+
+function renderShoppingTab() {
+  const monday = currentMonday();
+  const weekKey = isoDate(monday);
+  ensureWeek(weekKey);
+  document.getElementById("shoppingWeekLabel").textContent = formatWeekLabel(monday);
+
+  const area = document.getElementById("shoppingTabArea");
+
+  if (!shoppingGenerated[weekKey]) {
+    area.innerHTML = `
+      <div class="shopping-generate-box">
+        <p>No shopping list generated yet for the week of ${formatWeekLabel(monday)}.</p>
+        <button class="shopping-cta-btn" onclick="generateShoppingListForWeek('${weekKey}')">🛒 Generate shopping list for this week</button>
+      </div>`;
+    return;
+  }
+
+  const items = buildShoppingList(weekKey);
+  const checks = shoppingChecks[weekKey] || {};
+
+  if (items.length === 0) {
+    area.innerHTML = `
+      <div class="empty-note">Nothing to list yet — pick some dinners or add lunch notes for this week.</div>
+      <button class="shopping-clear-link" onclick="clearShoppingListForWeek('${weekKey}')">↺ Clear this list</button>`;
+    return;
+  }
+
+  const checkedCount = items.filter(it => checks[it.key]).length;
+  area.innerHTML = `
+    <p class="meta-line">${items.length} item${items.length === 1 ? "" : "s"} from this week's dinners and lunch notes · ${checkedCount} checked off as already in the house.</p>
+    <ul class="ing-list">
+      ${items.map(it => {
+        const isChecked = !!checks[it.key];
+        return `
+        <li class="${isChecked ? "checked-off" : ""}" style="cursor:pointer;" onclick="toggleShoppingItem('${weekKey}','${it.key.replace(/'/g,"\\'")}')">
+          <span class="dot" style="background:${isChecked ? "var(--have)" : "var(--ink-soft)"};opacity:${isChecked ? 1 : 0.3}"></span>
+          <span>${it.label}<span class="subnote">${it.contributions.map(c => `${c.source}: ${c.text}`).join(" · ")}</span></span>
+        </li>`;
+      }).join("")}
+    </ul>
+    <button class="shopping-clear-link" onclick="clearShoppingListForWeek('${weekKey}')">↺ Clear this list</button>
+  `;
+}
+
+function toggleShoppingItem(weekKey, key) {
+  if (!shoppingChecks[weekKey]) shoppingChecks[weekKey] = {};
+  shoppingChecks[weekKey][key] = !shoppingChecks[weekKey][key];
+  saveShoppingChecks();
+  renderShoppingTab();
 }
 
 // ---------------------------------------------------------------------
@@ -1667,7 +2822,11 @@ document.getElementById("pantryInput").addEventListener("keydown", e => {
 });
 
 renderCatNav();
-renderBrowse("All");
+renderOccasionNav();
+renderBrowse();
+renderPlanner();
+renderShoppingTab();
+renderMealHistory();
 </script>
 </body>
 </html>
