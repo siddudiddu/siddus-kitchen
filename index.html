@@ -279,12 +279,16 @@
   .lunch-row label { font-size: 0.78rem; color: var(--ink-soft); font-weight: 600; white-space: nowrap; }
   .lunch-row input { flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 0.85rem; background: #fffdf9; color: var(--ink); font-family: inherit; }
 
-  .dinner-slot { background: var(--cream-2); border-radius: 10px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .dinner-slot { background: var(--cream-2); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+  .dinner-slot .dinner-dishes { display: flex; flex-direction: column; gap: 6px; }
+  .dinner-slot .dish-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--card); border-radius: 8px; padding: 8px 10px; }
   .dinner-slot .dinner-info { flex: 1; min-width: 160px; }
   .dinner-slot .dinner-title { font-size: 0.95rem; font-weight: 600; color: var(--ink); }
   .dinner-slot .dinner-meta { font-size: 0.76rem; color: var(--ink-soft); margin-top: 2px; }
-  .dinner-slot button { background: var(--rust); color: #fff; border: none; border-radius: 8px; padding: 7px 13px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
-  .dinner-slot button:hover { background: var(--rust-dark); }
+  .dinner-slot .dish-remove { background: transparent; color: var(--ink-soft); border: none; border-radius: 999px; width: 26px; height: 26px; font-size: 0.85rem; cursor: pointer; line-height: 1; }
+  .dinner-slot .dish-remove:hover { background: var(--cream-2); color: var(--rust); }
+  .dinner-slot > div > button { background: var(--rust); color: #fff; border: none; border-radius: 8px; padding: 7px 13px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+  .dinner-slot > div > button:hover { background: var(--rust-dark); }
 
   .defaults-grid { display: grid; grid-template-columns: 76px repeat(7, 1fr); gap: 6px; align-items: center; margin-top: 14px; font-size: 0.76rem; }
   .defaults-grid .day-h { text-align: center; font-weight: 700; color: var(--ink-soft); }
@@ -304,6 +308,25 @@
   .freetext-row button:hover { background: var(--green-dark); }
   .picker-list .recipe-card { margin-bottom: 10px; }
   .boost-note { font-size: 0.74rem; color: var(--gold); font-weight: 700; margin-top: 6px; }
+
+  #pickerQuickFilters { margin-bottom: 12px; justify-content: flex-start; }
+  #pickerQuickFilters button { padding: 5px 11px; font-size: 0.78rem; }
+
+  .drinks-row { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-bottom: 14px; }
+  .drinks-row-label { font-size: 0.78rem; color: var(--ink-soft); font-weight: 600; margin-right: 2px; }
+  .drink-chip { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 5px 12px; font-size: 0.78rem; cursor: pointer; }
+  .drink-chip:hover { background: var(--green); color: #fff; border-color: var(--green); }
+
+  .freetext-row .ghost-btn { background: transparent; border: 1px solid var(--line); color: var(--ink-soft); flex: 0 0 auto; }
+  .freetext-row .ghost-btn:hover { background: var(--cream-2); }
+  .ghost-link { background: none; border: none; color: var(--green-dark); font-size: 0.8rem; font-weight: 600; cursor: pointer; padding: 4px 0; text-decoration: underline; }
+
+  .freetext-extra { margin: -6px 0 14px; padding: 12px; background: var(--cream-2); border-radius: 10px; }
+  .freetext-extra-label { display: block; font-size: 0.76rem; color: var(--ink-soft); font-weight: 600; margin: 8px 0 4px; }
+  .freetext-extra textarea { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 0.85rem; background: #fffdf9; color: var(--ink); font-family: inherit; resize: vertical; min-height: 50px; }
+  .freetext-extra input[type="file"] { font-size: 0.78rem; }
+
+  .picker-added-note { background: var(--green); color: #fff; font-size: 0.8rem; font-weight: 600; border-radius: 8px; padding: 7px 12px; margin: -4px 0 14px; }
 
   section.meallog { margin-bottom: 40px; }
   section.meallog h2 { font-size: 1.1rem; color: var(--green-dark); border-bottom: 2px solid var(--line); padding-bottom: 8px; }
@@ -2242,6 +2265,21 @@ function defaultEarlyDefaults() {
 
 let plannerDefaults = loadJSON(SK_KEYS.DEFAULTS, defaultDefaults());
 let plannerWeeks = loadJSON(SK_KEYS.WEEKS, {});
+
+// Migrate old single-dish "dinner" entries (one recipe/freetext per day) to
+// the newer "dishes" array (supports multiple dishes per day, e.g. a main
+// plus a drink). Safe to run every load — no-ops once already migrated.
+Object.keys(plannerWeeks).forEach(weekKey => {
+  const week = plannerWeeks[weekKey];
+  Object.keys(week).forEach(day => {
+    const entry = week[day];
+    if (entry && !Array.isArray(entry.dishes)) {
+      entry.dishes = entry.dinner ? [entry.dinner] : [];
+      delete entry.dinner;
+    }
+  });
+});
+
 let mealLog = loadJSON(SK_KEYS.MEALLOG, []);
 let earlyDinnerDefaults = loadJSON(SK_KEYS.EARLY_DEFAULTS, defaultEarlyDefaults());
 let shoppingChecks = loadJSON(SK_KEYS.SHOPPING, {});
@@ -2293,7 +2331,7 @@ function ensureWeek(weekKey) {
     PLANNER_DAYS.forEach(day => {
       const members = {};
       FAMILY_MEMBERS.forEach(m => { members[m.key] = plannerDefaults[m.key][day] || "home"; });
-      week[day] = { members, earlyDinner: !!earlyDinnerDefaults[day], lunchNote: "", dinner: null };
+      week[day] = { members, earlyDinner: !!earlyDinnerDefaults[day], lunchNote: "", dishes: [] };
     });
     plannerWeeks[weekKey] = week;
     saveWeeks();
@@ -2334,7 +2372,14 @@ function setLunchNote(weekKey, day, text) {
 
 function clearDinner(weekKey, day) {
   const week = ensureWeek(weekKey);
-  week[day].dinner = null;
+  week[day].dishes = [];
+  saveWeeks();
+  renderPlanner();
+}
+
+function removeDish(weekKey, day, idx) {
+  const week = ensureWeek(weekKey);
+  week[day].dishes.splice(idx, 1);
   saveWeeks();
   renderPlanner();
 }
@@ -2345,7 +2390,7 @@ function renderPlanner() {
   ensureWeek(weekKey);
   document.getElementById("weekLabel").textContent = formatWeekLabel(monday);
 
-  const plannedCount = PLANNER_DAYS.filter(d => !!plannerWeeks[weekKey][d].dinner).length;
+  const plannedCount = PLANNER_DAYS.filter(d => (plannerWeeks[weekKey][d].dishes || []).length > 0).length;
   const ctaEl = document.getElementById("shoppingCta");
   if (plannedCount >= 5 && !shoppingGenerated[weekKey]) {
     ctaEl.innerHTML = `<button class="shopping-cta-btn" onclick="generateShoppingListForWeek('${weekKey}')">🛒 ${plannedCount}/7 dinners planned — generate this week's shopping list</button>`;
@@ -2359,19 +2404,32 @@ function renderPlanner() {
   area.innerHTML = PLANNER_DAYS.map((day, i) => {
     const date = addDays(monday, i);
     const entry = plannerWeeks[weekKey][day];
-    const dinner = entry.dinner;
-    let dinnerTitleHtml, dinnerMetaHtml;
+    const dishes = entry.dishes || [];
     const allOut = FAMILY_MEMBERS.every(m => entry.members[m.key] === "out");
-    if (!dinner) {
-      dinnerTitleHtml = allOut ? "No one eating at home!" : "No dinner picked yet";
-      dinnerMetaHtml = "";
-    } else if (dinner.type === "recipe") {
-      const r = RECIPES.find(x => x.id === dinner.recipeId);
-      dinnerTitleHtml = r ? r.title : "(recipe not found)";
-      dinnerMetaHtml = r ? `${r.category} · ${r.effortEmoji} ${r.effortLabel}` : "";
+
+    let dishesHtml;
+    if (dishes.length === 0) {
+      dishesHtml = `<div class="dinner-title">${allOut ? "No one eating at home!" : "No dinner picked yet"}</div>`;
     } else {
-      dinnerTitleHtml = `✏️ ${dinner.text}`;
-      dinnerMetaHtml = "Custom meal · logged below";
+      dishesHtml = dishes.map((dish, idx) => {
+        let title, meta;
+        if (dish.type === "recipe") {
+          const r = RECIPES.find(x => x.id === dish.recipeId);
+          title = r ? r.title : "(recipe not found)";
+          meta = r ? `${r.category} · ${r.effortEmoji} ${r.effortLabel}` : "";
+        } else {
+          title = `✏️ ${dish.text}`;
+          meta = "Custom meal · logged below";
+        }
+        return `
+          <div class="dish-row">
+            <div class="dinner-info">
+              <div class="dinner-title">${title}</div>
+              <div class="dinner-meta">${meta}</div>
+            </div>
+            <button class="dish-remove" title="Remove" onclick="removeDish('${weekKey}','${day}',${idx})">✕</button>
+          </div>`;
+      }).join("");
     }
 
     return `
@@ -2404,13 +2462,10 @@ function renderPlanner() {
             onchange="setLunchNote('${weekKey}','${day}', this.value)">
         </div>
         <div class="dinner-slot">
-          <div class="dinner-info">
-            <div class="dinner-title">${dinnerTitleHtml}</div>
-            <div class="dinner-meta">${dinnerMetaHtml}</div>
-          </div>
+          <div class="dinner-dishes">${dishesHtml}</div>
           <div style="display:flex; gap:8px;">
-            <button onclick="openPickerModal('${weekKey}','${day}')">${dinner ? "Change" : "Pick dinner"}</button>
-            ${dinner ? `<button style="background:transparent;border:1px solid var(--line);color:var(--ink-soft);" onclick="clearDinner('${weekKey}','${day}')">Clear</button>` : ""}
+            <button onclick="openPickerModal('${weekKey}','${day}')">${dishes.length ? "Add dish" : "Pick dinner"}</button>
+            ${dishes.length ? `<button style="background:transparent;border:1px solid var(--line);color:var(--ink-soft);" onclick="clearDinner('${weekKey}','${day}')">Clear all</button>` : ""}
           </div>
         </div>
       </div>`;
@@ -2460,6 +2515,19 @@ function toggleEarlyDefault(day) {
 }
 
 let pickerContext = null; // { weekKey, day }
+let pickerQuickFilter = "all";
+let pickerShowAll = false;
+
+const PICKER_QUICK_FILTERS = [
+  { key: "all", label: "All" },
+  { key: "Chicken", label: "🐔 Chicken" },
+  { key: "Beef", label: "🐄 Beef" },
+  { key: "Lamb", label: "🐑 Lamb" },
+  { key: "Pork", label: "🐖 Pork" },
+  { key: "Seafood", label: "🐟 Seafood" },
+  { key: "Pasta", label: "🍝 Pasta" },
+  { key: "Vegetarian & Sides", label: "🌱 Vegan" }
+];
 
 // Day-of-week "vibe": weekends afford more time to cook, Fridays call for
 // something a bit naughtier, and the rest of the week leans light/healthy.
@@ -2475,27 +2543,35 @@ function dayVibe(day) {
 function scoreForPlannerDay(recipe, weekKey, day) {
   const entry = plannerWeeks[weekKey][day];
   let score = 0;
+  const reasons = [];
   const kidHome = FAMILY_MEMBERS.some(m => m.isKid && entry.members[m.key] === "home");
-  if (kidHome && (recipe.occasionTags || []).includes("family-friendly")) score += 2;
+  if (kidHome && (recipe.occasionTags || []).includes("family-friendly")) {
+    score += 2; reasons.push("family-friendly");
+  }
   if (entry.earlyDinner) {
-    if (recipe.speedLabel === "Quick") score += 1.5;
-    if ((recipe.tags || []).includes("light")) score += 1;
+    if (recipe.speedLabel === "Quick") { score += 1.5; reasons.push("quick — good for an early dinner"); }
+    if ((recipe.tags || []).includes("light")) { score += 1; reasons.push("light"); }
   }
   const vibe = dayVibe(day);
   if (vibe === "weekend") {
-    if (recipe.effortLabel === "Project") score += 1.5;
-    if (recipe.speedLabel === "Slow cook") score += 1.5;
+    if (recipe.effortLabel === "Project") { score += 1.5; reasons.push("worth the extra weekend effort"); }
+    if (recipe.speedLabel === "Slow cook") { score += 1.5; reasons.push("a relaxed weekend slow cook"); }
   } else if (vibe === "friday") {
-    if ((recipe.tags || []).some(t => NAUGHTY_TAGS.includes(t))) score += 2;
+    if ((recipe.tags || []).some(t => NAUGHTY_TAGS.includes(t))) { score += 2; reasons.push("a Friday treat"); }
   } else {
-    if ((recipe.tags || []).includes("light") || LIGHT_MEAT_LABELS.includes(recipe.meatLabel)) score += 1.5;
+    if ((recipe.tags || []).includes("light") || LIGHT_MEAT_LABELS.includes(recipe.meatLabel)) {
+      score += 1.5; reasons.push("light weeknight pick");
+    }
   }
-  return score;
+  return { score, reasons };
 }
 
 function openPickerModal(weekKey, day) {
   pickerContext = { weekKey, day };
-  renderPickerModal();
+  pickerQuickFilter = "all";
+  pickerShowAll = false;
+  renderPickerShell();
+  renderPickerResults("");
   document.getElementById("pickerOverlay").classList.add("open");
 }
 function closePickerModal() {
@@ -2503,17 +2579,109 @@ function closePickerModal() {
   pickerContext = null;
 }
 
-function renderPickerModal(searchQuery) {
+// Renders the static parts of the picker modal ONCE per open (the search
+// box, free-text row, quick filter chips, drinks row). Crucially this never
+// re-renders after the user starts typing, so the search input is never
+// destroyed/recreated mid-keystroke (that was the cause of mobile only
+// accepting one character at a time — see renderPickerResults below, which
+// only ever touches #pickerNotes / #pickerList, never the input itself).
+function renderPickerShell() {
+  const { day } = pickerContext;
+  const m = document.getElementById("pickerModalContent");
+  m.innerHTML = `
+    <button class="close-btn" onclick="closePickerModal()">✕</button>
+    <h3>Pick dinner — ${day}</h3>
+    <p class="picker-sub" id="pickerNotes"></p>
+    <nav class="cats" id="pickerQuickFilters"></nav>
+    <div class="drinks-row" id="pickerDrinksRow"></div>
+    <div class="freetext-row">
+      <input type="text" id="pickerSearch" placeholder="Search the book…" oninput="renderPickerResults(this.value)">
+      <button class="ghost-btn" onclick="pickForMe()">🎲 Pick for me</button>
+    </div>
+    <div id="pickerAddedNote" class="picker-added-note" style="display:none;"></div>
+    <div class="freetext-row">
+      <input type="text" id="freeTextInput" placeholder="Or type a meal that's not in the book yet…">
+      <button onclick="useFreeTextMeal()">Use this</button>
+    </div>
+    <div class="freetext-row">
+      <button type="button" class="ghost-link" id="freeTextToggle" onclick="toggleFreeTextExtra()">+ Add ingredients or a photo for that meal</button>
+    </div>
+    <div class="freetext-extra" id="freeTextExtra" style="display:none;">
+      <label class="freetext-extra-label">Ingredients (comma-separated) — these get added to the shopping list:</label>
+      <textarea id="freeTextIngredients" placeholder="e.g. salmon fillets, broccoli, soy sauce, rice"></textarea>
+      <label class="freetext-extra-label">Or attach a photo of the recipe (saved for reference only — list ingredients above too if you want them on the shopping list):</label>
+      <input type="file" id="freeTextPhoto" accept="image/*">
+    </div>
+    <div class="picker-list" id="pickerList"></div>
+  `;
+  renderPickerQuickFilters();
+  renderPickerDrinksRow();
+}
+
+function renderPickerQuickFilters() {
+  const nav = document.getElementById("pickerQuickFilters");
+  nav.innerHTML = PICKER_QUICK_FILTERS.map(f =>
+    `<button data-filter="${f.key}" class="${f.key === pickerQuickFilter ? "active" : ""}">${f.label}</button>`
+  ).join("");
+  nav.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      pickerQuickFilter = btn.dataset.filter;
+      pickerShowAll = false;
+      renderPickerQuickFilters();
+      renderPickerResults(document.getElementById("pickerSearch").value);
+    });
+  });
+}
+
+// Drinks can supplement whatever else has been picked for the day — they're
+// always offered here regardless of the active search/quick filter, rather
+// than only being selectable as if they were the whole dinner.
+function renderPickerDrinksRow() {
+  const wrap = document.getElementById("pickerDrinksRow");
+  const drinks = RECIPES.filter(r => r.category === "Drinks");
+  if (!drinks.length) { wrap.innerHTML = ""; return; }
+  wrap.innerHTML = `<span class="drinks-row-label">🥤 Add a drink:</span>` +
+    drinks.map(r => `<button class="drink-chip" onclick="addDishToDay('${r.id}')">${r.title}</button>`).join("");
+}
+
+function toggleFreeTextExtra() {
+  const el = document.getElementById("freeTextExtra");
+  const showing = el.style.display !== "none";
+  el.style.display = showing ? "none" : "block";
+  document.getElementById("freeTextToggle").textContent = showing
+    ? "+ Add ingredients or a photo for that meal"
+    : "− Hide ingredients & photo";
+}
+
+function flashPickerAdded(label) {
+  const note = document.getElementById("pickerAddedNote");
+  if (!note) return;
+  note.textContent = `✅ Added: ${label}`;
+  note.style.display = "block";
+  clearTimeout(note._hideTimer);
+  note._hideTimer = setTimeout(() => { note.style.display = "none"; }, 2500);
+}
+
+// Re-renders ONLY the notes + results list — never touches the search box
+// or free-text inputs, so typing on mobile keeps working character by
+// character instead of losing focus on every keystroke.
+function renderPickerResults(searchQuery) {
   const { weekKey, day } = pickerContext;
   const entry = plannerWeeks[weekKey][day];
   const kidHome = FAMILY_MEMBERS.some(m => m.isKid && entry.members[m.key] === "home");
 
   const q = (searchQuery || "").trim().toLowerCase();
   let list = RECIPES.slice();
+  if (pickerQuickFilter !== "all") {
+    list = list.filter(r => r.category === pickerQuickFilter);
+  }
   if (q) {
     list = list.filter(r => (r.title + " " + r.category + " " + (r.tags||[]).join(" ")).toLowerCase().includes(q));
   }
-  const scored = list.map(r => ({ r, s: scoreForPlannerDay(r, weekKey, day) })).sort((a,b) => b.s - a.s);
+  const scored = list.map(r => {
+    const { score, reasons } = scoreForPlannerDay(r, weekKey, day);
+    return { r, s: score, reasons };
+  }).sort((a,b) => b.s - a.s);
 
   const vibe = dayVibe(day);
   const pickerNotes = [];
@@ -2522,47 +2690,75 @@ function renderPickerModal(searchQuery) {
   if (vibe === "weekend") pickerNotes.push("🎉 Weekend — recipes worth the extra time &amp; effort are boosted.");
   else if (vibe === "friday") pickerNotes.push("🍕 Friday treat — something a bit naughtier is boosted.");
   else pickerNotes.push("🥗 Weeknight — light, low-carb &amp; healthy recipes are boosted.");
+  document.getElementById("pickerNotes").innerHTML = pickerNotes.join(" ");
 
-  const m = document.getElementById("pickerModalContent");
-  m.innerHTML = `
-    <button class="close-btn" onclick="closePickerModal()">✕</button>
-    <h3>Pick dinner — ${day}</h3>
-    <p class="picker-sub">${pickerNotes.join(" ")}</p>
-    <div class="freetext-row">
-      <input type="text" id="pickerSearch" placeholder="Search the book…" value="${q ? q.replace(/"/g,'&quot;') : ""}"
-        oninput="renderPickerModal(this.value)">
-    </div>
-    <div class="freetext-row">
-      <input type="text" id="freeTextInput" placeholder="Or type a meal that's not in the book yet…">
-      <button onclick="useFreeTextMeal()">Use this</button>
-    </div>
-    <div class="picker-list">
-      ${scored.map(({r, s}) => `
-        <div class="recipe-card" onclick="choosePlannerRecipe('${r.id}')">
-          <div class="cat">${r.category}</div>
-          <h3 style="margin:4px 0 6px;font-size:1rem;">${r.title}</h3>
-          <div class="meta">${r.cuisine}${r.servings ? " · serves " + r.servings : ""}</div>
-          <div class="badge-row">
-            <span class="badge">${r.cuisineEmoji}</span>
-            <span class="badge">${r.speedEmoji}</span>
-            <span class="badge">${r.meatEmoji}</span>
-            <span class="badge">${r.effortEmoji}</span>
-            ${(r.occasionTags||[]).includes("family-friendly") ? `<span class="badge" title="Family-friendly">👨‍👧</span>` : ""}
-          </div>
-          ${s > 0 ? `<div class="boost-note">⭐ recommended for tonight</div>` : ""}
+  // To avoid dumping the whole book on the user for most days, default to
+  // a short shortlist of the best-scoring recommendations, with a link to
+  // expand to the full filtered list if they want to browse further.
+  let displayed = scored;
+  let showAllLink = "";
+  const noFilterActive = !q && pickerQuickFilter === "all";
+  if (noFilterActive && !pickerShowAll) {
+    const recommended = scored.filter(x => x.s > 0);
+    displayed = (recommended.length ? recommended : scored).slice(0, 6);
+    if (scored.length > displayed.length) {
+      showAllLink = `<button type="button" class="ghost-link" onclick="showAllPickerResults()">Show all ${scored.length} recipes in the book →</button>`;
+    }
+  }
+
+  const list_ = document.getElementById("pickerList");
+  list_.innerHTML = `
+    ${displayed.map(({r, s, reasons}) => `
+      <div class="recipe-card" onclick="addDishToDay('${r.id}')">
+        <div class="cat">${r.category}</div>
+        <h3 style="margin:4px 0 6px;font-size:1rem;">${r.title}</h3>
+        <div class="meta">${r.cuisine}${r.servings ? " · serves " + r.servings : ""}</div>
+        <div class="badge-row">
+          <span class="badge" title="${r.cuisineLabel}">${r.cuisineEmoji}</span>
+          <span class="badge" title="${r.speedLabel}">${r.speedEmoji}</span>
+          <span class="badge" title="${r.meatLabel}">${r.meatEmoji}</span>
+          <span class="badge" title="${r.effortLabel}">${r.effortEmoji}</span>
+          ${(r.occasionTags||[]).includes("family-friendly") ? `<span class="badge" title="Family-friendly">👨‍👧</span>` : ""}
         </div>
-      `).join("") || `<div class="empty-note">No matches — try a different search, or use the free-text option above.</div>`}
-    </div>
+        ${s > 0 ? `<div class="boost-note">⭐ Recommended — ${reasons.join(", ")}</div>` : ""}
+      </div>
+    `).join("") || `<div class="empty-note">No matches — try a different search or filter, or use the free-text option above.</div>`}
+    ${showAllLink}
   `;
 }
 
-function choosePlannerRecipe(recipeId) {
+function showAllPickerResults() {
+  pickerShowAll = true;
+  renderPickerResults(document.getElementById("pickerSearch").value);
+}
+
+// Picks the best-scoring recipe (honouring the current quick filter, if
+// any) that isn't already added to the day, and adds it straight away.
+function pickForMe() {
+  const { weekKey, day } = pickerContext;
+  const already = new Set((ensureWeek(weekKey)[day].dishes || [])
+    .filter(d => d.type === "recipe").map(d => d.recipeId));
+  // Drinks are a supplement, not a main dinner pick, so "pick for me" never
+  // surfaces them — the user adds drinks via the dedicated drinks row.
+  let list = RECIPES.filter(r => !already.has(r.id) && r.category !== "Drinks");
+  if (pickerQuickFilter !== "all") list = list.filter(r => r.category === pickerQuickFilter);
+  if (!list.length) return;
+  const scored = list.map(r => ({ r, ...scoreForPlannerDay(r, weekKey, day) })).sort((a,b) => b.score - a.score);
+  addDishToDay(scored[0].r.id);
+}
+
+// Adds a dish to the day's dishes array WITHOUT closing the modal, so the
+// user can add more than one dish (e.g. a main plus a drink, or two mains)
+// in one go. The modal is dismissed explicitly via the ✕ / overlay click.
+function addDishToDay(recipeId) {
   const { weekKey, day } = pickerContext;
   const week = ensureWeek(weekKey);
-  week[day].dinner = { type: "recipe", recipeId };
+  if (!Array.isArray(week[day].dishes)) week[day].dishes = [];
+  week[day].dishes.push({ type: "recipe", recipeId });
   saveWeeks();
-  closePickerModal();
   renderPlanner();
+  const r = RECIPES.find(x => x.id === recipeId);
+  flashPickerAdded(r ? r.title : "dish");
 }
 
 function useFreeTextMeal() {
@@ -2571,9 +2767,19 @@ function useFreeTextMeal() {
   if (!text) return;
   const { weekKey, day } = pickerContext;
   const week = ensureWeek(weekKey);
+  if (!Array.isArray(week[day].dishes)) week[day].dishes = [];
+
+  // If a meal outside the book is entered, ask for its ingredients —
+  // either typed manually (parsed below so they land on the shopping
+  // list) or via an attached photo (stored as a filename reference only;
+  // this app can't read ingredients out of a photo automatically).
+  const ingredientsRaw = (document.getElementById("freeTextIngredients").value || "").trim();
+  const ingredients = ingredientsRaw ? ingredientsRaw.split(",").map(s => s.trim()).filter(Boolean) : [];
+  const photoInput = document.getElementById("freeTextPhoto");
+  const photoName = (photoInput && photoInput.files && photoInput.files[0]) ? photoInput.files[0].name : null;
 
   const logId = "log-" + Date.now();
-  week[day].dinner = { type: "freetext", text, logId };
+  week[day].dishes.push({ type: "freetext", text, logId, ingredients, photoName });
   saveWeeks();
 
   mealLog.push({
@@ -2586,9 +2792,12 @@ function useFreeTextMeal() {
   });
   saveMealLog();
 
-  closePickerModal();
+  input.value = "";
+  document.getElementById("freeTextIngredients").value = "";
+  if (photoInput) photoInput.value = "";
   renderPlanner();
   renderMealHistory();
+  flashPickerAdded(text);
 }
 
 // Builds a chronological (newest-first) history of every dinner that's been
@@ -2601,9 +2810,11 @@ function getMealHistoryEntries() {
     const week = plannerWeeks[weekKey];
     PLANNER_DAYS.forEach((day, i) => {
       const entry = week[day];
-      if (!entry || !entry.dinner) return;
+      if (!entry || !entry.dishes || !entry.dishes.length) return;
       const date = addDays(monday, i);
-      entries.push({ weekKey, day, date, dinner: entry.dinner });
+      entry.dishes.forEach(dish => {
+        entries.push({ weekKey, day, date, dinner: dish });
+      });
     });
   });
   entries.sort((a, b) => b.date - a.date);
@@ -2700,12 +2911,18 @@ function collectWeekShoppingItems(weekKey) {
   PLANNER_DAYS.forEach(day => {
     const entry = week[day];
     if (!entry) return;
-    if (entry.dinner && entry.dinner.type === "recipe") {
-      const r = RECIPES.find(x => x.id === entry.dinner.recipeId);
-      if (r) r.ingredients.forEach(ing => items.push({ text: ing, source: r.title }));
-    } else if (entry.dinner && entry.dinner.type === "freetext") {
-      items.push({ text: entry.dinner.text, source: `${day} dinner (custom meal)` });
-    }
+    (entry.dishes || []).forEach(dish => {
+      if (dish.type === "recipe") {
+        const r = RECIPES.find(x => x.id === dish.recipeId);
+        if (r) r.ingredients.forEach(ing => items.push({ text: ing, source: r.title }));
+      } else if (dish.type === "freetext") {
+        if (dish.ingredients && dish.ingredients.length) {
+          dish.ingredients.forEach(ing => items.push({ text: ing, source: `${dish.text} (custom)` }));
+        } else {
+          items.push({ text: dish.text, source: `${day} dinner (custom meal)` });
+        }
+      }
+    });
     if (entry.lunchNote && entry.lunchNote.trim()) {
       parsePantry(entry.lunchNote).forEach(li => items.push({ text: li, source: `${day} lunch` }));
     }
@@ -2713,11 +2930,39 @@ function collectWeekShoppingItems(weekKey) {
   return items;
 }
 
+// Pantry staples we never want cluttering the shopping list — these are
+// assumed to already be in the kitchen. Matched on the LAST word of the
+// normalised ingredient "core" so e.g. "kosher salt"/"black pepper"/
+// "olive oil"/"unsalted butter" are all caught, while vegetable peppers
+// ("bell pepper", "red pepper", "Scotch Bonnet pepper") and nut butters
+// ("peanut butter") are deliberately left alone.
+const STAPLE_VEG_PEPPER_HINTS = new Set([
+  "bell","green","red","yellow","orange","scotch","bonnet","jalapeno","jalapeño",
+  "habanero","chilli","chili","sweet","poblano","banana"
+]);
+const STAPLE_BUTTER_EXEMPT = new Set(["peanut","almond","cashew","cocoa","shea"]);
+
+function isExcludedStaple(core) {
+  const words = norm(core).replace(/[^a-z\s]/g, "").trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return false;
+  const last = words[words.length - 1];
+  if (last === "pepper" || last === "peppers") {
+    return !words.some(w => STAPLE_VEG_PEPPER_HINTS.has(w));
+  }
+  if (last === "salt") return true;
+  if (last === "oil" || last === "oils") return true;
+  if (last === "butter") {
+    return !words.some(w => STAPLE_BUTTER_EXEMPT.has(w));
+  }
+  return false;
+}
+
 function buildShoppingList(weekKey) {
   const raw = collectWeekShoppingItems(weekKey);
   const map = new Map();
   raw.forEach(({ text, source }) => {
     const core = extractIngredientCore(text);
+    if (isExcludedStaple(core)) return; // never add salt, pepper, oils, or butter
     const key = ingredientGroupKey(core);
     if (!map.has(key)) {
       map.set(key, { key, label: core.charAt(0).toUpperCase() + core.slice(1), contributions: [] });
