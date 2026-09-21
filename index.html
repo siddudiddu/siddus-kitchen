@@ -22,6 +22,161 @@
     --missing: #b3a48c;
     --shadow: 0 4px 14px rgba(70, 50, 20, 0.10);
   }
+
+
+  /* ── 7-day calendar planner ── */
+  .cal-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(130px, 1fr));
+    gap: 8px;
+    min-width: 700px;
+    padding: 4px 4px 12px;
+  }
+  .cal-day {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .cal-day.today { border-color: var(--green); box-shadow: 0 0 0 2px rgba(74,107,77,0.2); }
+  .cal-day-head {
+    background: var(--cream-2);
+    padding: 8px 10px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-bottom: 1px solid var(--line);
+  }
+  .cal-day-name { font-size: 0.78rem; font-weight: 700; color: var(--green-dark); text-transform: uppercase; letter-spacing: 0.04em; }
+  .cal-day-date { font-size: 0.72rem; color: var(--ink-soft); }
+  .cal-day-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 5px; }
+  .cal-early-btn {
+    font-size: 0.65rem;
+    border: 1px solid var(--line);
+    background: transparent;
+    border-radius: 999px;
+    padding: 2px 7px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    line-height: 1.4;
+  }
+  .cal-early-btn.on { background: var(--gold); color: #fff; border-color: var(--gold); }
+  .cal-members-row { display: flex; gap: 4px; flex-wrap: wrap; }
+  .cal-member-btn {
+    font-size: 0.65rem;
+    border-radius: 999px;
+    padding: 2px 7px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .cal-member-btn.home { background: var(--have); color: #fff; }
+  .cal-member-btn.out { background: #b0463a; color: #fff; }
+  .cal-slot {
+    flex: 1;
+    padding: 8px 10px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-height: 72px;
+  }
+  .cal-slot-label {
+    font-size: 0.64rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .cal-slot.lunch { background: rgba(255,255,255,0.35); }
+  .cal-slot.dinner { background: var(--card); }
+  .cal-slot-empty { font-size: 0.75rem; color: var(--ink-soft); font-style: italic; cursor: pointer; }
+  .cal-slot-empty:hover { color: var(--green); }
+  .cal-dish-block {
+    background: var(--green);
+    color: #fff;
+    border-radius: 6px;
+    padding: 3px 7px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+  .cal-dish-block.custom { background: var(--rust); }
+  .cal-dish-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cal-dish-rm { background: transparent; border: none; color: rgba(255,255,255,0.75); cursor: pointer; font-size: 0.7rem; padding: 0 2px; line-height: 1; }
+  .cal-dish-rm:hover { color: #fff; }
+  .cal-add-btn {
+    font-size: 0.7rem;
+    background: transparent;
+    border: 1px dashed var(--line);
+    border-radius: 6px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    padding: 3px 7px;
+    text-align: left;
+    margin-top: 2px;
+  }
+  .cal-add-btn:hover { border-color: var(--green); color: var(--green); }
+  .cal-lunch-input {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 4px 7px;
+    font-size: 0.78rem;
+    background: #fffdf9;
+    color: var(--ink);
+    font-family: inherit;
+    display: none;
+  }
+  [data-theme="dark"] .cal-lunch-input { background: var(--cream-2); }
+  .cal-lunch-note { font-size: 0.78rem; color: var(--ink); cursor: pointer; }
+  .cal-lunch-note:hover { color: var(--green); }
+
+  /* ── Dark mode ── */
+  [data-theme="dark"] {
+    --cream: #1a1510;
+    --cream-2: #251e16;
+    --ink: #f0e6d3;
+    --ink-soft: #b8a48c;
+    --green: #5a8a5e;
+    --green-dark: #6faa74;
+    --rust: #d4724a;
+    --rust-dark: #c4622a;
+    --gold: #e5b050;
+    --line: #3a2e20;
+    --card: #211a12;
+    --have: #5a8a5e;
+    --sub: #d08050;
+    --missing: #6a5a48;
+    --shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  }
+  [data-theme="dark"] header.top {
+    background: linear-gradient(135deg, #1a1510, #251e16);
+    border-bottom: 1px solid var(--line);
+  }
+  .dark-toggle {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 999px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 5px 12px;
+    line-height: 1;
+    backdrop-filter: blur(4px);
+  }
+  .dark-toggle:hover { background: rgba(255,255,255,0.25); }
+  header.top { position: relative; }
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -216,7 +371,12 @@
     color: var(--ink-soft);
     padding: 2px 8px;
     border-radius: 999px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.15s, color 0.15s;
   }
+  .tag:hover { background: var(--green); color: #fff; }
+  .tag.active-filter { background: var(--green); color: #fff; border-color: var(--green-dark); }
   .empty-note {
     font-size: 0.9rem;
     color: var(--ink-soft);
@@ -472,7 +632,7 @@
 </head>
 <body>
 
-<header class="top">
+<header class="top"><button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
   <h1>🍲 Siddu's Kitchen</h1>
   <p>Your personal recipe book — tell it what you're craving, or what's sitting in the fridge.</p>
 </header>
@@ -591,6 +751,27 @@
 </div>
 
 <script>
+
+// ── Dark mode ──────────────────────────────────────────────────────────
+function toggleDark() {
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  const next = isDark ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  document.getElementById("darkToggle").textContent = next === "dark" ? "☀️" : "🌙";
+  try { localStorage.setItem("sk_theme", next); } catch(e) {}
+}
+(function initTheme() {
+  let saved = "light";
+  try { saved = localStorage.getItem("sk_theme") || "light"; } catch(e) {}
+  if (saved === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("darkToggle");
+      if (btn) btn.textContent = "☀️";
+    });
+  }
+})();
+
 // ---------------------------------------------------------------------
 // TABS
 // ---------------------------------------------------------------------
@@ -1457,6 +1638,41 @@ const RECIPES = [
   notes: "Traditionally served in a clay dish with crusty bread for dipping. Variations: swap smoked paprika for sweet paprika, cayenne, or red pepper flakes; add diced chorizo before the prawns for a heartier dish; stir in a splash of double cream after cooking for a creamier sauce; or add a splash of white wine to the pan before the prawns go in. Leave out the chilli entirely for gambas al ajillo (prawns with garlic)."
 },
 {
+  id: "shrimp-saffron-orecchiette",
+  occasionTags: [],
+  title: "Shrimp and Saffron Butter Orecchiette",
+  category: "Seafood",
+  cuisine: "Italian",
+  blurb: "A quick saffron-butter pasta with brown shrimp, chilli and garlic — ready in about 20 minutes.",
+  servings: "2",
+  time: "Quick",
+  sourceUrl: "https://www.olivemagazine.com/recipes/quick-and-easy/shrimp-and-saffron-butter-orecchiette/",
+  sourceLabel: "olivemagazine.com",
+  tags: ["shrimp","prawns","seafood","pasta","saffron","quick","italian","weeknight"],
+  cuisineEmoji: "🇮🇹", cuisineLabel: "Italian",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐟", meatLabel: "Seafood (shrimp)",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "A good pinch of saffron strands",
+    "75g salted butter",
+    "1 red chilli, finely chopped",
+    "1 clove garlic, finely sliced",
+    "150g orecchiette",
+    "70g pack brown shrimp",
+    "1 Tbsp flat-leaf parsley, finely chopped",
+    "Lemon wedges, to serve",
+    "Warm crusty bread, to serve"
+  ],
+  method: [
+    "Put the saffron in a small bowl and add a splash of just-boiled water.",
+    "Melt the butter in a pan, then add the chilli and garlic and cook gently for 2-3 minutes until softened. Stir in the saffron and its soaking water. Take off the heat and leave to sit while you prepare the pasta.",
+    "Cook the pasta following pack instructions, then drain well.",
+    "Gently reheat the butter, adding the shrimp to just warm through. Toss through the pasta, then serve with a sprinkle of parsley, lemon wedges to squeeze over, and warm crusty bread."
+  ],
+  notes: "The site didn't list exact prep/cook minutes, only 'Easy' and serves 2 — timed generously at about 20 minutes total based on the method."
+},
+{
   id: "chana-dal",
   occasionTags: [],
   title: "Chana Dal (Split Chickpea Soup)",
@@ -1822,6 +2038,212 @@ const RECIPES = [
   ],
   notes: "Concentrate keeps covered in the fridge for 4-5 days, though it's best the day it's made — give it a stir if it's settled. Frozen raspberries should work fine in place of fresh. Add more sugar to the concentrate if you prefer it sweeter."
 }
+,
+{
+  id: "grilled-pork-tenderloin-peach-salsa",
+  occasionTags: ["family-friendly", "summertime"],
+  title: "Grilled Pork Tenderloin with Peach Salsa",
+  category: "Pork",
+  cuisine: "American",
+  blurb: "Citrus-soy marinated pork tenderloin grilled to juicy perfection, topped with a bright and fruity grilled peach salsa.",
+  servings: "4–6",
+  time: "Prep 10 min · Cook 30 min · 4 hr marinade",
+  sourceUrl: "https://daniliciousdishes.com/grilled-pork-tenderloin-with-peach-salsa/",
+  sourceLabel: "daniliciousdishes.com",
+  sourceNote: "",
+  tags: ["grilling","gluten-free","summer","light","fruity","make-ahead"],
+  cuisineEmoji: "🇺🇸", cuisineLabel: "American",
+  speedEmoji: "🕐", speedLabel: "Slow cook",
+  meatEmoji: "🐖", meatLabel: "Pork",
+  effortEmoji: "🟡", effortLabel: "Effort",
+  ingredients: [
+    "2–3 lb pork tenderloin",
+    "¼ cup soy sauce",
+    "¼ cup balsamic vinegar",
+    "¼ cup olive oil",
+    "2–3 garlic cloves, minced",
+    "1½ tbsp maple syrup",
+    "Juice of ½ orange",
+    "1 tsp Dijon mustard",
+    "½ tsp salt, pepper to taste",
+    "½ tbsp cornstarch + 1 tbsp cold water (slurry)",
+    "2 peaches, halved",
+    "4–5 mini red peppers, diced",
+    "½ red onion, diced",
+    "1 tbsp olive oil",
+    "Juice of 1 lime",
+    "1 tsp agave",
+    "1 tbsp fresh cilantro, chopped",
+    "Fresh mint and thyme, to serve (optional)"
+  ],
+  method: [
+    "Combine all marinade ingredients in a bowl. Coat pork and marinate covered in the fridge for at least 4 hours (or overnight). Remove 30 minutes before grilling.",
+    "Preheat grill to 200°C / 400°F. Pour leftover marinade into a saucepan, bring to a gentle boil, add cornstarch slurry and stir until thickened 1–2 minutes. Set aside.",
+    "Grill pork on all 4 sides for 3–4 minutes per side until charred and 63°C / 145°F internal temp. Baste with thickened marinade in the last few minutes. Rest 10 minutes, then slice.",
+    "Brush peach halves with olive oil and grill for 6–8 minutes until juicy with grill marks. Cool, then dice.",
+    "Combine diced grilled peaches, red peppers, red onion, lime juice, olive oil, agave and cilantro. Season.",
+    "Plate sliced pork, top with peach salsa, drizzle extra sauce and scatter fresh herbs."
+  ],
+  notes: ""
+},
+{
+  id: "toad-in-the-hole",
+  occasionTags: ["family-friendly"],
+  title: "Toad in the Hole with Onion Gravy",
+  category: "Pork",
+  cuisine: "British",
+  blurb: "Sausages baked in a giant puffy Yorkshire pudding, with crispy edges and a deeply savoury onion gravy — the great British classic.",
+  servings: "4",
+  time: "Prep 15 min · Cook 40 min",
+  sourceUrl: "https://www.recipetineats.com/toad-in-the-hole/",
+  sourceLabel: "recipetineats.com",
+  sourceNote: "",
+  tags: ["british","comfort food","baked","sausages","family-friendly","gravy"],
+  cuisineEmoji: "🇬🇧", cuisineLabel: "British",
+  speedEmoji: "🕐", speedLabel: "Slow cook",
+  meatEmoji: "🐖", meatLabel: "Pork",
+  effortEmoji: "🟡", effortLabel: "Effort",
+  ingredients: [
+    "700 g / 1.4 lb pork sausages (8 x ~85 g)",
+    "¼ cup beef drippings or vegetable oil (for pan)",
+    "2 tsp beef drippings or oil (for browning)",
+    "250 ml eggs (~4–5 large eggs, measured by volume)",
+    "1 cup plain flour",
+    "¾ cup full-fat milk",
+    "¼ cup water",
+    "1 tbsp full-fat mayonnaise (secret ingredient!)",
+    "½ tsp salt, pinch white pepper",
+    "2 onions, cut into thin wedges",
+    "1 garlic clove, minced",
+    "3 tbsp plain flour",
+    "2 cups low-sodium beef stock",
+    "30 g butter or beef drippings (for gravy)",
+    "½ tsp Worcestershire sauce"
+  ],
+  method: [
+    "Whisk eggs, then whisk in flour until lump-free. Whisk in water, milk, mayonnaise, salt and pepper. Refrigerate.",
+    "Preheat oven to 220°C / 425°F (200°C fan). Add ¼ cup drippings to a 23×33 cm metal pan and heat in oven for 15 minutes until smoking hot.",
+    "Brown sausages in a pan over medium-high heat in 2 tsp drippings, keeping one side lightly browned (it'll finish in the oven).",
+    "Working quickly, remove hot pan from oven. Arrange sausages lightly-browned side up, keeping clear of pan walls. Pour cold batter around the sausages — it will sizzle.",
+    "Bake on the top shelf for 25 minutes without opening the oven door. Edges should be puffed and golden.",
+    "Gravy: melt butter in the sausage pan over high heat, cook onions 5 minutes until deep golden, add garlic 30 sec, add flour and stir 1 min. Pour in stock slowly, add Worcestershire, salt and pepper. Simmer 2 minutes until thickened.",
+    "Serve immediately with onion gravy poured generously over. Pairs well with steamed peas or greens."
+  ],
+  notes: "The 1 tbsp of mayonnaise in the batter is the secret — it stabilises the Yorkshire pudding so it puffs higher and deflates far less. Do not open the oven door for the first 20 minutes or it may collapse."
+},
+{
+  id: "sichuan-poached-chicken",
+  occasionTags: [],
+  title: "Sichuan Poached Chicken",
+  category: "Chicken",
+  cuisine: "Chinese",
+  blurb: "Paper-thin poached chicken bathed in a punchy Sichuan-spiced sauce of soy, oyster sauce, garlic and hot oil — quick, light and high-protein.",
+  servings: "2–4",
+  time: "Prep 10 min · Cook 15 min",
+  sourceUrl: "",
+  sourceLabel: "saved recipe",
+  sourceNote: "",
+  tags: ["chinese","sichuan","quick","light","high-protein","spicy"],
+  cuisineEmoji: "🇨🇳", cuisineLabel: "Chinese",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐔", meatLabel: "Chicken",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "2 large chicken breasts, thinly sliced",
+    "½ cup cornstarch",
+    "½ tsp baking soda",
+    "Green capsicum, finely chopped",
+    "Red capsicum, finely chopped",
+    "4 cloves garlic, minced",
+    "3 spring onions, chopped",
+    "1 tsp sugar",
+    "3 tbsp soy sauce",
+    "2 tbsp oyster sauce",
+    "Sesame seeds, to garnish",
+    "Chilli oil, to taste (optional)",
+    "1 tbsp Sichuan peppercorns",
+    "2 slices fresh ginger",
+    "2 tbsp Shaoxing cooking wine"
+  ],
+  method: [
+    "Mix cornstarch and baking soda. Coat chicken slices thoroughly. Cover with cling wrap and pound with a rolling pin until paper-thin and slightly translucent.",
+    "Place capsicums, garlic and most of the spring onion in a heatproof bowl. Pour over very hot oil to coat, then add sugar, soy sauce, oyster sauce and optional chilli oil. Mix.",
+    "Bring a pot of water to the boil with Sichuan peppercorns, remaining spring onion, ginger and cooking wine.",
+    "Cook chicken in small batches for ~1 minute per batch until completely white with no pink. Do not overcook.",
+    "Transfer chicken directly into the sauce bowl, toss well and serve with steamed rice."
+  ],
+  notes: "The pounding step is key — it makes the chicken silky and ensures it cooks in seconds. Cook in small batches or the water temperature will drop."
+},
+{
+  id: "brown-butter-shrimp-pasta",
+  occasionTags: ["family-friendly"],
+  title: "Brown Butter Shrimp Pasta",
+  category: "Pasta",
+  cuisine: "American",
+  blurb: "Shell pasta tossed in nutty brown butter, white cheddar and a touch of mustard, with shrimp stirred through — a complete meal in 20 minutes.",
+  servings: "2",
+  time: "Prep 5 min · Cook 15 min",
+  sourceUrl: "https://www.tastingtable.com/1434601/quick-and-easy-brown-butter-shrimp-pasta-recipe/",
+  sourceLabel: "tastingtable.com",
+  sourceNote: "",
+  tags: ["quick","weeknight","cheesy","shrimp","pasta","american"],
+  cuisineEmoji: "🇺🇸", cuisineLabel: "American",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐟", meatLabel: "Seafood",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "4 cups / 225 g shell pasta (medium or large shells)",
+    "2 tsp coarse sea salt",
+    "4 tbsp unsalted butter",
+    "1 cup cooked shrimp (prawns), rinsed and patted dry",
+    "2 tsp spicy brown mustard",
+    "2 tbsp whole milk",
+    "2 loosely packed cups shredded white cheddar"
+  ],
+  method: [
+    "Bring 1 litre of water and 2 tsp salt to a boil. Cook pasta according to package directions, reserving some pasta water.",
+    "Melt butter in a large pan over medium heat. Swirl and scrape browned bits from the sides until butter foams and turns golden-brown and nutty — steady medium heat, watch closely.",
+    "Add shrimp to the brown butter and heat 2–3 minutes until just warmed through. Set aside.",
+    "In a large bowl, combine mustard, milk and shredded cheese.",
+    "Using a slotted spoon, transfer hot cooked pasta with a little cooking water straight into the bowl. Add shrimp and brown butter.",
+    "Toss quickly, adding more pasta water as needed to loosen. Season, serve immediately."
+  ],
+  notes: "Use finely shredded block cheese if possible for the smoothest sauce. If reheating leftovers, add a splash of milk or stock to loosen."
+},
+{
+  id: "chicken-club-sandwich",
+  occasionTags: ["family-friendly"],
+  title: "Chicken Club Sandwich",
+  category: "Chicken",
+  cuisine: "American",
+  blurb: "A classic club with deli chicken, crispy bacon, tomato and lettuce on toasted sourdough — quick to build and great for lunch.",
+  servings: "1",
+  time: "Prep 5 min · Cook 5 min",
+  sourceUrl: "",
+  sourceLabel: "family recipe",
+  sourceNote: "",
+  tags: ["lunch","sandwich","quick","bacon","cold cuts","no-cook"],
+  cuisineEmoji: "🇺🇸", cuisineLabel: "American",
+  speedEmoji: "⚡", speedLabel: "Quick",
+  meatEmoji: "🐔", meatLabel: "Chicken",
+  effortEmoji: "🟢", effortLabel: "Easy",
+  ingredients: [
+    "2 slices sourdough bread",
+    "3 oz / 85 g deli-sliced chicken",
+    "1–2 strips bacon, cooked crispy",
+    "2 green lettuce leaves",
+    "Tomato slices",
+    "2 tsp Thousand Island dressing or mayonnaise"
+  ],
+  method: [
+    "Lightly toast the sourdough to a golden colour.",
+    "Spread Thousand Island dressing or mayo on each slice.",
+    "Layer sliced chicken on one slice, top with crispy bacon, tomato slices and lettuce.",
+    "Close with the second slice, cut in half and serve."
+  ],
+  notes: "Best as a lunch dish. Cook the bacon ahead of time to keep prep under 5 minutes."
+}
+
 ];
 
 // ---------------------------------------------------------------------
@@ -1989,7 +2411,25 @@ function scoreByPantry(recipe, pantryItems, pantryTokens) {
 // RENDERING
 // ---------------------------------------------------------------------
 function tagRow(tags) {
-  return `<div class="tag-row">${(tags||[]).slice(0,4).map(t => `<span class="tag">${t}</span>`).join("")}</div>`;
+  return `<div class="tag-row">${(tags||[]).slice(0,4).map(t =>
+    `<span class="tag" onclick="filterByTag(${JSON.stringify(t)})" title="Browse recipes tagged '${t}'">${t}</span>`
+  ).join("")}</div>`;
+}
+
+let activeTagFilter = null;
+
+function filterByTag(tag) {
+  activeTagFilter = tag;
+  switchTab("browse");
+  // Set the search box to the tag and re-render
+  const searchEl = document.getElementById("browseSearch");
+  if (searchEl) {
+    searchEl.value = tag;
+    renderBrowse(tag);
+  } else {
+    // browseSearch may not exist yet — renderBrowse will pick up activeTagFilter
+    renderBrowse(tag);
+  }
 }
 
 function occasionBadges(recipe) {
@@ -2400,76 +2840,93 @@ function renderPlanner() {
     ctaEl.innerHTML = "";
   }
 
+  const todayStr = isoDate(new Date());
   const area = document.getElementById("plannerDays");
-  area.innerHTML = PLANNER_DAYS.map((day, i) => {
+
+  const dayCards = PLANNER_DAYS.map((day, i) => {
     const date = addDays(monday, i);
     const entry = plannerWeeks[weekKey][day];
     const dishes = entry.dishes || [];
     const allOut = FAMILY_MEMBERS.every(m => entry.members[m.key] === "out");
+    const isToday = isoDate(date) === todayStr;
 
-    let dishesHtml;
+    // Member status pills — compact, tap-to-toggle in the calendar itself
+    const membersHtml = FAMILY_MEMBERS.map(m => {
+      const status = entry.members[m.key];
+      const label = m.name.slice(0, 3); // Truncated for space
+      return `<button class="cal-member-btn ${status}" onclick="toggleMemberStatus('${weekKey}','${day}','${m.key}')" title="${m.name}: ${status}">${label}</button>`;
+    }).join("");
+
+    // Dinner slot — dish blocks
+    let dinnerContent;
     if (dishes.length === 0) {
-      dishesHtml = `<div class="dinner-title">${allOut ? "No one eating at home!" : "No dinner picked yet"}</div>`;
+      dinnerContent = `<div class="cal-slot-empty" onclick="openPickerModal('${weekKey}','${day}')">${allOut ? "Nobody home" : "Tap to plan…"}</div>`;
     } else {
-      dishesHtml = dishes.map((dish, idx) => {
-        let title, meta;
-        if (dish.type === "recipe") {
-          const r = RECIPES.find(x => x.id === dish.recipeId);
-          title = r ? r.title : "(recipe not found)";
-          meta = r ? `${r.category} · ${r.effortEmoji} ${r.effortLabel}` : "";
-        } else {
-          title = `✏️ ${dish.text}`;
-          meta = "Custom meal · logged below";
-        }
-        return `
-          <div class="dish-row">
-            <div class="dinner-info">
-              <div class="dinner-title">${title}</div>
-              <div class="dinner-meta">${meta}</div>
-            </div>
-            <button class="dish-remove" title="Remove" onclick="removeDish('${weekKey}','${day}',${idx})">✕</button>
-          </div>`;
+      dinnerContent = dishes.map((dish, idx) => {
+        const label = dish.type === "recipe"
+          ? (RECIPES.find(x => x.id === dish.recipeId)?.title || "Unknown")
+          : dish.text;
+        return `<div class="cal-dish-block ${dish.type === "freetext" ? "custom" : ""}">
+          <span class="cal-dish-name" title="${label}">${label}</span>
+          <button class="cal-dish-rm" onclick="removeDish('${weekKey}','${day}',${idx})" title="Remove">✕</button>
+        </div>`;
       }).join("");
     }
 
+    // Lunch slot — editable note, inline
+    const lunchVal = (entry.lunchNote || "").replace(/"/g, '&quot;');
+    const lunchDisplay = entry.lunchNote
+      ? `<div class="cal-lunch-note" onclick="showLunchInput('${weekKey}','${day}')" title="Click to edit">${entry.lunchNote}</div>`
+      : `<div class="cal-slot-empty" onclick="showLunchInput('${weekKey}','${day}')">Tap to add…</div>`;
+
     return `
-      <div class="day-card">
-        <div class="day-head">
-          <div>
-            <span class="day-title">${day}</span>
-            <span class="day-date">${formatDayLabel(date)}</span>
+      <div class="cal-day${isToday ? " today" : ""}">
+        <div class="cal-day-head">
+          <div class="cal-day-name">${day.slice(0,3)}</div>
+          <div class="cal-day-date">${formatDayLabel(date)}</div>
+          <div class="cal-day-controls">
+            <div class="cal-members-row">${membersHtml}</div>
+            <button class="cal-early-btn${entry.earlyDinner ? " on" : ""}" onclick="toggleEarlyDinner('${weekKey}','${day}')" title="Early dinner">🌙</button>
           </div>
-          <button class="early-toggle ${entry.earlyDinner ? "on" : ""}" onclick="toggleEarlyDinner('${weekKey}','${day}')">
-            🌙 ${entry.earlyDinner ? "Early dinner — on" : "Early dinner"}
-          </button>
         </div>
-        <div class="member-grid">
-          ${FAMILY_MEMBERS.map(m => {
-            const status = entry.members[m.key];
-            const meta = statusMeta(status);
-            return `
-              <div class="member-pill">
-                <span class="name">${m.name}</span>
-                <button class="status-btn ${status}" onclick="toggleMemberStatus('${weekKey}','${day}','${m.key}')">
-                  ${meta.emoji} ${meta.label}
-                </button>
-              </div>`;
-          }).join("")}
+        <div class="cal-slot lunch">
+          <div class="cal-slot-label">Lunch</div>
+          ${lunchDisplay}
+          <input class="cal-lunch-input" id="lunchInput-${weekKey}-${day}"
+            type="text" value="${lunchVal}" placeholder="Leftovers / simple"
+            onblur="commitLunchNote('${weekKey}','${day}',this.value)"
+            onkeydown="if(event.key==='Enter'){this.blur();}">
         </div>
-        <div class="lunch-row">
-          <label>Lunch:</label>
-          <input type="text" value="${(entry.lunchNote || "").replace(/"/g,'&quot;')}" placeholder="Leftovers / simple"
-            onchange="setLunchNote('${weekKey}','${day}', this.value)">
-        </div>
-        <div class="dinner-slot">
-          <div class="dinner-dishes">${dishesHtml}</div>
-          <div style="display:flex; gap:8px;">
-            <button onclick="openPickerModal('${weekKey}','${day}')">${dishes.length ? "Add dish" : "Pick dinner"}</button>
-            ${dishes.length ? `<button style="background:transparent;border:1px solid var(--line);color:var(--ink-soft);" onclick="clearDinner('${weekKey}','${day}')">Clear all</button>` : ""}
-          </div>
+        <div class="cal-slot dinner">
+          <div class="cal-slot-label">Dinner</div>
+          ${dinnerContent}
+          <button class="cal-add-btn" onclick="openPickerModal('${weekKey}','${day}')">+ ${dishes.length ? "Add dish" : "Pick dinner"}</button>
+          ${dishes.length ? `<button class="cal-add-btn" style="border-color:var(--rust);color:var(--rust);" onclick="clearDinner('${weekKey}','${day}')">Clear all</button>` : ""}
         </div>
       </div>`;
   }).join("");
+
+  area.innerHTML = `<div class="cal-scroll"><div class="cal-grid">${dayCards}</div></div>`;
+}
+
+function showLunchInput(weekKey, day) {
+  const id = `lunchInput-${weekKey}-${day}`;
+  const input = document.getElementById(id);
+  if (!input) return;
+  input.style.display = "block";
+  input.focus();
+  input.select();
+  // Hide the display label/note
+  const slot = input.closest(".cal-slot");
+  if (slot) {
+    const note = slot.querySelector(".cal-lunch-note, .cal-slot-empty");
+    if (note) note.style.display = "none";
+  }
+}
+
+function commitLunchNote(weekKey, day, value) {
+  setLunchNote(weekKey, day, value);
+  renderPlanner();
 }
 
 function openDefaultsModal() {
